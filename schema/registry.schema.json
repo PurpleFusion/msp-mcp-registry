@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://purplefusion.com.au/schemas/msp-mcp-registry/v1",
+  "title": "PurpleFusion MSP MCP Registry",
+  "type": "object",
+  "required": ["schemaVersion", "updated", "reviewers", "servers"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "updated": { "type": "string", "format": "date" },
+    "reviewers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "name": { "type": "string" },
+          "org": { "type": "string" },
+          "url": { "type": "string", "format": "uri" },
+          "github": { "type": "string" }
+        }
+      }
+    },
+    "servers": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/server" }
+    }
+  },
+  "$defs": {
+    "server": {
+      "type": "object",
+      "required": ["id", "name", "vendor", "category", "tier", "install", "credentials", "scope", "maintainer"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9-]+$", "description": "Stable id, also the Claude Code MCP server name" },
+        "name": { "type": "string" },
+        "vendor": { "type": "string", "description": "The product this connects to, e.g. HaloPSA" },
+        "category": { "enum": ["psa", "rmm", "documentation", "security", "backup", "m365", "distribution", "accounting", "crm", "network", "other"] },
+        "description": { "type": "string", "maxLength": 200 },
+        "tier": {
+          "enum": ["vendor-verified", "reviewed", "listed"],
+          "description": "vendor-verified: published or endorsed by the product vendor. reviewed: a named reviewer read the pinned version against REVIEW-CHECKLIST.md. listed: exists, not reviewed."
+        },
+        "maintainer": {
+          "type": "object",
+          "required": ["name", "url"],
+          "additionalProperties": false,
+          "properties": {
+            "name": { "type": "string" },
+            "url": { "type": "string", "format": "uri" },
+            "vendorOfficial": { "type": "boolean", "default": false }
+          }
+        },
+        "install": {
+          "type": "object",
+          "required": ["method"],
+          "additionalProperties": false,
+          "properties": {
+            "method": { "enum": ["claude-plugin", "npx", "uvx", "remote-http", "docker"] },
+            "marketplace": { "type": "string", "description": "claude-plugin: owner/repo of the marketplace" },
+            "plugin": { "type": "string", "description": "claude-plugin: plugin name within the marketplace" },
+            "package": { "type": "string", "description": "npx/uvx: package name" },
+            "url": { "type": "string", "format": "uri", "description": "remote-http: server URL" },
+            "image": { "type": "string", "description": "docker: image reference" },
+            "args": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "pin": {
+          "type": "object",
+          "description": "The exact version a review applies to. Required for tier reviewed and vendor-verified.",
+          "required": ["version"],
+          "additionalProperties": false,
+          "properties": {
+            "version": { "type": "string" },
+            "commit": { "type": "string", "pattern": "^[0-9a-f]{7,40}$" },
+            "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$", "description": "sha256 of the published tarball, if applicable" },
+            "pinnedOn": { "type": "string", "format": "date" }
+          }
+        },
+        "credentials": {
+          "type": "array",
+          "description": "Secrets the server needs. Tabby9 stores these in Windows Credential Manager and injects as env vars.",
+          "items": {
+            "type": "object",
+            "required": ["env", "label", "type"],
+            "additionalProperties": false,
+            "properties": {
+              "env": { "type": "string", "pattern": "^[A-Z0-9_]+$" },
+              "label": { "type": "string" },
+              "type": { "enum": ["api-key", "oauth-client-id", "oauth-client-secret", "username", "password", "url", "tenant-id", "token", "other"] },
+              "secret": { "type": "boolean", "default": true },
+              "help": { "type": "string", "description": "Where in the vendor UI to generate this" },
+              "leastPrivilege": { "type": "string", "description": "The minimum role/permission set to grant" }
+            }
+          }
+        },
+        "scope": {
+          "type": "object",
+          "required": ["reads", "writes", "touchesSecrets"],
+          "additionalProperties": false,
+          "properties": {
+            "reads": { "type": "array", "items": { "type": "string" }, "description": "Plain-English list of what it can read" },
+            "writes": { "type": "array", "items": { "type": "string" }, "description": "Plain-English list of what it can create/change/delete" },
+            "touchesSecrets": { "type": "boolean", "description": "true if any tool can return stored passwords, keys or similar" },
+            "readOnlyMode": {
+              "type": "object",
+              "description": "How to run it read-only, if supported",
+              "additionalProperties": false,
+              "properties": {
+                "supported": { "type": "boolean" },
+                "env": { "type": "string" },
+                "value": { "type": "string" },
+                "denyTools": { "type": "array", "items": { "type": "string" }, "description": "Tool names Tabby9 should deny if the server has no native read-only switch" }
+              }
+            },
+            "multiTenant": { "type": "boolean", "description": "true if it can reach more than one client/tenant" }
+          }
+        },
+        "network": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "endpoints": { "type": "array", "items": { "type": "string" }, "description": "Hosts it talks to, from code review" },
+            "telemetry": { "type": "boolean", "description": "true if it phones home to anyone other than the vendor API" }
+          }
+        },
+        "review": {
+          "type": "object",
+          "required": ["reviewer", "date", "report"],
+          "additionalProperties": false,
+          "properties": {
+            "reviewer": { "type": "string", "description": "reviewer id" },
+            "date": { "type": "string", "format": "date" },
+            "report": { "type": "string", "description": "Path to the review markdown, e.g. reviews/halopsa.md" },
+            "notes": { "type": "string" },
+            "expires": { "type": "string", "format": "date", "description": "Re-review due; Tabby9 shows a stale badge after this" }
+          }
+        },
+        "links": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "source": { "type": "string", "format": "uri" },
+            "docs": { "type": "string", "format": "uri" },
+            "issues": { "type": "string", "format": "uri" },
+            "vendorDocs": { "type": "string", "format": "uri" }
+          }
+        },
+        "warnings": { "type": "array", "items": { "type": "string" } },
+        "deprecated": { "type": "boolean", "default": false }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "tier": { "enum": ["reviewed", "vendor-verified"] } } },
+          "then": { "required": ["pin"] }
+        },
+        {
+          "if": { "properties": { "tier": { "const": "reviewed" } } },
+          "then": { "required": ["review"] }
+        }
+      ]
+    }
+  }
+}

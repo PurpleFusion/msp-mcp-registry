@@ -1,0 +1,95 @@
+#!/usr/bin/env python3
+"""Validate registry.json against the schema and the registry's own rules.
+
+Usage: python scripts/validate.py [registry.json]
+Exit code 0 = valid, 1 = problems found.
+"""
+import json
+import re
+import sys
+from pathlib import Path
+
+try:
+    from jsonschema import Draft202012Validator
+except ImportError:  # pragma: no cover
+    print("pip install jsonschema", file=sys.stderr)
+    sys.exit(2)
+
+ROOT = Path(__file__).resolve().parent.parent
+REG = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "registry.json"
+SCHEMA = ROOT / "schema" / "registry.schema.json"
+
+problems: list[str] = []
+
+
+def err(msg: str) -> None:
+    problems.append(msg)
+
+
+reg = json.loads(REG.read_text(encoding="utf-8"))
+schema = json.loads(SCHEMA.read_text(encoding="utf-8"))
+
+for e in sorted(Draft202012Validator(schema).iter_errors(reg), key=lambda e: list(e.path)):
+    loc = "/".join(str(p) for p in e.path) or "<root>"
+    err(f"schema: {loc}: {e.message}")
+
+reviewer_ids = {r["id"] for r in reg.get("reviewers", [])}
+seen_ids: set[str] = set()
+
+for s in reg.get("servers", []):
+    sid = s.get("id", "?")
+    if sid in seen_ids:
+        err(f"{sid}: duplicate id")
+    seen_ids.add(sid)
+
+    tier = s.get("tier")
+    review = s.get("review")
+
+    if tier == "reviewed":
+        if not review:
+            err(f"{sid}: tier reviewed requires a review block")
+        else:
+            if review.get("reviewer") not in reviewer_ids:
+                err(f"{sid}: review.reviewer '{review.get('reviewer')}' not in reviewers list")
+            report = ROOT / review.get("report", "")
+            if not report.is_file():
+                err(f"{sid}: review.report '{review.get('report')}' does not exist")
+            elif "Verdict" not in report.read_text(encoding="utf-8"):
+                err(f"{sid}: review report has no Verdict section")
+        pin = s.get("pin", {})
+        if not (pin.get("commit") or pin.get("sha256")):
+            err(f"{sid}: reviewed entries must pin a commit or sha256, not just a version")
+
+    if tier == "vendor-verified" and not s.get("maintainer", {}).get("vendorOfficial"):
+        err(f"{sid}: vendor-verified requires maintainer.vendorOfficial = true")
+
+    scope = s.get("scope", {})
+    if scope.get("writes") and not scope.get("readOnlyMode"):
+        err(f"{sid}: has write tools but no readOnlyMode block (document native switch or denyTools)")
+    ro = scope.get("readOnlyMode") or {}
+    if ro and not ro.get("supported") and not ro.get("denyTools"):
+        err(f"{sid}: readOnlyMode.supported=false requires a denyTools list")
+
+    if scope.get("touchesSecrets") and not any("password" in w.lower() or "secret" in w.lower() for w in s.get("warnings", [])):
+        err(f"{sid}: touchesSecrets=true but no warning mentions passwords/secrets")
+
+    inst = s.get("install", {})
+    m = inst.get("method")
+    need = {"claude-plugin": ["marketplace", "plugin"], "npx": ["package"], "uvx": ["package"], "remote-http": ["url"], "docker": ["image"]}
+    for k in need.get(m, []):
+        if not inst.get(k):
+            err(f"{sid}: install.method {m} requires install.{k}")
+
+    for c in s.get("credentials", []):
+        if c.get("secret", True) and c.get("type") in ("url", "username", "tenant-id"):
+            err(f"{sid}: credential {c['env']} of type {c['type']} is probably not secret; set secret=false")
+        if not re.fullmatch(r"[A-Z0-9_]+", c.get("env", "")):
+            err(f"{sid}: credential env '{c.get('env')}' must be UPPER_SNAKE")
+
+if problems:
+    print(f"{len(problems)} problem(s):")
+    for p in problems:
+        print(" -", p)
+    sys.exit(1)
+
+print(f"OK: {len(reg['servers'])} servers, {len(reviewer_ids)} reviewers, updated {reg['updated']}")
