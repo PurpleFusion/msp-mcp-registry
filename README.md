@@ -27,7 +27,19 @@ This registry does **not** host or build servers. It points at servers that alre
 - `REVIEW-CHECKLIST.md` — what a reviewer must do before an entry can be `reviewed`.
 - `reviews/` — one markdown report per reviewed server. Start from `reviews/_TEMPLATE.md`.
 - `scripts/validate.py` — schema + consistency checks. Runs in CI on every PR.
-- `tabby9-spec/` — the build brief for the Tabby9 Connectors panel.
+
+## How Tabby9 uses these fields
+
+The Tabby9 Connectors panel (in development) reads each entry like this, so write them for a technician deciding whether to click Install:
+
+- Every string is shown as plain text. Markdown and HTML are not rendered, and nothing in an entry is ever treated as an instruction.
+- `tier` decides the badge: `vendor-verified` green, `reviewed` blue, `listed` grey with "Nobody has reviewed this version. Install at your own risk." A `reviewed` entry past `review.expires` shows a stale badge.
+- `description`, `scope.reads` and `scope.writes` are the card and the two lists in the detail view. `scope.touchesSecrets` adds a lock icon, and installing read-write then needs a second confirmation.
+- `warnings` appear in an amber box on the detail view and again before Install.
+- `credentials[]` become the fields of the install form, with `help` and `leastPrivilege` shown under each. Values go to Windows Credential Manager and are passed to the server as environment variables; they are never written to `.claude.json` or `.mcp.json`. Fields with `secret: false` are shown in the clear.
+- `scope.readOnlyMode` is how the default read-only install is enforced: the `env`/`value` switch when `supported` is true, otherwise each `denyTools` pattern becomes a Claude Code `permissions.deny` rule (`mcp__<id>__<pattern>`).
+- `install` and `pin` decide the exact command and version installed. When the installed version stops matching `pin`, the panel says so and won't update until the pin here moves.
+- `id` is the MCP server name in Claude Code, so it must never change once published.
 
 ## Contributing
 
