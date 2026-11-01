@@ -35,7 +35,7 @@ This registry does **not** host or build servers. It points at servers that alre
 
 **Review a server**: claim it in an issue, follow the checklist, submit `reviews/<id>.md` plus the `pin` and `review` blocks. Reviewers are named in `reviewers[]` and in the Tabby9 app. Disclose any interest in the vendor or maintainer at the top of the review; a second reviewer must sign off where one exists.
 
-**Report a problem** with a listed or reviewed server: open an issue with the `security` label. If it's a credential or data-exposure issue, email security@purplefusion.com.au instead and we'll pull the entry while it's investigated.
+**Report a problem** with a listed or reviewed server: open an issue with the `security` label. If it's a credential or data-exposure issue, email info@purplefusion.com.au instead and we'll pull the entry while it's investigated.
 
 ## For users
 
