@@ -1,0 +1,233 @@
+{
+  "id": "wilnertech-halopsa",
+  "name": "@wilnertech/halopsa-mcp-server",
+  "maintainer": "WilnerTech",
+  "assessedOn": "2026-11-02",
+  "source": "https://www.npmjs.com/package/@wilnertech/halopsa-mcp-server",
+  "version": "1.7.2",
+  "tarball": "https://registry.npmjs.org/@wilnertech/halopsa-mcp-server/-/halopsa-mcp-server-1.7.2.tgz",
+  "integrity": "sha512-fK4IFC9az0LHDxUaT0Yj9lQBFEdU6l/bGSquGLNK16IclMK2UiXVND5cjrvK5/tAAH7XS5OVgqOPn4Px0B/svA==",
+  "tools": [
+    "add_halopsa_ticket_action",
+    "add_halopsa_ticket_milestone",
+    "bulk_update_halopsa_tickets",
+    "close_halopsa_ticket",
+    "create_halopsa_asset",
+    "create_halopsa_budget_type",
+    "create_halopsa_site",
+    "create_halopsa_ticket",
+    "create_halopsa_user",
+    "create_halopsa_workflow",
+    "delete_halopsa_asset",
+    "delete_halopsa_budget_type",
+    "delete_halopsa_ticket",
+    "delete_halopsa_workflow",
+    "find_halopsa_asset_match",
+    "find_halopsa_site_match",
+    "find_halopsa_user_match",
+    "get_halopsa_asset",
+    "get_halopsa_asset_field_schema",
+    "get_halopsa_assets_batch",
+    "get_halopsa_client",
+    "get_halopsa_current_milestone",
+    "get_halopsa_site",
+    "get_halopsa_sites_batch",
+    "get_halopsa_ticket",
+    "get_halopsa_ticket_budget",
+    "get_halopsa_ticket_field_schema",
+    "get_halopsa_tickets_batch",
+    "get_halopsa_tickettype",
+    "get_halopsa_user",
+    "get_halopsa_users_batch",
+    "get_halopsa_workflow",
+    "hold_halopsa_ticket_sla",
+    "list_halopsa_agents",
+    "list_halopsa_asset_custom_fields",
+    "list_halopsa_asset_statuses",
+    "list_halopsa_asset_types",
+    "list_halopsa_assets",
+    "list_halopsa_budget_types",
+    "list_halopsa_clients",
+    "list_halopsa_contact_types",
+    "list_halopsa_linked_tickets",
+    "list_halopsa_loaded_tools",
+    "list_halopsa_sites",
+    "list_halopsa_ticket_actions",
+    "list_halopsa_ticket_categories",
+    "list_halopsa_ticket_custom_fields",
+    "list_halopsa_ticket_milestones",
+    "list_halopsa_ticket_outcomes",
+    "list_halopsa_ticket_priorities",
+    "list_halopsa_ticket_statuses",
+    "list_halopsa_tickets",
+    "list_halopsa_tickettypes",
+    "list_halopsa_users",
+    "list_halopsa_workflow_steps",
+    "list_halopsa_workflows",
+    "release_halopsa_ticket_sla",
+    "remove_halopsa_ticket_milestone",
+    "scan_halopsa_asset_duplicates",
+    "scan_halopsa_user_duplicates",
+    "search_halopsa_assets_by_hostname",
+    "search_halopsa_assets_by_serial",
+    "search_halopsa_clients",
+    "search_halopsa_tickets",
+    "search_halopsa_users_by_email",
+    "set_halopsa_ticket_budget",
+    "set_halopsa_ticket_milestones",
+    "update_halopsa_asset",
+    "update_halopsa_ticket",
+    "update_halopsa_user",
+    "update_halopsa_workflow",
+    "validate_halopsa_create_ticket"
+  ],
+  "writeTools": [
+    "add_halopsa_ticket_action",
+    "add_halopsa_ticket_milestone",
+    "bulk_update_halopsa_tickets",
+    "close_halopsa_ticket",
+    "create_halopsa_asset",
+    "create_halopsa_budget_type",
+    "create_halopsa_site",
+    "create_halopsa_ticket",
+    "create_halopsa_user",
+    "create_halopsa_workflow",
+    "delete_halopsa_asset",
+    "delete_halopsa_budget_type",
+    "delete_halopsa_ticket",
+    "delete_halopsa_workflow",
+    "hold_halopsa_ticket_sla",
+    "release_halopsa_ticket_sla",
+    "remove_halopsa_ticket_milestone",
+    "set_halopsa_ticket_budget",
+    "set_halopsa_ticket_milestones",
+    "update_halopsa_asset",
+    "update_halopsa_ticket",
+    "update_halopsa_user",
+    "update_halopsa_workflow",
+    "validate_halopsa_create_ticket"
+  ],
+  "files": 128,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "MIT"
+    },
+    {
+      "id": "P2",
+      "result": "unknown",
+      "evidence": "published package has no provenance attestation; cannot show it matches the source"
+    },
+    {
+      "id": "P3",
+      "result": "pass",
+      "evidence": "0 git tags, 12 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "fail",
+      "evidence": "last change 2026-05-13"
+    },
+    {
+      "id": "P5",
+      "result": "fail",
+      "evidence": "1 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "fail",
+      "evidence": "no lockfile"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "unknown",
+      "evidence": "nothing locked to check"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "3 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "5 reads"
+    },
+    {
+      "id": "C2",
+      "result": "flag",
+      "evidence": "dist/api/client.js:138 console.error(`HaloPSA: New access token obtained. Expires at: ${new Date(this.tokenExpiresAt).toISOString()}`);"
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "dist/index.js:15"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "72 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "fail",
+      "evidence": "24 write tools; 1 don't start with a verb: validate_halopsa_create_ticket"
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "n/a",
+      "evidence": ""
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

@@ -1,0 +1,211 @@
+{
+  "id": "veeemlab-datto-rmm",
+  "name": "@veeemlab/datto-rmm-mcp",
+  "maintainer": "veeemlab (Vitalii Morgunov)",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/veeemlab/datto-rmm-mcp",
+  "ref": "v0.5.3",
+  "commit": "577c32e0b5fb53b799be5ff25039ca428be0bc84",
+  "latestRelease": {
+    "tag": "v0.5.3",
+    "date": "2026-05-24"
+  },
+  "tools": [
+    "create-account-variable",
+    "create-quick-job",
+    "create-site",
+    "create-site-variable",
+    "delete-account-variable",
+    "delete-site-proxy",
+    "delete-site-variable",
+    "get-account",
+    "get-activity-logs",
+    "get-alert",
+    "get-device",
+    "get-device-audit",
+    "get-device-audit-by-mac",
+    "get-device-by-id",
+    "get-device-by-mac",
+    "get-device-software",
+    "get-esxi-audit",
+    "get-job",
+    "get-job-components",
+    "get-job-results",
+    "get-job-stderr",
+    "get-job-stdout",
+    "get-pagination-config",
+    "get-printer-audit",
+    "get-rate-limit",
+    "get-site",
+    "get-site-settings",
+    "get-site-variables",
+    "get-system-status",
+    "list-account-components",
+    "list-account-devices",
+    "list-account-open-alerts",
+    "list-account-resolved-alerts",
+    "list-account-sites",
+    "list-account-users",
+    "list-account-variables",
+    "list-custom-filters",
+    "list-default-filters",
+    "list-device-open-alerts",
+    "list-device-resolved-alerts",
+    "list-dnet-site-mappings",
+    "list-site-device-filters",
+    "list-site-devices",
+    "list-site-devices-network",
+    "list-site-open-alerts",
+    "list-site-resolved-alerts",
+    "move-device",
+    "reset-api-keys",
+    "resolve-alert",
+    "set-device-udf",
+    "set-device-warranty",
+    "set-site-proxy",
+    "update-account-variable",
+    "update-site",
+    "update-site-variable"
+  ],
+  "writeTools": [
+    "create-account-variable",
+    "create-quick-job",
+    "create-site",
+    "create-site-variable",
+    "delete-account-variable",
+    "delete-site-proxy",
+    "delete-site-variable",
+    "move-device",
+    "reset-api-keys",
+    "resolve-alert",
+    "set-device-udf",
+    "set-device-warranty",
+    "set-site-proxy",
+    "update-account-variable",
+    "update-site",
+    "update-site-variable"
+  ],
+  "files": 25,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "MIT"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "npm provenance (https://slsa.dev/provenance/v1)"
+    },
+    {
+      "id": "P3",
+      "result": "pass",
+      "evidence": "9 git tags, 9 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "fail",
+      "evidence": "last change 2026-05-24"
+    },
+    {
+      "id": "P5",
+      "result": "fail",
+      "evidence": "1 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "pass",
+      "evidence": "package-lock.json"
+    },
+    {
+      "id": "S2",
+      "result": "fail",
+      "evidence": "prepare: npm run build || echo 'prepare: build skipped'"
+    },
+    {
+      "id": "S3",
+      "result": "fail",
+      "evidence": "@hono/node-server@1.19.14: GHSA-frvp-7c67-39w9, @hono/node-server@1.19.14: GHSA-rmxm-3fg6-px4f, @modelcontextprotocol/sdk@1.29.0: GHSA-22jm-h49p-29qw, @modelcontextprotocol/sdk@1.29.0: GHSA-46jr-4wx8-v453, @modelcontextprotocol/sdk@1.29.0: GHSA-6prh-2h8m-c8cw, @modelcontextprotocol/sdk@1.29.0: GHSA-6qxp-vccf-f47h, @modelcontextprotocol/sdk@1.29.0: GHSA-f897-62hf-6gxq, @modelcontextprotocol/sdk@1.29.0: GHSA-rvq5-wwqv-78pq, body-parser@2.2.2: GHSA-27r3-jxmh-p828, body-parser@2.2.2: GHSA-v422-hmwv-36x6, fast-uri@3.1.2: GHSA-333x-w4r6-6crp, fast-uri@3.1.2: GHSA-4c8g-83qw-93j6 (+39 more)"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "1 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "4 reads"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "src/index.ts:7"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "55 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "read-only switch: src/security.ts:31"
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "n/a",
+      "evidence": ""
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

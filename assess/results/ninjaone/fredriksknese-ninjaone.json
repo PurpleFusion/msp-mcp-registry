@@ -1,0 +1,166 @@
+{
+  "id": "fredriksknese-ninjaone",
+  "name": "mcp-ninjaone",
+  "maintainer": "fredriksknese",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/fredriksknese/mcp-ninjaone",
+  "ref": "v1.0.0",
+  "commit": "ff566f9a9bed96d8002a47c2aacc0148a0f275ba",
+  "latestRelease": {
+    "tag": "v1.0.0",
+    "date": "2026-05-29"
+  },
+  "tools": [
+    "cancel_device_maintenance",
+    "create_maintenance_window",
+    "get_device",
+    "get_device_activities",
+    "get_device_disks",
+    "get_device_jobs",
+    "get_device_os_patch_status",
+    "get_device_processor_info",
+    "get_device_software",
+    "get_organization",
+    "get_organization_locations",
+    "get_organization_policies",
+    "list_alert_conditions",
+    "list_alerts",
+    "list_device_alerts",
+    "list_devices",
+    "list_maintenance_windows",
+    "list_organization_devices",
+    "list_organizations",
+    "list_running_jobs",
+    "reset_alert",
+    "run_script_on_device"
+  ],
+  "writeTools": [
+    "cancel_device_maintenance",
+    "create_maintenance_window",
+    "reset_alert",
+    "run_script_on_device"
+  ],
+  "files": 12,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "fail",
+      "evidence": "SEE LICENSE IN LICENSE"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
+    },
+    {
+      "id": "P3",
+      "result": "pass",
+      "evidence": "1 git tags, 0 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "fail",
+      "evidence": "last change 2026-05-29"
+    },
+    {
+      "id": "P5",
+      "result": "fail",
+      "evidence": "1 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "pass",
+      "evidence": "package-lock.json"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "fail",
+      "evidence": "@hono/node-server@1.19.9: GHSA-92pp-h63x-v22m, @hono/node-server@1.19.9: GHSA-frvp-7c67-39w9, @hono/node-server@1.19.9: GHSA-wc8c-qw6v-h7f6, @modelcontextprotocol/sdk@1.27.1: GHSA-22jm-h49p-29qw, @modelcontextprotocol/sdk@1.27.1: GHSA-46jr-4wx8-v453, @modelcontextprotocol/sdk@1.27.1: GHSA-6prh-2h8m-c8cw, @modelcontextprotocol/sdk@1.27.1: GHSA-6qxp-vccf-f47h, @modelcontextprotocol/sdk@1.27.1: GHSA-f897-62hf-6gxq, @modelcontextprotocol/sdk@1.27.1: GHSA-rvq5-wwqv-78pq, body-parser@2.2.2: GHSA-27r3-jxmh-p828, body-parser@2.2.2: GHSA-v422-hmwv-36x6, express-rate-limit@8.2.1: GHSA-46wh-pxpv-q5gq (+61 more)"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "2 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "3 reads"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "src/index.ts:4"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "22 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "4 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "n/a",
+      "evidence": ""
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

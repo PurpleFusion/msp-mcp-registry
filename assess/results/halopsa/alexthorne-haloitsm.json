@@ -1,0 +1,200 @@
+{
+  "id": "alexthorne-haloitsm",
+  "name": "haloitsm-mcp",
+  "maintainer": "alex-thorne",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/alex-thorne/haloitsm-mcp",
+  "ref": "main",
+  "commit": "eae5e885e9eb7009203b9c4e888fd6d120a3ea8d",
+  "latestRelease": null,
+  "tools": [
+    "add_action",
+    "assign_ticket",
+    "bulk_assign",
+    "bulk_set_status",
+    "create_asset",
+    "create_site",
+    "create_ticket",
+    "get_agent",
+    "get_appointment",
+    "get_asset",
+    "get_invoice",
+    "get_item",
+    "get_opportunity",
+    "get_project",
+    "get_site",
+    "get_supplier",
+    "get_ticket",
+    "list_agents",
+    "list_appointments",
+    "list_assets",
+    "list_attachments",
+    "list_categories",
+    "list_clients",
+    "list_invoices",
+    "list_items",
+    "list_opportunities",
+    "list_overdue_tickets",
+    "list_priorities",
+    "list_projects",
+    "list_reports",
+    "list_sites",
+    "list_slas",
+    "list_statuses",
+    "list_suppliers",
+    "list_teams",
+    "list_ticket_actions",
+    "list_ticket_types",
+    "list_tickets",
+    "list_users",
+    "search_tickets",
+    "set_ticket_priority",
+    "set_ticket_status",
+    "summarise_tickets",
+    "update_asset",
+    "update_client",
+    "update_site",
+    "update_ticket",
+    "update_user",
+    "whoami"
+  ],
+  "writeTools": [
+    "add_action",
+    "assign_ticket",
+    "bulk_assign",
+    "bulk_set_status",
+    "create_asset",
+    "create_site",
+    "create_ticket",
+    "set_ticket_priority",
+    "set_ticket_status",
+    "update_asset",
+    "update_client",
+    "update_site",
+    "update_ticket",
+    "update_user"
+  ],
+  "files": 20,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "MIT"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
+    },
+    {
+      "id": "P3",
+      "result": "fail",
+      "evidence": "0 git tags, 0 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-08-05"
+    },
+    {
+      "id": "P5",
+      "result": "pass",
+      "evidence": "2 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "pass",
+      "evidence": "uv.lock"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "fail",
+      "evidence": "anyio@4.14.1: GHSA-3w57-8xmc-8v26, anyio@4.14.1: GHSA-5p39-cfhj-2xmp, anyio@4.14.1: GHSA-82r6-8w77-94w6, anyio@4.14.1: PYSEC-2026-4023, anyio@4.14.1: PYSEC-2026-4024, anyio@4.14.1: PYSEC-2026-4025, authlib@1.7.2: GHSA-6v38-4h7w-rj9h, authlib@1.7.2: GHSA-7vr2-2fgp-9w7p, authlib@1.7.2: GHSA-8m4g-j4wp-wgcg, authlib@1.7.2: GHSA-c5mf-xmp2-59rc, authlib@1.7.2: GHSA-c73q-w75p-j82v, authlib@1.7.2: GHSA-fch4-3c6x-j4gc (+53 more)"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "4 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "unknown",
+      "evidence": "no environment reads found"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "fail",
+      "evidence": "no local stdio transport found"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "49 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "read-only switch: src/halo_mcp/server.py:4"
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "n/a",
+      "evidence": ""
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

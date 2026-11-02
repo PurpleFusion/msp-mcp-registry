@@ -1,0 +1,150 @@
+{
+  "id": "aaroncampbell-autotask-rmm",
+  "name": "Autotask_MCP-public (RMM tools)",
+  "maintainer": "Aaron Campbell",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/AaronCampbellit/Autotask_MCP-public",
+  "ref": "main",
+  "commit": "b53c61d381c0325bc6db585f0a78c6343d8bd8d1",
+  "latestRelease": null,
+  "tools": [
+    "at_operation_resume",
+    "at_operation_status",
+    "at_whoami",
+    "ticket_context",
+    "ticket_document_work",
+    "ticket_note_add",
+    "ticket_search",
+    "ticket_update",
+    "time_entry_search",
+    "time_log_ticket"
+  ],
+  "writeTools": [
+    "ticket_note_add",
+    "ticket_update",
+    "time_log_ticket"
+  ],
+  "files": 241,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "fail",
+      "evidence": "licence file present"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
+    },
+    {
+      "id": "P3",
+      "result": "fail",
+      "evidence": "0 git tags, 0 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-10-09"
+    },
+    {
+      "id": "P5",
+      "result": "fail",
+      "evidence": "1 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "pass",
+      "evidence": "package-lock.json"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "fail",
+      "evidence": "@modelcontextprotocol/server@2.0.0: GHSA-46jr-4wx8-v453, @modelcontextprotocol/server@2.0.0: GHSA-f897-62hf-6gxq, @modelcontextprotocol/server@2.0.0: GHSA-jm63-cq47-j5jp, @modelcontextprotocol/server@2.0.0: GHSA-rvq5-wwqv-78pq, zod@4.6.2: GHSA-mrhx-c7xc-m3w5"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "4 direct"
+    },
+    {
+      "id": "N1",
+      "result": "fail",
+      "evidence": "login.microsoftonline.com (apps/server/src/app.ts:213), autotask.net (packages/autotask/src/impersonation.ts:8), webservices3.autotask.net (packages/autotask/src/index.ts:651), api.itglue.com (packages/itglue/src/client.ts:5), api.eu.itglue.com (packages/itglue/src/client.ts:5), api.au.itglue.com (packages/itglue/src/client.ts:5), graph.microsoft.com (packages/onboarding/src/index.ts:22), ww2.autotask.net (packages/technician/src/web-links.ts:2)"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "12 reads"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "flag",
+      "evidence": "apps/server/src/main.ts:3 import { mkdir,writeFile } from 'node:fs/promises'; | apps/server/src/main.ts:15 if('tokens'in system){await mkdir('work',{recursive:true});await writeFile('work/demo-credentials.json',JSON.stringify(system.tokens.map(({name,token})=>({name, | packages/artifacts/src/files.ts:3 import { lstat, mkdir, open, realpath, unlink, writeFile } from 'node:fs/promises'; | packages/artifacts/src/files.ts:45 try { await writeFile(await this.path(record), Buffer.concat([magic, nonce, cipher.getAuthTag(), encrypted]), { flag: 'wx', mode: 0o600, signal }); } | packages/autotask-config/src/handoff.ts:2 import {mkdir,readFile,writeFile,stat} from 'node:fs/promises';"
+    },
+    {
+      "id": "C4",
+      "result": "fail",
+      "evidence": "no local stdio transport found"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "10 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "read-only switch: apps/console/public/autotask.js:1"
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "flag",
+      "evidence": "packages/workflows/src/ticket-tags.ts:20 /** One ticket tag association at a time; mutations always use the Tickets child route. */"
+    },
+    {
+      "id": "D1",
+      "result": "flag",
+      "evidence": "apps/server/src/main.ts:58 server.listen(port,fixture?'127.0.0.1':'0.0.0.0',()=>{if(process.env.JOB_WORKER_ENABLED!=='false'&&(!('recoveryMode'in system)||!system.recoveryMode))system.wor"
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

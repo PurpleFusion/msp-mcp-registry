@@ -118,8 +118,8 @@
     },
     {
       "id": "T2",
-      "result": "pass",
-      "evidence": "read-only switch: dist/server2.cjs:325"
+      "result": "fail",
+      "evidence": "3 write tools; 3 don't start with a verb: connectwise_psa_add_ticket_note, connectwise_psa_create_ticket, connectwise_psa_update_ticket"
     },
     {
       "id": "T3",
@@ -134,7 +134,7 @@
     {
       "id": "D1",
       "result": "flag",
-      "evidence": "dist/server2.cjs:41 [\"0.0.0.0\", 8], | dist/server2.cjs:457 function createServer(connect, options = {}) { | dist/server2.cjs:479 const server = createServer(connect); | dist/server2.js:41 [\"0.0.0.0\", 8],"
+      "evidence": "dist/server2.cjs:41 [\"0.0.0.0\", 8], | dist/server2.js:41 [\"0.0.0.0\", 8],"
     },
     {
       "id": "D2",

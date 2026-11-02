@@ -29,9 +29,9 @@
 | C1 | Credentials from environment | ✅ | 15 reads |
 | C2 | Credentials never logged | ✅ (script: flag) | connectwise_mcp.py:1537 "    python -c \"import secrets; print(secrets.token_urlsafe(32))\"\n" |
 | C3 | Nothing written to disk | ✅ |  |
-| C4 | Runs locally (stdio) | ✅ | connectwise_mcp.py:1552 |
+| C4 | Runs locally (stdio) | ✅ | connectwise_mcp.py:1529 |
 | T1 | Tool list readable | ✅ | 51 tools found |
-| T2 | Read-only possible | ✅ | 0 write tools; 0 don't start with a verb:  |
+| T2 | Read-only possible | ✅ | read-only switch: connectwise_mcp.py:66 |
 | T3 | No arbitrary-request tool | ✅ |  |
 | T4 | Descriptions don't steer the model | ✅ |  |
 | D1 | HTTP mode safe | ✅ (script: flag) | connectwise_mcp.py:1546 uvicorn.run(build_http_app(), host="0.0.0.0", port=port, log_level="info") |

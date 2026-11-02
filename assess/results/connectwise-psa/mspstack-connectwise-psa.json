@@ -157,7 +157,7 @@
     {
       "id": "C4",
       "result": "pass",
-      "evidence": "src/index.ts:4"
+      "evidence": "src/config.ts:59"
     },
     {
       "id": "T1",
@@ -167,7 +167,7 @@
     {
       "id": "T2",
       "result": "pass",
-      "evidence": "read-only switch: src/config.ts:226"
+      "evidence": "8 write tools; 0 don't start with a verb: "
     },
     {
       "id": "T3",
@@ -182,7 +182,7 @@
     {
       "id": "D1",
       "result": "flag",
-      "evidence": "src/http/app.ts:161 const server = createServer( | src/index.ts:68 const server = createServer( | src/index.ts:89 app.listen(config.port, \"0.0.0.0\", () => resolve()); | src/server.ts:91 export function createServer("
+      "evidence": "src/index.ts:89 app.listen(config.port, \"0.0.0.0\", () => resolve());"
     },
     {
       "id": "D2",

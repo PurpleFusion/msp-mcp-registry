@@ -1,0 +1,148 @@
+{
+  "id": "johngilligan2-itglue-docs",
+  "name": "itglue-docs-mcp",
+  "maintainer": "JohnGilligan2",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/JohnGilligan2/itglue-docs-mcp",
+  "ref": "main",
+  "commit": "4a904dd787206a70cee0cc853716f95546ccc484",
+  "latestRelease": null,
+  "tools": [
+    "itglue_capabilities",
+    "itglue_documentation_health",
+    "itglue_expirations",
+    "itglue_find_configuration",
+    "itglue_find_credential",
+    "itglue_find_organization",
+    "itglue_get_document",
+    "itglue_health_check",
+    "itglue_list_contacts",
+    "itglue_list_locations",
+    "itglue_organization_brief",
+    "itglue_search_documents"
+  ],
+  "writeTools": [],
+  "files": 21,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "fail",
+      "evidence": "no licence"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
+    },
+    {
+      "id": "P3",
+      "result": "fail",
+      "evidence": "0 git tags, 0 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-08-22"
+    },
+    {
+      "id": "P5",
+      "result": "fail",
+      "evidence": "1 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "fail",
+      "evidence": "no lockfile"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "fail",
+      "evidence": "fastmcp@3.4.5: GHSA-7xgj-8392-5q4r"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "2 direct"
+    },
+    {
+      "id": "N1",
+      "result": "fail",
+      "evidence": "login.microsoftonline.com (itglue_mcp/server.py:96)"
+    },
+    {
+      "id": "N2",
+      "result": "flag",
+      "evidence": "itglue_mcp/instrumentation.py:3, itglue_mcp/instrumentation.py:22, itglue_mcp/instrumentation.py:34, itglue_mcp/instrumentation.py:156, itglue_mcp/instrumentation.py:158"
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "22 reads"
+    },
+    {
+      "id": "C2",
+      "result": "flag",
+      "evidence": "itglue_mcp/instrumentation.py:315 logger.info(\"published identity: %d tools, ~%d schema tokens per request\","
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "itglue_mcp/instrumentation.py:252"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "12 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "0 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "flag",
+      "evidence": "itglue_mcp/instrumentation.py:241 # gauge alone could never tell you."
+    },
+    {
+      "id": "D1",
+      "result": "flag",
+      "evidence": "itglue_mcp/config.py:163 host: str = \"0.0.0.0\" | itglue_mcp/config.py:234 host=os.environ.get(\"MCP_HOST\", \"0.0.0.0\"),"
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

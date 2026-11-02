@@ -1,0 +1,204 @@
+{
+  "id": "joshfisher-datto-rmm",
+  "name": "datto-rmm-mcp-server",
+  "maintainer": "josh-fisher",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/josh-fisher/datto-rmm/tree/a86ec2b4940afe0c531a1c289c0807060e11e093/apps/mcp-server",
+  "ref": "main",
+  "commit": "a86ec2b4940afe0c531a1c289c0807060e11e093",
+  "latestRelease": null,
+  "tools": [
+    "create-account-variable",
+    "create-quick-job",
+    "create-site",
+    "create-site-variable",
+    "delete-account-variable",
+    "delete-site-proxy",
+    "delete-site-variable",
+    "get-account",
+    "get-activity-logs",
+    "get-alert",
+    "get-device",
+    "get-device-audit",
+    "get-device-audit-by-mac",
+    "get-device-by-id",
+    "get-device-by-mac",
+    "get-device-software",
+    "get-esxi-audit",
+    "get-job",
+    "get-job-components",
+    "get-job-results",
+    "get-job-stderr",
+    "get-job-stdout",
+    "get-pagination-config",
+    "get-printer-audit",
+    "get-rate-limit",
+    "get-site",
+    "get-site-settings",
+    "get-system-status",
+    "list-account-variables",
+    "list-components",
+    "list-custom-filters",
+    "list-default-filters",
+    "list-device-open-alerts",
+    "list-device-resolved-alerts",
+    "list-devices",
+    "list-open-alerts",
+    "list-resolved-alerts",
+    "list-site-devices",
+    "list-site-filters",
+    "list-site-open-alerts",
+    "list-site-resolved-alerts",
+    "list-site-variables",
+    "list-sites",
+    "list-users",
+    "move-device",
+    "resolve-alert",
+    "set-device-udf",
+    "set-device-warranty",
+    "update-account-variable",
+    "update-site",
+    "update-site-proxy",
+    "update-site-variable"
+  ],
+  "writeTools": [
+    "create-account-variable",
+    "create-quick-job",
+    "create-site",
+    "create-site-variable",
+    "delete-account-variable",
+    "delete-site-proxy",
+    "delete-site-variable",
+    "move-device",
+    "resolve-alert",
+    "set-device-udf",
+    "set-device-warranty",
+    "update-account-variable",
+    "update-site",
+    "update-site-proxy",
+    "update-site-variable"
+  ],
+  "files": 24,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "MIT"
+    },
+    {
+      "id": "P2",
+      "result": "unknown",
+      "evidence": "published package has no provenance attestation; cannot show it matches the source"
+    },
+    {
+      "id": "P3",
+      "result": "pass",
+      "evidence": "1 git tags, 1 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-09-03"
+    },
+    {
+      "id": "P5",
+      "result": "fail",
+      "evidence": "1 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "pass",
+      "evidence": "SECURITY.md"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "pass",
+      "evidence": "pnpm-lock.yaml (repository root)"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "fail",
+      "evidence": "@hono/node-server@1.19.8: GHSA-92pp-h63x-v22m, @hono/node-server@1.19.8: GHSA-frvp-7c67-39w9, @hono/node-server@1.19.8: GHSA-wc8c-qw6v-h7f6, @modelcontextprotocol/sdk@1.25.2: GHSA-22jm-h49p-29qw, @modelcontextprotocol/sdk@1.25.2: GHSA-345p-7cg4-v4c7, @modelcontextprotocol/sdk@1.25.2: GHSA-46jr-4wx8-v453, @modelcontextprotocol/sdk@1.25.2: GHSA-6prh-2h8m-c8cw, @modelcontextprotocol/sdk@1.25.2: GHSA-6qxp-vccf-f47h, @modelcontextprotocol/sdk@1.25.2: GHSA-f897-62hf-6gxq, @modelcontextprotocol/sdk@1.25.2: GHSA-rvq5-wwqv-78pq, @vitest/mocker@2.1.9: GHSA-82fw-gwwq-j7x9, @vitest/mocker@2.1.9: GHSA-qxg6-89mg-rqv8 (+164 more)"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "2 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "3 reads"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "src/server.ts:2"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "52 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "15 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "pass",
+      "evidence": "src/server.ts:18 export function createServer(config: ServerConfig): { server: Server; client: DattoClient } { | src/server.ts:97 const { server } = createServer(config);"
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

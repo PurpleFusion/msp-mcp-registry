@@ -1,0 +1,192 @@
+{
+  "id": "wyre-ninjaone",
+  "name": "ninjaone-mcp",
+  "maintainer": "WYRE Technology",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/WYRE-AI/ninjaone-mcp",
+  "ref": "v2.5.2",
+  "commit": "3d838fa5ce0c2f30a81f8d4dc689839edc957dbc",
+  "latestRelease": {
+    "tag": "v2.5.2",
+    "date": "2026-10-23"
+  },
+  "tools": [
+    "device-health-summary",
+    "ninjaone_alerts_get",
+    "ninjaone_alerts_list",
+    "ninjaone_alerts_reset",
+    "ninjaone_alerts_reset_all",
+    "ninjaone_alerts_summary",
+    "ninjaone_debug_elicitation_check",
+    "ninjaone_devices_activities",
+    "ninjaone_devices_alerts",
+    "ninjaone_devices_get",
+    "ninjaone_devices_get_custom_fields",
+    "ninjaone_devices_list",
+    "ninjaone_devices_reboot",
+    "ninjaone_devices_services",
+    "ninjaone_devices_update_custom_fields",
+    "ninjaone_navigate",
+    "ninjaone_organizations_create",
+    "ninjaone_organizations_devices",
+    "ninjaone_organizations_get",
+    "ninjaone_organizations_get_custom_fields",
+    "ninjaone_organizations_list",
+    "ninjaone_organizations_locations",
+    "ninjaone_organizations_update_custom_fields",
+    "ninjaone_scripts_list",
+    "ninjaone_scripts_run",
+    "ninjaone_status",
+    "ninjaone_tickets_add_comment",
+    "ninjaone_tickets_attributes_list",
+    "ninjaone_tickets_boards_list",
+    "ninjaone_tickets_comments",
+    "ninjaone_tickets_contacts_list",
+    "ninjaone_tickets_create",
+    "ninjaone_tickets_form_get",
+    "ninjaone_tickets_forms_list",
+    "ninjaone_tickets_get",
+    "ninjaone_tickets_list",
+    "ninjaone_tickets_statuses_list",
+    "ninjaone_tickets_update",
+    "ninjaone_tickets_users_list",
+    "offline-devices",
+    "org_name",
+    "patch-gaps"
+  ],
+  "writeTools": [
+    "ninjaone_alerts_reset",
+    "ninjaone_alerts_reset_all",
+    "ninjaone_devices_reboot",
+    "ninjaone_devices_update_custom_fields",
+    "ninjaone_organizations_create",
+    "ninjaone_organizations_update_custom_fields",
+    "ninjaone_tickets_add_comment",
+    "ninjaone_tickets_create",
+    "ninjaone_tickets_update",
+    "patch-gaps"
+  ],
+  "files": 47,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "Apache-2.0"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
+    },
+    {
+      "id": "P3",
+      "result": "pass",
+      "evidence": "61 git tags, 0 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-11-02"
+    },
+    {
+      "id": "P5",
+      "result": "pass",
+      "evidence": "5 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "pass",
+      "evidence": "package-lock.json"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "fail",
+      "evidence": "@hono/node-server@1.19.17: GHSA-rmxm-3fg6-px4f, zod@4.3.6: GHSA-mrhx-c7xc-m3w5"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "3 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "25 reads"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "src/index.ts:41"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "42 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "fail",
+      "evidence": "10 write tools; 9 don't start with a verb: ninjaone_alerts_reset, ninjaone_alerts_reset_all, ninjaone_devices_reboot, ninjaone_devices_update_custom_fields, ninjaone_organizations_create, ninjaone_organizations_update_custom_fields, ninjaone_tickets_add_comment, ninjaone_tickets_create"
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "pass",
+      "evidence": "src/index.ts:213 const httpServer = createServer(async (req: IncomingMessage, res: ServerResponse) => { | src/index.ts:281 httpServer.listen(port, host, () => {"
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

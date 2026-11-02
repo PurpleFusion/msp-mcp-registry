@@ -1,0 +1,234 @@
+{
+  "id": "lungshot-ninjaone",
+  "name": "NinjaOneMCP",
+  "maintainer": "Lungshot",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/Lungshot/NinjaOneMCP",
+  "ref": "v1.3.0",
+  "commit": "53f0946115a2bb0ad8e9bcaec8130c31e1d8ee3b",
+  "latestRelease": {
+    "tag": "v1.3.0",
+    "date": "2025-11-03"
+  },
+  "tools": [
+    "add_role_members",
+    "apply_device_os_patches",
+    "apply_device_software_patches",
+    "approve_devices",
+    "configure_windows_service",
+    "control_windows_service",
+    "create_contact",
+    "create_end_user",
+    "create_location",
+    "create_organization",
+    "delete_contact",
+    "delete_end_user",
+    "find_windows11_devices",
+    "generate_organization_installer",
+    "get_alert",
+    "get_alerts",
+    "get_contact",
+    "get_contacts",
+    "get_device",
+    "get_device_activities",
+    "get_device_alerts",
+    "get_device_dashboard_url",
+    "get_device_policy_overrides",
+    "get_device_software",
+    "get_devices",
+    "get_end_user",
+    "get_end_users",
+    "get_organization",
+    "get_organization_locations",
+    "get_organization_policies",
+    "get_organizations",
+    "get_policies",
+    "get_technician",
+    "get_technicians",
+    "list_regions",
+    "query_antivirus_status",
+    "query_antivirus_threats",
+    "query_backup_usage",
+    "query_computer_systems",
+    "query_custom_fields",
+    "query_custom_fields_detailed",
+    "query_device_health",
+    "query_disks",
+    "query_logged_on_users",
+    "query_network_interfaces",
+    "query_operating_systems",
+    "query_os_patch_installs",
+    "query_os_patches",
+    "query_policy_overrides",
+    "query_processors",
+    "query_raid_controllers",
+    "query_raid_drives",
+    "query_scoped_custom_fields",
+    "query_scoped_custom_fields_detailed",
+    "query_software",
+    "query_software_patch_installs",
+    "query_software_patches",
+    "query_volumes",
+    "query_windows_services",
+    "reboot_device",
+    "remove_role_members",
+    "reset_alert",
+    "reset_device_policy_overrides",
+    "scan_device_os_patches",
+    "scan_device_software_patches",
+    "search_devices_by_name",
+    "set_device_maintenance",
+    "set_region",
+    "update_contact",
+    "update_end_user",
+    "update_location",
+    "update_organization"
+  ],
+  "writeTools": [
+    "add_role_members",
+    "apply_device_os_patches",
+    "apply_device_software_patches",
+    "approve_devices",
+    "configure_windows_service",
+    "control_windows_service",
+    "create_contact",
+    "create_end_user",
+    "create_location",
+    "create_organization",
+    "delete_contact",
+    "delete_end_user",
+    "reboot_device",
+    "remove_role_members",
+    "reset_alert",
+    "reset_device_policy_overrides",
+    "set_device_maintenance",
+    "set_region",
+    "update_contact",
+    "update_end_user",
+    "update_location",
+    "update_organization"
+  ],
+  "files": 25,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "MIT"
+    },
+    {
+      "id": "P2",
+      "result": "unknown",
+      "evidence": "published package has no provenance attestation; cannot show it matches the source"
+    },
+    {
+      "id": "P3",
+      "result": "pass",
+      "evidence": "11 git tags, 11 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-08-25"
+    },
+    {
+      "id": "P5",
+      "result": "pass",
+      "evidence": "4 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "pass",
+      "evidence": "package-lock.json"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "fail",
+      "evidence": "@modelcontextprotocol/sdk@1.17.1: GHSA-345p-7cg4-v4c7, @modelcontextprotocol/sdk@1.17.1: GHSA-46jr-4wx8-v453, @modelcontextprotocol/sdk@1.17.1: GHSA-6prh-2h8m-c8cw, @modelcontextprotocol/sdk@1.17.1: GHSA-6qxp-vccf-f47h, @modelcontextprotocol/sdk@1.17.1: GHSA-8r9q-7v3j-jr4g, @modelcontextprotocol/sdk@1.17.1: GHSA-f897-62hf-6gxq, @modelcontextprotocol/sdk@1.17.1: GHSA-rvq5-wwqv-78pq, @modelcontextprotocol/sdk@1.17.1: GHSA-w48q-cv73-mx4w, body-parser@2.2.0: GHSA-27r3-jxmh-p828, body-parser@2.2.0: GHSA-v422-hmwv-36x6, body-parser@2.2.0: GHSA-wqch-xfxh-vrr4, qs@6.14.0: GHSA-4mjr-xmp4-gh2g (+17 more)"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "4 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "18 reads"
+    },
+    {
+      "id": "C2",
+      "result": "flag",
+      "evidence": "server/ninja-api.js:97 logger.info(`OAuth token acquired successfully (region: ${candidate})`); | server/ninja-api.js:110 logger.info('OAuth token acquired successfully'); | src/ninja-api.ts:84 console.error(`OAuth token acquired successfully (region: ${candidate})`); | src/ninja-api.ts:96 console.error('OAuth token acquired successfully');"
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "server/index.js:4"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "72 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "22 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "flag",
+      "evidence": "src/transport/http.ts:102 const server = app.listen(port, () => { | src/transport/http.ts:179 const server = app.listen(port, () => {"
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

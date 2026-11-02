@@ -1,0 +1,145 @@
+{
+  "id": "mspbots-datto-rmm",
+  "name": "datto-rmm-mcp",
+  "maintainer": "MSPbots",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/MSPbotsAIFramework/datto-rmm-mcp",
+  "ref": "main",
+  "commit": "7828b102b97c197ae93c938ac2f55404c42e1489",
+  "latestRelease": null,
+  "tools": [
+    "dattormm_get_alerts",
+    "dattormm_get_components",
+    "dattormm_get_devices",
+    "dattormm_get_job_status",
+    "dattormm_resolve_alert",
+    "dattormm_run_component"
+  ],
+  "writeTools": [
+    "dattormm_resolve_alert",
+    "dattormm_run_component"
+  ],
+  "files": 22,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "Apache-2.0"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
+    },
+    {
+      "id": "P3",
+      "result": "fail",
+      "evidence": "0 git tags, 0 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-10-29"
+    },
+    {
+      "id": "P5",
+      "result": "pass",
+      "evidence": "3 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "pass",
+      "evidence": "uv.lock"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "fail",
+      "evidence": "certifi@2026.7.22: GHSA-6q48-6c7w-9gw2, certifi@2026.7.22: PYSEC-2026-4320, mcp@1.29.1: GHSA-5h93-6whr-6q8j, mcp@1.29.1: GHSA-84m7-p3x7-pcfv, mcp@1.29.1: GHSA-rwrf-2pqf-9j8j, mcp@1.29.1: GHSA-w4fh-qvv9-3v23, pyjwt@2.13.0: GHSA-2gx3-rcp4-g85q, pyjwt@2.13.0: GHSA-42vr-xj54-vc7v, pyjwt@2.13.0: GHSA-8wjv-2p76-3863, pyjwt@2.13.0: GHSA-9j54-fg26-wv3r, pyjwt@2.13.0: GHSA-9v7f-9g4p-ffgj, pyjwt@2.13.0: GHSA-ffc3-869f-jxw9 (+23 more)"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "0 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "unknown",
+      "evidence": "no environment reads found"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "fail",
+      "evidence": "no local stdio transport found"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "6 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "2 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "flag",
+      "evidence": "src/datto_rmm_mcp/config.py:10 mcp_http_host: str = \"0.0.0.0\""
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

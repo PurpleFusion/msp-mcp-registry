@@ -1,0 +1,229 @@
+{
+  "group": "itglue",
+  "title": "IT Glue MCP servers",
+  "vendorHosts": [
+    "(^|\\.)api\\.itglue\\.com$",
+    "(^|\\.)api\\.eu\\.itglue\\.com$",
+    "(^|\\.)api\\.au\\.itglue\\.com$",
+    "(^|\\.)itglue\\.com$"
+  ],
+  "candidates": [
+    {
+      "id": "wyre-itglue",
+      "name": "itglue-mcp",
+      "maintainer": "WYRE Technology",
+      "source": {
+        "github": "WYRE-AI/itglue-mcp"
+      },
+      "notes": {
+        "confirmed": {
+          "N2": "pass",
+          "T4": "pass",
+          "D1": "pass"
+        },
+        "text": "- **Passwords:** `get_password` returns the stored password by default (`show_password` defaults to true, `src/mcp-server.ts:2529`) as IT Glue's raw JSON. No setting turns the password tools off; a deny rule on `get_password` blocks it. `search_passwords` sends `show_password=false` and also strips any `password` field from the listing (`src/mcp-server.ts:2503`, `stripPasswordValues` at :749). No password value is logged or cached.\n- **N2:** both hits are `neutralizeClosingTag(` in `src/utils/untrusted-content.ts`, which the telemetry pattern reads as `gtag(`. No telemetry.\n- **T4:** \"Always call this after creating, updating, or deleting sections\" (`publish_document`) is guidance on how IT Glue's API works.\n- **D1:** HTTP mode refuses to start without `CONDUIT_S2S_SECRET` and checks it on every `/mcp` request (`src/index.ts:100-125`); with no secret it runs only when `MCP_ALLOW_INSECURE_DEV=1`, and then only on 127.0.0.1.\n- **T2:** the script's \"read-only switch\" is a match in generated HTML. There is no read-only switch, but every write tool starts with a verb (`create_`, `update_`, `delete_`, `archive_`, `publish_`), so deny rules can match them.\n- **P2:** not published to npm (the `itglue-mcp` name there is unpublished); left unknown, as in the ConnectWise pilot.\n- **S3:** the shipped lockfile pins versions with published advisories, including `@modelcontextprotocol/sdk` 1.31.0, `@hono/node-server`, `ajv` and `body-parser`."
+      }
+    },
+    {
+      "id": "servosity-itglue",
+      "name": "msp-skills itglue",
+      "maintainer": "Servosity",
+      "source": {
+        "github": "Servosity/msp-skills",
+        "path": "skills/itglue"
+      },
+      "notes": {
+        "confirmed": {
+          "P2": "unknown",
+          "N1": "pass",
+          "N2": "pass",
+          "T4": "pass",
+          "D2": "pass",
+          "C3": "fail",
+          "D1": "fail"
+        },
+        "text": "- **Passwords:** `passwords_get` calls `GET /passwords/{id}` without `show_password=false` (`cli/internal/mcp/tools.go:415`). IT Glue's API documents `show_password` on that endpoint as defaulting to true, so with an API key that has Password Access the stored password comes back into the conversation, although the tool describes itself as \"Retrieve a password metadata record\". No switch removes it; a deny rule on `passwords_get` does. Sync and `passwords stale` use the list endpoint, which returns metadata only.\n- **C3 (confirmed):** the MCP server turns its response cache off (`c.NoCache = true`, `tools.go:850`). The companion CLI, which the skill also drives, saves every GET response as a file under `~/.cache/itglue-cli/http` (owner-only, `cli/internal/client/client.go:67,251`) and writes it through to the SQLite store `~/.local/share/itglue-cli/data.db` (`cli/internal/cli/data_source.go:159,274`). So `itglue-cli passwords get` leaves the password value on disk, in the table the `sql` MCP tool reads.\n- **D1:** `--transport http` (or `PP_MCP_TRANSPORT=http`) serves on `:7777`, all interfaces, with no authentication (`cli/cmd/itglue-mcp/main.go:23,49`). Opt-in, so it fails D1 without the open-by-default cap.\n- **P2, P3:** assessed at the monorepo's latest release commit (`hudu-v0.1.17`); `skills/itglue` there is identical to its own tag `itglue-v0.1.7`. Release binaries ship with SHA-256 checksums but no build attestations.\n- **N1, N2, T4:** the hits are an example host in another product's help text (`your-instance.zammad.com`) and code comments.\n- **D2:** each tool runs the project's own companion CLI binary directly (`exec.CommandContext`, no shell), and sign-in opens the browser. No shell or code evaluation.\n- **T2:** the \"read-only switch\" hit is the `readOnlyHint` annotation, not a switch. Write tools end in `_create` / `_update` and there are no delete tools.\n- **S3:** `golang.org/x/mod` and `golang.org/x/sys` versions with Go advisories."
+      }
+    },
+    {
+      "id": "mspstack-itglue",
+      "name": "mcp-itglue",
+      "maintainer": "mspstack",
+      "source": {
+        "github": "mspstack/mcp-itglue"
+      },
+      "notes": {
+        "confirmed": {
+          "C2": "pass",
+          "C3": "pass",
+          "T4": "pass",
+          "D1": "fail"
+        },
+        "text": "- **Passwords:** no password tools. `itglue_get` (a GET to any endpoint) refuses any path with a `passwords` segment and any `show_password` parameter (`src/tools/advanced.ts:41-50,161-165`).\n- **C2:** the flagged line logs token labels and roles, not token values.\n- **C3:** writes to disk only for the opt-in semantic search. With `OPENAI_API_KEY` or Azure OpenAI configured, `itglue_build_vector_index` stores document titles, plain text and embeddings in `./vector-index.json` (`src/vector/store.ts:71`), and document text is sent to OpenAI or Azure OpenAI to be embedded (`src/vector/embeddings.ts:55`). Without those settings the vector tools are off.\n- **T4:** \"a relative path you must use\" explains the inline image URL format.\n- **D1:** the default is stdio. In HTTP mode it listens on 0.0.0.0 (`src/index.ts:92`) and, with no `MCP_TOKENS_*` set, accepts every request with full admin rights on the server's IT Glue key; it logs a warning and starts. Opt-in, so it fails D1 without the open-by-default cap.\n- **T3:** `itglue_get` sends any request, but GET only, so it can't change data.\n- Published to npm with a provenance attestation.\n- **S3:** the shipped lockfile pins versions with advisories, including `@modelcontextprotocol/sdk` 1.29.0, `@hono/node-server` and `@azure/msal-node`."
+      }
+    },
+    {
+      "id": "junto-itglue",
+      "name": "itglue-mcp-server",
+      "maintainer": "Junto Platforms",
+      "source": {
+        "github": "Junto-Platforms/itglue-mcp-server"
+      },
+      "notes": {
+        "confirmed": {
+          "D1": "fail"
+        },
+        "text": "- **Passwords:** no password tools. It covers documents, document sections and organizations only (13 tools).\n- **D1:** the default is stdio. `--transport http` listens on 0.0.0.0 (`src/index.ts:325`) with no authentication on `/mcp`, using the server's IT Glue key. Opt-in, so it fails D1 without the open-by-default cap.\n- **T2:** the \"read-only switch\" hit is a TypeScript `readonly` field (`src/services/itglue-client.ts:225`), not a switch. Every write tool starts with `itglue_create_`, `itglue_update_`, `itglue_delete_` or `itglue_publish_`.\n- Published to npm with a provenance attestation. Last changed February 2026. `jason-sager/itglue-mcp-server` (npm `@jasonsager/itglue-mcp-server`) is a fork of this and wasn't assessed separately.\n- **S3:** the lockfile pins `@modelcontextprotocol/sdk` 1.25.3 and `@hono/node-server` versions with advisories."
+      }
+    },
+    {
+      "id": "veeemlab-itglue",
+      "name": "@veeemlab/itglue-mcp",
+      "maintainer": "veeemlab",
+      "source": {
+        "github": "veeemlab/itglue-mcp"
+      },
+      "notes": {
+        "confirmed": {
+          "C2": "pass",
+          "T4": "pass"
+        },
+        "text": "- **Passwords:** the tool descriptions say the value is included only with `showPassword=true` plus `confirm: \"SHOW_PASSWORD\"`. But without them `itglue_get_password` sends no `show_password` parameter at all (`src/tools/passwords.ts:117-120`), and IT Glue's API returns the password on that endpoint by default, so the value comes back either way when the key has Password Access. The confirm string is an argument the model fills in itself. `ITGLUE_READ_ONLY=true` removes write tools only; password reads stay. Password responses are never cached (`src/cache.ts:77`; the cache is in memory), and error bodies are redacted (`src/redact.ts`).\n- **C2:** the flagged line is the message that HTTP mode needs a token.\n- **T4:** \"You must supply filterFlexibleAssetTypeId\" restates an IT Glue API requirement.\n- **D1:** HTTP mode refuses to start without an `ITGLUE_HTTP_TOKEN` of 16+ characters and binds 127.0.0.1 by default (`src/index.ts:37-46`).\n- **S2:** `prepare` runs a build when installed from git (the README's npx-from-GitHub route), not when installed from npm.\n- **S3:** the lockfile pins `@modelcontextprotocol/sdk` 1.29.0, `@hono/node-server` and `body-parser` versions with advisories."
+      }
+    },
+    {
+      "id": "mspbots-itglue",
+      "name": "itglue-mcp (MSPbots)",
+      "maintainer": "MSPbots AI Framework",
+      "source": {
+        "github": "MSPbotsAIFramework/itglue-mcp"
+      },
+      "notes": {
+        "confirmed": {
+          "C1": "fail",
+          "C4": "fail",
+          "D1": "pass"
+        },
+        "text": "- **Passwords:** `get_password` returns the secret by default (`show_password` defaults to true, `src/itglue_mcp/tools/passwords.py:98-104`). No setting removes the password tools. `search_passwords` and the write tools drop `password` and `otp_secret` from what they return (`SECRET_FIELDS`, :30), and secrets passed to writes are masked from error text.\n- **C1, C4 (confirmed):** built for the MSPbots gateway. The IT Glue key is read only from each request's `X-ITGlue-API-Key` header (`src/itglue_mcp/credentials.py`). stdio exists for \"local debugging only\", where every tool reports not_configured (`src/itglue_mcp/__main__.py:16-19`), so it can't be run locally with your own key.\n- **D1:** the default is HTTP on 0.0.0.0:8080 (`src/itglue_mcp/config.py:28-30`), but every request must carry its own IT Glue key; there is no stored credential to borrow. DNS-rebinding protection is turned off (`src/itglue_mcp/server.py:51`).\n- **T2:** the \"read-only switch\" hit is the `readOnlyHint` annotation. There is no read-only switch, but every write tool starts with a verb (`create_`, `update_`, `delete_`, `archive_`, `unarchive_`, `publish_`).\n- No tags or releases.\n- **S3:** `certifi` 2026.7.22 in `uv.lock` has advisories."
+      }
+    },
+    {
+      "id": "itbuilder-itglue",
+      "name": "itglue-mcp (ITbuilder)",
+      "maintainer": "ITbuilder Ltd",
+      "source": {
+        "github": "ITbuilder-Ltd/itglue-mcp"
+      },
+      "notes": {
+        "confirmed": {
+          "T1": "pass",
+          "T3": "pass",
+          "N1": "pass",
+          "D1": "pass",
+          "T2": "pass"
+        },
+        "text": "- **Passwords:** none, whatever the key's Password Access setting. A password guard refuses any request whose URL or body mentions a password (including percent-encoded), a password version or an export, and strips password relationships, attributes and included records from every reply (`itglue_mcp/api/guard.py`; `itglue_mcp/api/client.py:519-521,768`). Writes that would change a flexible asset's password field are refused (`client.py:647-694`), and credential-like text in documents is redacted.\n- **T1:** 10 tools in `itglue_mcp/server/tools.py` (`describe_resources`, `list_records`, `get_record`, `create_record`, `update_records`, `publish_document`, `delete_records`, `find_documents`, `get_document`, `list_document_folders`), registered through a decorator the script doesn't read. A tool the policy can't perform isn't offered.\n- **T2, T3:** read-only by default; writes need `ITGLUE_WRITES=1` plus an allow-list of organizations. The record tools take a resource name from a fixed list, never a path, verb or URL.\n- **N1:** the Microsoft hosts are Entra sign-in for HTTP mode (`itglue_mcp/server/entra.py:68,75`).\n- **D1:** binds 127.0.0.1 by default and refuses to listen on another address without Entra sign-in unless `ITGLUE_MCP_UNAUTHENTICATED=1` (`itglue_mcp/server/serve.py:63-68`). The flagged line is a docstring.\n- The default transport is HTTP on localhost; `serve --transport stdio` runs it locally.\n- **S1:** `fastmcp==4.1.0` is pinned, but there is no lockfile for its dependencies.\n- **T2:** read-only by default: a deployment's grant is `READ_ONLY` unless configured otherwise, and anything unexpected falls back to it (`itglue_mcp/server/deployment.py:35-61`)."
+      }
+    },
+    {
+      "id": "jamesdeane2-itglue",
+      "name": "mcp-itglue (Python)",
+      "maintainer": "jamesdeane2",
+      "source": {
+        "github": "jamesdeane2/mcp-itglue"
+      },
+      "notes": {
+        "confirmed": {
+          "C1": "pass",
+          "C2": "pass",
+          "C3": "fail",
+          "T2": "pass"
+        },
+        "text": "- **Passwords:** `get_password` returns the value only with `show_password=true`, and then also returns the OTP secret (`otp-secret`) (`src/mcp_itglue/tools/passwords.py:36-40,119`). List and search never include values. No setting removes the tool; a deny rule on `get_password` does.\n- **C1:** reads `ITGLUE_*` settings from the environment through pydantic settings (`env_prefix=\"ITGLUE_\"`, `src/mcp_itglue/config.py:18`), which the pattern doesn't catch.\n- **C2:** the flagged lines are in the helper scripts and print the user's email and token expiry; `capture_session.py:53` prints the first 20 characters of the captured XSRF token to the terminal. The server itself logs no secrets.\n- **C3 (confirmed):** the optional browser sign-in (Playwright, for checklist tools the API lacks) saves the IT Glue JWT and session cookies under `~/.config/mcp-itglue/` with owner-only permissions (`src/mcp_itglue/jwt_auth.py:36,130`, `session_auth.py:35,92`). `save_to_file=true` on search tools writes results to `/tmp` (`src/mcp_itglue/tools/output.py:81-84`).\n- **T2:** the one write tool the script couldn't match, `session_browser_close`, closes the local browser and doesn't change IT Glue data. All other write tools start with a verb. No read-only switch.\n- The same code is also at `vanphu1511/mcp-itglue` (same author's commits); that copy wasn't assessed separately.\n- **S3:** `certifi` 2026.1.4 in `uv.lock` has advisories."
+      }
+    },
+    {
+      "id": "ellswoau-itglue",
+      "name": "ITGlue-MCP",
+      "maintainer": "ellswoau",
+      "source": {
+        "github": "ellswoau/ITGlue-MCP"
+      },
+      "notes": {
+        "confirmed": {
+          "N1": "pass",
+          "D1": "fail"
+        },
+        "text": "- **Passwords:** no password tools; it covers documents and organizations.\n- **N1:** `jsonapi.org` is in a comment and the S3 host is in `tests_sanity.py`.\n- **D1:** the default is stdio. `--transport http` or `sse` binds 0.0.0.0 (`itglue_mcp/server.py:211`) and checks a bearer token only when `ITGLUE_MCP_AUTH_TOKEN` is set (`server.py:75-78`); the bundled `docker-compose.yml` requires one. Opt-in, so it fails D1 without the open-by-default cap.\n- **Local files:** `upload_document_file` reads any local path it is given and uploads the file to IT Glue (`itglue_mcp/tools/write_tools.py:80-97`).\n- **N3:** `ITGLUE_VERIFY_SSL=false` turns certificate checks off for IT Glue calls; on by default.\n- `config init` saves the API key in a JSON config file (owner-only) if you choose to use it.\n- No licence (caps the score)."
+      }
+    },
+    {
+      "id": "johngilligan2-itglue-docs",
+      "name": "itglue-docs-mcp",
+      "maintainer": "JohnGilligan2",
+      "source": {
+        "github": "JohnGilligan2/itglue-docs-mcp"
+      },
+      "notes": {
+        "confirmed": {
+          "N1": "pass",
+          "N2": "pass",
+          "C2": "pass",
+          "C4": "fail",
+          "T4": "pass",
+          "D1": "pass"
+        },
+        "text": "- **Passwords:** never returned. The client is GET-only and refuses any query containing `show_password` (`itglue_mcp/client.py:22,49`); `itglue_find_credential` returns a pointer to the credential and an IT Glue link, never the password or its notes (`itglue_mcp/server.py:148`).\n- **C4 (confirmed):** HTTP only (`mcp.run(transport=\"http\")`, `itglue_mcp/server.py:1076`); the stdio pattern matched that call. It's built as a hosted container.\n- **D1:** Entra sign-in is on by default (`MCP_AUTH_ENABLED` defaults to true and startup fails without the tenant and client settings, `itglue_mcp/config.py:174`); it can be switched off.\n- **N1:** the Microsoft host is Entra sign-in, used to verify callers.\n- **N2:** per-call metrics (tool name, status, the caller's username, response size) go to an OpenTelemetry collector you configure, and only when `OTEL_EXPORTER_OTLP_ENDPOINT` is set (`itglue_mcp/telemetry.py:304-318`). Nothing is sent to a third party by default.\n- **C2, T4:** the flagged lines log a tool count and are a code comment.\n- Read-only by design: no write tools. No licence (caps the score)."
+      }
+    },
+    {
+      "id": "am3cramirez-itglue",
+      "name": "itglue-mcp (am3cramirez)",
+      "maintainer": "am3cramirez",
+      "source": {
+        "github": "am3cramirez/itglue-mcp"
+      },
+      "notes": {
+        "confirmed": {
+          "P2": "pass",
+          "T1": "pass",
+          "T2": "pass",
+          "T3": "fail",
+          "D1": "fail"
+        },
+        "text": "- **Passwords:** `get_password` returns the decrypted value by default (`show_password` defaults to true, `src/tools/passwords.ts:47-58`), and `itglue_raw_request` can also reach `/passwords`. `ITGLUE_ALLOW_WRITES=false` blocks writes, not password reads.\n- **P2:** not on npm (`package.json` names `@am3cramirez/itglue-mcp`, which the registry doesn't have), so it is installed from a pinned commit.\n- **T1:** 49 tools, registered through a `tool(server, client, \"name\", ...)` helper (`src/helpers.ts`) the script doesn't read.\n- **T2:** `ITGLUE_ALLOW_WRITES=false` blocks every non-GET request, and deletes are off unless `ITGLUE_ALLOW_DELETES=true` (`src/client.ts:32-33,120-129`).\n- **T3 (confirmed):** `itglue_raw_request` sends GET, POST, PATCH or DELETE to any path (`src/tools/misc.ts:249-268`), subject to those switches.\n- **D1:** the default is stdio. `MCP_TRANSPORT=http` listens on all interfaces (`httpServer.listen(port)`, `src/index.ts:75`) and checks a bearer token only when `MCP_HTTP_AUTH_TOKEN` is set. Opt-in, so it fails D1 without the open-by-default cap.\n- Single commit, on a `claude/` default branch; no tags."
+      }
+    },
+    {
+      "id": "witsecops-itglue",
+      "name": "@wit-secops/itglue-mcp",
+      "maintainer": "WIT-SecOps",
+      "source": {
+        "npm": "@wit-secops/itglue-mcp"
+      },
+      "notes": {
+        "confirmed": {
+          "N2": "pass",
+          "C2": "pass",
+          "C3": "fail"
+        },
+        "text": "- **Passwords:** no password tools.\n- **N2:** both hits are `isEntryPoint` (\"sentry\" inside the name). No telemetry.\n- **C2:** the flagged line warns that `--api-key` shows in process listings; it doesn't print the key.\n- **C3 (confirmed):** `itglue_index_documents`, available by default, builds a keyword index of document and configuration content and saves it as gzip JSON (owner-only) under `ITGLUE_CACHE_DIR`, `%LOCALAPPDATA%` or `$XDG_CACHE_HOME` (`dist/services/index/store.js:6-18`).\n- Read-only by default; writes need `--read-write` or `ITGLUE_ALLOW_WRITE` (`dist/index.js:136-137`).\n- Published to npm only. The repository it names (`WIT-SecOps/itglue-mcp`) isn't public, so what's in the package can't be compared with source (P2), and there's no lockfile."
+      }
+    },
+    {
+      "id": "wilnertech-itglue",
+      "name": "@wilnertech/itglue-mcp-server",
+      "maintainer": "WilnerTech",
+      "source": {
+        "npm": "@wilnertech/itglue-mcp-server"
+      },
+      "notes": {
+        "confirmed": {
+          "T2": "fail",
+          "T4": "pass"
+        },
+        "text": "- **Passwords:** `manage_itglue_passwords` with action `get` always asks for `show_password=true` (`dist/tools/passwords.js:70`). Action `get_credential` finds a password named `API - {Application} - {Qualifier}` in the organization named by `ITGLUE_CREDENTIAL_ORG` and returns its username, password and notes (`dist/tools/passwords.js:138-146`). No setting turns this off; denying the tool also removes password listing and create/update.\n- **T2 (confirmed):** most tools are `manage_itglue_*` with an `action` argument that covers both reads and writes, so a deny rule can't separate them, and there is no read-only switch (it reads only the API key, base URL and credential org/folder from the environment). The script's hit is a `readOnly` field in lookup config.\n- **T4:** the flagged line is HTML formatting guidance in its documentation standard.\n- Published to npm only; the repository it names (`WilnerTech/itglue-mcp-server`) isn't public, so what's in the package can't be compared with source (P2). No lockfile; last published May 2026."
+      }
+    }
+  ]
+}
