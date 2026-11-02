@@ -45,7 +45,7 @@ Some findings matter more than any total, so they cap the score, confirmed by a 
 | Telemetry or analytics confirmed | 40 |
 | TLS checks turned off confirmed | 40 |
 | Credentials logged confirmed | 40 |
-| By default, open to the network without authentication | 50 |
+| By default, open to the network without authentication (the server's default, or a documented install such as its Docker image). An HTTP mode you have to turn on that is open fails D1 but isn't capped. | 50 |
 | No licence | 60 |
 | Tool description instructs the model, confirmed | 60 |
 

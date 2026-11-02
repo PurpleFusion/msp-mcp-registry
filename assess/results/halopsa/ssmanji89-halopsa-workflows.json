@@ -1,0 +1,146 @@
+{
+  "id": "ssmanji89-halopsa-workflows",
+  "name": "halopsa-workflows-mcp",
+  "maintainer": "ssmanji89",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/ssmanji89/halopsa-workflows-mcp",
+  "ref": "main",
+  "commit": "cf165d7fcbc50dd9d7fb83a04957bddb3760fcc2",
+  "latestRelease": null,
+  "tools": [
+    "createWorkflows",
+    "deleteWorkflow",
+    "getWorkflow",
+    "getWorkflowSteps",
+    "getWorkflows",
+    "halopsa-workflows",
+    "healthcheck"
+  ],
+  "writeTools": [
+    "createWorkflows",
+    "deleteWorkflow"
+  ],
+  "files": 55,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "MIT"
+    },
+    {
+      "id": "P2",
+      "result": "unknown",
+      "evidence": "published package has no provenance attestation; cannot show it matches the source"
+    },
+    {
+      "id": "P3",
+      "result": "pass",
+      "evidence": "0 git tags, 11 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "fail",
+      "evidence": "last change 2025-04-02"
+    },
+    {
+      "id": "P5",
+      "result": "fail",
+      "evidence": "1 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "pass",
+      "evidence": "package-lock.json"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "fail",
+      "evidence": "@modelcontextprotocol/sdk@1.8.0: GHSA-46jr-4wx8-v453, @modelcontextprotocol/sdk@1.8.0: GHSA-6prh-2h8m-c8cw, @modelcontextprotocol/sdk@1.8.0: GHSA-8r9q-7v3j-jr4g, @modelcontextprotocol/sdk@1.8.0: GHSA-rvq5-wwqv-78pq, @modelcontextprotocol/sdk@1.8.0: GHSA-w48q-cv73-mx4w, body-parser@2.2.0: GHSA-27r3-jxmh-p828, body-parser@2.2.0: GHSA-v422-hmwv-36x6, body-parser@2.2.0: GHSA-wqch-xfxh-vrr4, qs@6.14.0: GHSA-4mjr-xmp4-gh2g, qs@6.14.0: GHSA-6pq8-jhm2-2vcw, qs@6.14.0: GHSA-6rw7-vpxm-498p, qs@6.14.0: GHSA-q8mj-m7cp-5q26 (+78 more)"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "7 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "42 reads"
+    },
+    {
+      "id": "C2",
+      "result": "flag",
+      "evidence": "src/api/client.js:35 logger.info(`Client Secret: ${this.config.clientSecret.substring(0, 10)}...`); | src/api/client.js:55 logger.debug('Using cached token'); | src/api/client.js:59 logger.info('Getting new auth token...'); | src/api/client.js:65 logger.debug(`Token URL: ${tokenUrl}`); | src/api/client.js:90 logger.info(`Successfully obtained auth token, expires in ${expires_in} seconds`);"
+    },
+    {
+      "id": "C3",
+      "result": "flag",
+      "evidence": "src/utils/logging.js:45 fs.appendFileSync(LOG_FILE, message + '\\n');"
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "src/config/index.js:52"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "7 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "2 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "n/a",
+      "evidence": ""
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

@@ -1,0 +1,187 @@
+{
+  "id": "wyre-itglue",
+  "name": "itglue-mcp",
+  "maintainer": "WYRE Technology",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/WYRE-AI/itglue-mcp",
+  "ref": "v1.20.2",
+  "commit": "b90ee178da1e95cdf748cf0794ba81c4636bc31f",
+  "latestRelease": {
+    "tag": "v1.20.2",
+    "date": "2026-10-14"
+  },
+  "tools": [
+    "archive_configuration",
+    "archive_document",
+    "create_attachment",
+    "create_document",
+    "create_document_section",
+    "create_location",
+    "delete_document",
+    "delete_document_section",
+    "doc-completeness",
+    "get_configuration",
+    "get_document",
+    "get_location",
+    "get_organization",
+    "get_password",
+    "itglue_health_check",
+    "list_attachments",
+    "list_document_folders",
+    "list_document_sections",
+    "list_flexible_asset_types",
+    "org_name",
+    "password-audit",
+    "publish_document",
+    "runbook-check",
+    "search_configurations",
+    "search_documents",
+    "search_flexible_assets",
+    "search_locations",
+    "search_organizations",
+    "search_passwords",
+    "search_user_metrics",
+    "system_name",
+    "unarchive_configuration",
+    "unarchive_document",
+    "update_document",
+    "update_document_section",
+    "update_location"
+  ],
+  "writeTools": [
+    "archive_configuration",
+    "archive_document",
+    "create_attachment",
+    "create_document",
+    "create_document_section",
+    "create_location",
+    "delete_document",
+    "delete_document_section",
+    "update_document",
+    "update_document_section",
+    "update_location"
+  ],
+  "files": 38,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "Apache-2.0"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
+    },
+    {
+      "id": "P3",
+      "result": "pass",
+      "evidence": "57 git tags, 0 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-11-02"
+    },
+    {
+      "id": "P5",
+      "result": "pass",
+      "evidence": "5 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "pass",
+      "evidence": "package-lock.json"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "fail",
+      "evidence": "@hono/node-server@1.19.9: GHSA-92pp-h63x-v22m, @hono/node-server@1.19.9: GHSA-frvp-7c67-39w9, @hono/node-server@1.19.9: GHSA-wc8c-qw6v-h7f6, @modelcontextprotocol/sdk@1.31.0: GHSA-22jm-h49p-29qw, @modelcontextprotocol/sdk@1.31.0: GHSA-46jr-4wx8-v453, @modelcontextprotocol/sdk@1.31.0: GHSA-6prh-2h8m-c8cw, @modelcontextprotocol/sdk@1.31.0: GHSA-rvq5-wwqv-78pq, ajv@8.17.1: GHSA-2g4f-4pwh-qvx6, body-parser@2.2.2: GHSA-27r3-jxmh-p828, body-parser@2.2.2: GHSA-v422-hmwv-36x6, express-rate-limit@8.2.1: GHSA-46wh-pxpv-q5gq, fast-uri@3.1.0: GHSA-333x-w4r6-6crp (+59 more)"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "1 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "13 reads"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "src/index.ts:24"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "36 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "11 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "flag",
+      "evidence": "src/mcp-server.ts:1849 description: \"Publish an IT Glue document to make section changes visible. Always call this after creating, updating, or deleting sections.\","
+    },
+    {
+      "id": "D1",
+      "result": "flag",
+      "evidence": "src/index.ts:120 return configured || \"0.0.0.0\";"
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

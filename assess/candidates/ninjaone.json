@@ -1,0 +1,235 @@
+{
+  "group": "ninjaone",
+  "title": "NinjaOne (NinjaRMM) MCP servers",
+  "vendorHosts": [
+    "(^|\\.)ninjarmm\\.com$",
+    "(^|\\.)ninjaone\\.(com|us)$",
+    "(^|\\.)rmmservice\\.[a-z.]+$"
+  ],
+  "candidates": [
+    {
+      "id": "wyre-ninjaone",
+      "name": "ninjaone-mcp",
+      "maintainer": "WYRE Technology",
+      "source": {
+        "github": "WYRE-AI/ninjaone-mcp"
+      },
+      "notes": {
+        "confirmed": {
+          "T2": "fail"
+        },
+        "text": "- **T2 (confirmed):** there is no read-only switch; the script's hit is the word `readonly` inside a bundled UI script (`src/generated/alert-card-html.ts:3`). Write tools put the verb last (`ninjaone_devices_reboot`, `ninjaone_tickets_create`, `ninjaone_alerts_reset_all`), so a verb-prefix deny rule doesn't match them; each has to be denied by its full name.\n- **Running scripts:** `ninjaone_scripts_run` is off until you list approved script IDs in `NINJAONE_ALLOWED_SCRIPT_IDS` (unset means deny-all), asks for confirmation (elicitation, or `confirm: true`), and writes a separate audit log line (`src/domains/scripts.ts:1-30`).\n- **Reboots:** `ninjaone_devices_reboot` calls the API directly with no confirmation step (`src/domains/devices.ts:300-304`); `ninjaone_alerts_reset_all` likewise.\n- **D1:** HTTP mode refuses to start without `CONDUIT_S2S_SECRET` unless `MCP_ALLOW_INSECURE_DEV=1`, and then binds 127.0.0.1 only (`src/index.ts:115-138`). Default transport is stdio.\n- **Hosting:** the repo also ships a Cloudflare Workers deployment (`src/worker.ts`) and a gateway mode for WYRE's hosted service. This assessment is of running the source yourself over stdio.\n- **S3:** the lockfile pins `@hono/node-server` 1.19.17 and `zod` 4.3.6, both with published advisories."
+      }
+    },
+    {
+      "id": "servosity-ninjaone",
+      "name": "msp-skills ninjaone",
+      "maintainer": "Servosity",
+      "source": {
+        "github": "Servosity/msp-skills",
+        "path": "skills/ninjaone",
+        "ref": "ninjaone-v0.1.21"
+      },
+      "notes": {
+        "confirmed": {
+          "P2": "unknown",
+          "N1": "pass",
+          "N2": "pass",
+          "T4": "pass",
+          "D2": "pass",
+          "C3": "fail",
+          "T3": "pass"
+        },
+        "text": "- **Assessed at the connector's own release** (`ninjaone-v0.1.21`); the repo's \"latest release\" belongs to another connector.\n- **P2:** the release workflow builds binaries in CI and publishes SHA-256 checksums, but without build attestations, so a binary can't be shown to come from this source.\n- **N1, N2, T4:** the hits are a placeholder host for another product in shared doctor code (`cli/internal/cli/doctor_verdict.go`), code comments that call local measurement \"telemetry-class\" (nothing is sent anywhere), and help text copied from NinjaOne's API spec (\"You must use the GET tab/... endpoint\").\n- **D2:** each mirrored tool runs the project's own companion CLI binary directly (`cli/internal/mcp/cobratree/shellout.go`, `exec.CommandContext`, no shell); the other hit runs a fixed macOS system path (`/usr/bin/dsmemberutil`). That is its design, not a shell or code evaluation.\n- **C3 (confirmed):** keeps a local cache (files written owner-only, `cli/internal/cache/cache.go:49`) and a SQLite store of synced NinjaOne data under your user profile (`cli/internal/cli/helpers.go`, `defaultDBPath`). The maintainer documents this.\n- **T2:** `NINJAONE_MCP_READ_ONLY=1` hides mutating tools and refuses non-GET calls (`cli/internal/cliutil/verifyenv.go:143`, used in `cli/internal/mcp/code_orch.go` and `cobratree/walker.go`). Without it, `ninjaone_execute` can call any state-changing endpoint in the spec (including script runs and reboots); it returns a preview and only runs with `confirm: true`.\n- **T1:** tools are generated at runtime from the CLI's command tree, so the count read from source understates the real number.\n- **D1:** HTTP mode requires a bearer token in all cases and TLS for any non-loopback address (`cli/cmd/ninjaone-mcp/main.go`).\n- **T3:** `ninjaone_execute` calls any endpoint, but `NINJAONE_MCP_READ_ONLY=1` removes write tools and blocks write methods through it (`codeOrchBlockedByMCPReadOnly`), so the server can be made read-only."
+      }
+    },
+    {
+      "id": "lungshot-ninjaone",
+      "name": "NinjaOneMCP",
+      "maintainer": "Lungshot",
+      "source": {
+        "github": "Lungshot/NinjaOneMCP"
+      },
+      "notes": {
+        "confirmed": {
+          "C2": "pass",
+          "T2": "pass",
+          "D1": "pass"
+        },
+        "text": "- **C2:** the flagged lines log fixed \"token acquired\" messages, not the token.\n- **T2:** there is no read-only switch (the script's hit is a TypeScript `readonly` field modifier, `src/ninja-api.ts:24`), but every write tool starts with a verb a deny rule can match (`reboot_device`, `control_windows_service`, `apply_device_os_patches`, `create_organization`, ...). It has no script-run tool.\n- **D1:** the optional HTTP and SSE modes listen on all interfaces without authentication and with `CORS_ORIGIN` defaulting to `*` (`src/transport/http.ts:19,102,179`), but they expose only health, info, a fixed tool list and a heartbeat; no tool can be called over them. Default transport is stdio (`src/index.ts:1288`).\n- **P2:** the npm package `ninjaone-mcp-server` (1.2.13, November 2025) lags the GitHub release assessed here (v1.3.0) and has no provenance attestation. The repo also checks in a prebuilt Claude Desktop bundle (`ninjaone-rmm.mcpb`, 18 MB) and a separate JavaScript build under `server/`, which can't be compared with `src/`.\n- **S3:** the lockfile pins `@modelcontextprotocol/sdk` 1.17.1, `body-parser`, `qs` and others with published advisories.\n- A copy of this repo with a few extra commits exists at `Astec-IT-Consultancy/NinjaOneMCP`; it was not assessed separately."
+      }
+    },
+    {
+      "id": "bezalu-ninjaone",
+      "name": "Bezalu.NinjaOne.MCP",
+      "maintainer": "Bezalu LLC",
+      "source": {
+        "github": "BezaluLLC/Bezalu.NinjaOne.MCP"
+      },
+      "notes": {
+        "confirmed": {
+          "C1": "pass",
+          "C3": "fail",
+          "S4": "pass",
+          "T1": "pass",
+          "T2": "pass",
+          "T3": "pass",
+          "D1": "pass"
+        },
+        "text": "- **Written in C#**, which the script doesn't read, so every code check was done by hand: hosts (`app.ninjarmm.com` and a placeholder only), TLS, logging, shell and telemetry searches found nothing.\n- **C1:** configuration comes from environment variables (`NINJAONE_INSTANCE`, `NINJAONE_CLIENT_ID`, `NINJAONE_CLIENT_SECRET`, `Auth/OAuth/OAuthServerOptions.cs:51-63`).\n- **C4 (confirmed fail):** HTTP only (ASP.NET Core, `Program.cs`); there is no stdio transport. It is built as a container (published to GHCR by `.github/workflows/publish.yml`) where each user signs in with their own NinjaOne account.\n- **D1:** the MCP endpoint requires a bearer token the server issued after the user's NinjaOne OAuth sign-in (`app.MapMcp().RequireAuthorization()`, `Program.cs`).\n- **C3 (confirmed):** each user's NinjaOne access and refresh tokens are saved as JSON in `tokens.json` under `MCP_DATA_PATH` (default `/app/data`) (`Auth/OAuth/FileOAuthStore.cs:42-45,184-192`, `Auth/OAuth/Models.cs:69-71`).\n- **T1, T2, T3:** 25 tools registered with `[McpServerTool]`, each carrying a `ReadOnly` annotation; only two write (`reset_alert`, `update_device_custom_fields`), both verb-first. No script, reboot or raw-request tool.\n- **S1, S3:** NuGet packages are not locked (no `packages.lock.json`), so OSV could not be checked. Two direct dependencies (`ModelContextProtocol.AspNetCore`, `NinjaOne.Client`)."
+      }
+    },
+    {
+      "id": "lcleveland-ninjaone",
+      "name": "ninjaone-mcp",
+      "maintainer": "lcleveland",
+      "source": {
+        "github": "lcleveland/ninjaone-mcp"
+      },
+      "notes": {
+        "confirmed": {
+          "C2": "pass",
+          "T1": "pass",
+          "T2": "pass",
+          "T3": "pass"
+        },
+        "text": "- **T1:** about 21 tools are defined in tables (`internal/tools/table_*.go`, `{Name: \"ninjaone_device\", ...}`), each with several actions, plus `ninjaone_api` and `ninjaone_status`. The script's patterns don't read this shape.\n- **T2:** read-only by default. Every write capability (tickets, documentation, custom fields, device maintenance, device actions, scripts, device admin) is off until enabled with its own `--allow-<capability>` flag (`internal/config/config.go:129`).\n- **T3:** `ninjaone_api` calls any v2 endpoint, but only GET (and reads NinjaOne serves over POST) unless a capability is enabled, and then only routes on an allowlist for that capability; tenant administration, users, roles, webhooks, installers and billing are never allowed (`internal/tools/generic.go:20-60,185-200`).\n- **Destructive actions:** script runs, forced reboots and decommissioning require `confirm` to be the device's exact display name, looked up live (`internal/tools/write.go:132`).\n- **C2:** the flagged lines log fixed messages and whether an HTTP token is set, not the token; the config's log form leaves secrets out (`internal/config/config.go:76`).\n- **D1:** HTTP mode binds 127.0.0.1:8233 by default and refuses a non-loopback address without `--http-auth-token-file` (`internal/config/config.go:232`).\n- **C3:** nothing is written by default. If you enable the optional NinjaOne user sign-in (needed for script runs and ticket writes as a user), it keeps the rotating refresh token in an owner-only file (`internal/ninjaone/user.go:201`).\n- **C1:** reads environment variables through a `getenv` helper; it prefers secrets from files or systemd credentials and warns when the secret comes from the environment.\n- No releases or tags yet."
+      }
+    },
+    {
+      "id": "evident-ninjaone-ticketing",
+      "name": "NinjaOne-Ticketing-MCP-Server",
+      "maintainer": "Evident-Dev",
+      "source": {
+        "github": "Evident-Dev/NinjaOne-Ticketing-MCP-Server"
+      },
+      "notes": {
+        "confirmed": {
+          "N1": "pass",
+          "N3": "fail",
+          "C2": "pass",
+          "C3": "fail",
+          "D1": "fail-default"
+        },
+        "text": "- **N1:** `app.ninjaone.us` is NinjaOne's `fed` region (`src/config.ts:10`).\n- **N3 (confirmed):** when `DATABASE_URL` points anywhere other than localhost, the Postgres connection is opened with `rejectUnauthorized: false` (`src/db.ts:39-42`). That database holds each technician's access token and NinjaOne sign-in. NinjaOne API calls keep normal TLS checks.\n- **D1 (confirmed):** HTTP only, listening on all interfaces (`app.listen(config.port)`, `src/index.ts:186`). With no `MCP_SHARED_SECRET`, `DATABASE_URL` or `NINJA_TECHNICIANS` set, the `/mcp` endpoints are unauthenticated; the server prints a warning and carries on (`src/index.ts:250-254`).\n- **C3 (confirmed):** the shared NinjaOne refresh token is saved to `/data/refresh-token.json` (owner-only, `src/user-oauth.ts:100`, `src/config.ts:149`); per-technician sign-ins go to Postgres.\n- **C2:** the flagged lines print fixed messages and point to where tokens are stored; they don't print tokens.\n- **C4:** HTTP only, built to be hosted (Railway). Destructive tools such as `ninja_device_decommission` require the user to type a confirmation word and offer a dry run.\n- No licence (caps the score)."
+      }
+    },
+    {
+      "id": "soroushalamdari-ninjaone",
+      "name": "Ninjaone-MCP",
+      "maintainer": "SoroushAlamdari",
+      "source": {
+        "github": "SoroushAlamdari/Ninjaone-MCP"
+      },
+      "notes": {
+        "confirmed": {
+          "C2": "pass",
+          "C3": "fail",
+          "C4": "pass",
+          "T3": "fail",
+          "D1": "pass"
+        },
+        "text": "- **C4:** runs over stdio through its own JSON-RPC loop rather than the MCP SDK (`src/index.ts:144`), which is why the script didn't find a transport.\n- **T3 (confirmed):** `api_get` and `api_post` send a GET or POST to any API path (`src/index.ts:123-128`, `src/tools.ts:273,288`).\n- **C3 (confirmed):** the OAuth token, including the refresh token, is saved to `token.json` in the install folder unless `NINJA_TOKEN_FILE` says otherwise (owner-only, `src/oauth.ts:8-10,112`).\n- **C2:** the flagged lines log the token file's path, NinjaOne's error response and debug messages, not the token.\n- Also has `run_script` and `reboot_device` (`src/tools.ts:73,92`) and no read-only switch.\n- No lockfile; `@anthropic-ai/sdk` is a runtime dependency used only for a type.\n- **D1:** the only listener is `get-oauth-token.js:127`, a one-off sign-in helper that waits for the OAuth redirect; the MCP server itself has no HTTP mode."
+      }
+    },
+    {
+      "id": "allied-ninjaone",
+      "name": "ninjaone-mcp",
+      "maintainer": "Allied Business Solutions",
+      "source": {
+        "github": "Allied-Business-Solutions/ninjaone-mcp"
+      },
+      "notes": {
+        "confirmed": {
+          "T2": "pass"
+        },
+        "text": "- **T2:** the script counted `ninja_get_ticket_log` as a write (\"log\" is on its verb list); every real write tool starts with a verb (`ninja_run_script`, `ninja_reboot_device`, `ninja_update_device`, ...). There is no read-only switch.\n- **Webhooks:** `ninja_configure_webhook` registers a URL that NinjaOne will push events to (`src/tools/system.ts:88`), so data can be sent to any host through NinjaOne itself.\n- Also has `ninja_run_script` and `ninja_reboot_device` (`src/tools/devices.ts:379,400`) with no confirmation step.\n- No licence (caps the score). Two commits, May 2026."
+      }
+    },
+    {
+      "id": "fredriksknese-ninjaone",
+      "name": "mcp-ninjaone",
+      "maintainer": "fredriksknese",
+      "source": {
+        "github": "fredriksknese/mcp-ninjaone"
+      },
+      "notes": {
+        "confirmed": {
+          "T2": "pass"
+        },
+        "text": "- **P1:** the licence is a paid commercial licence (\"Subject to the payment of the License Fee ...\", `LICENSE`), not an open-source one. That caps the score.\n- **T2:** the script counted `get_device_os_patch_status` as a write (\"patch\" is on its verb list); every real write tool starts with a verb (`run_script_on_device`, `create_maintenance_window`, `cancel_device_maintenance`, `reset_alert`).\n- `run_script_on_device` runs a library script with no confirmation step (`src/tools/jobs.ts:89`). One commit (v1.0.0, February 2026)."
+      }
+    },
+    {
+      "id": "jasondsmith72-ninjarmm-gateway",
+      "name": "NinjaRMM-API-Gateway-MCP",
+      "maintainer": "jasondsmith72",
+      "source": {
+        "github": "jasondsmith72/NinjaRMM-API-Gateway-MCP"
+      },
+      "notes": {
+        "confirmed": {
+          "C3": "fail",
+          "T3": "fail"
+        },
+        "text": "- **T3 (confirmed):** `call` sends any method to any endpoint in the bundled API spec, and `raw_call` takes a free-form `\"METHOD /path\"` string (`src/ninja_mcp/server.py:172,202`). The script's name patterns miss both. There is no read-only switch, so the API scopes you grant are the only limit.\n- **C3 (confirmed):** its \"fast memory\" saves queries, including request bodies, to `~/.ninja-mcp/fast_memory.json` (`src/ninja_mcp/memory.py:13-16,40-60`), so client data can land on disk.\n- **P1:** MIT is declared in `pyproject.toml` only; the repo has no licence file.\n- No lockfile and no releases. `jasondsmith72/ninja-mcp` holds the same code and was not assessed separately."
+      }
+    },
+    {
+      "id": "timothiasthegreat-ninjarmm",
+      "name": "NinjaRMM_MCP",
+      "maintainer": "timothiasthegreat",
+      "source": {
+        "github": "timothiasthegreat/NinjaRMM_MCP"
+      },
+      "notes": {
+        "confirmed": {
+          "D1": "fail-default",
+          "T2": "pass"
+        },
+        "text": "- **D1 (confirmed):** HTTP only, listening on `0.0.0.0` (`src/index.ts:154`) with no authentication on `/mcp` (`src/index.ts:86`), so anyone who can reach the port reads your NinjaOne data with the server's credentials. The tools are read-only, which limits what can be done.\n- **T2:** read-only by design: five tools, all reads. The script counted `run_query_report` as a write (\"run\" is on its verb list); it calls a fixed list of read-only query endpoints.\n- **C2:** the OAuth request body is logged only on token errors and with `client_secret` replaced by `[REDACTED]` (`src/ninja-client.ts:408-412`).\n- **C4:** HTTP only (Docker), no stdio.\n- No licence (caps the score). Last changed April 2026."
+      }
+    },
+    {
+      "id": "teamnetwork-ninjaone",
+      "name": "@teamnetwork-nz/ninjaone-mcp-server (npm)",
+      "maintainer": "teamnetwork-nz",
+      "source": {
+        "npm": "@teamnetwork-nz/ninjaone-mcp-server"
+      },
+      "notes": {
+        "confirmed": {
+          "T2": "pass"
+        },
+        "text": "- **T2:** read-only. All 27 tools read; the script counted `ninja_explain_patch_status` as a write (\"patch\" is on its verb list). The default OAuth scope is `monitoring`, and `NINJAONE_READWRITE=true` is needed to request `management` (`dist/config.js:49-52`).\n- **D1:** HTTP mode binds 127.0.0.1 by default and refuses a non-loopback address without a bearer token and an allowed-hosts list (`dist/http-server.js:39-41`). Default transport is stdio.\n- Published to npm only; the package names no source repository, so what's in it can't be compared with source (P2). No lockfile ships, so dependencies resolve on the day you install."
+      }
+    },
+    {
+      "id": "wellforce-ninjaone",
+      "name": "@wellforce/ninjaone-mcp (npm)",
+      "maintainer": "wellforce",
+      "source": {
+        "npm": "@wellforce/ninjaone-mcp"
+      },
+      "notes": {
+        "confirmed": {
+          "C2": "pass",
+          "T2": "pass",
+          "T3": "fail"
+        },
+        "text": "- **T3 (confirmed):** `ninjaone_api_call` sends any method (GET to DELETE) to any API path (`dist/tools/api.js:4-12`). The default OAuth scope is `monitoring management` (`dist/config.js:22`), so writes through it are allowed by default.\n- **T2:** the script counted `ninjaone_get_ticket_log_entries` as a write (\"log\" is on its verb list); every named write tool starts with a verb. There is no read-only switch.\n- **C2:** the flagged line tells you which variables to set, without values.\n- Also has `ninjaone_run_script`, `ninjaone_reboot_device` and `ninjaone_set_webhook` (registers a URL NinjaOne pushes events to) with no confirmation step (`dist/tools/jobs.js:42`, `dist/tools/devices.js:64`, `dist/tools/webhooks.js:4`).\n- Published to npm only (1.0.2, March 2026); the repository it names (`Support-Forge/MCP`) isn't public, so the package can't be compared with source."
+      }
+    },
+    {
+      "id": "adamhancock-ninjarmm",
+      "name": "@adamhancock/ninjarmm-mcp (npm)",
+      "maintainer": "adamhancock",
+      "source": {
+        "npm": "@adamhancock/ninjarmm-mcp"
+      },
+      "notes": {
+        "text": "- **T3:** `ninjaone_api_call` sends any method to any `/v2/` path (`src/index.ts:371-390,516`). The default OAuth scope is `monitoring` (`src/index.ts:29`), under which NinjaOne refuses writes, so it stays read-only until you set `NINJAONE_SCOPE` to include `management`.\n- Also has `ninjaone_run_script` (needs the `control` scope) and `ninjaone_update_device_custom_fields`.\n- Published to npm only (0.1.11, August 2025); the package names no source repository. A Key Vault launcher for it exists at `dspray/claude-ninjaone-mcp` (archived)."
+      }
+    }
+  ]
+}

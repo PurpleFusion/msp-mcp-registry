@@ -29,12 +29,12 @@
 | C1 | Credentials from environment | ✅ | 1 reads |
 | C2 | Credentials never logged | ✅ (script: flag) | src/tools/toolsets.ts:105 console.error(`[toolsets] ignoring unknown toolset "${token}" in x-cw-toolsets header.`); |
 | C3 | Nothing written to disk | ✅ (script: flag) | src/sql/library.ts:45 writeFile(path: string, data: string): Promise<void>; \| src/sql/library.ts:63 const { readFile, writeFile, rename, stat } = await import("node:fs/promises"); \| src/sql/library.ts:66 writeFile: (path, data) => writeFile(path, data, "utf8"), \| src/sql/library.ts:206 await fs.writeFile(temp, `${JSON.stringify(file, null, 2)}\n`); |
-| C4 | Runs locally (stdio) | ✅ | src/index.ts:4 |
+| C4 | Runs locally (stdio) | ✅ | src/config.ts:59 |
 | T1 | Tool list readable | ✅ | 45 tools found |
-| T2 | Read-only possible | ✅ | read-only switch: src/config.ts:226 |
+| T2 | Read-only possible | ✅ | 8 write tools; 0 don't start with a verb:  |
 | T3 | No arbitrary-request tool | ✅ |  |
 | T4 | Descriptions don't steer the model | ✅ (script: flag) | src/server.ts:82 - Find tables with cw_db_find_table and check cw_db_find_query for a saved query before writing SQL; always use TOP and a WHERE clause. Results are capped by ro |
-| D1 | HTTP mode safe | ✅ (script: flag) | src/http/app.ts:161 const server = createServer( \| src/index.ts:68 const server = createServer( \| src/index.ts:89 app.listen(config.port, "0.0.0.0", () => resolve()); \| src/server.ts:91 export function createServer( |
+| D1 | HTTP mode safe | ✅ (script: flag) | src/index.ts:89 app.listen(config.port, "0.0.0.0", () => resolve()); |
 | D2 | No shell or eval | ✅ |  |
 
 ## Notes from the person checking

@@ -1,0 +1,167 @@
+{
+  "id": "adamhancock-ninjarmm",
+  "name": "@adamhancock/ninjarmm-mcp (npm)",
+  "maintainer": "adamhancock",
+  "assessedOn": "2026-11-02",
+  "source": "https://www.npmjs.com/package/@adamhancock/ninjarmm-mcp",
+  "version": "0.1.11",
+  "tarball": "https://registry.npmjs.org/@adamhancock/ninjarmm-mcp/-/ninjarmm-mcp-0.1.11.tgz",
+  "integrity": "sha512-jZN5Ql5IgVaJKp+S6u6RpwktCEjWTSaQAfdVT88gXsUDIZbzJl8WqCZAUeU1L84gz3+MNGt1Y0lsdlWqhFcYLg==",
+  "tools": [
+    "ninjaone_api_call",
+    "ninjaone_get_activities",
+    "ninjaone_get_alerts",
+    "ninjaone_get_api_endpoint_details",
+    "ninjaone_get_api_schema_overview",
+    "ninjaone_get_device",
+    "ninjaone_get_device_activities",
+    "ninjaone_get_device_custom_fields",
+    "ninjaone_get_device_roles",
+    "ninjaone_get_device_software",
+    "ninjaone_get_devices",
+    "ninjaone_get_devices_by_org",
+    "ninjaone_get_job",
+    "ninjaone_get_jobs",
+    "ninjaone_get_location",
+    "ninjaone_get_locations",
+    "ninjaone_get_org_software",
+    "ninjaone_get_organization",
+    "ninjaone_get_organizations",
+    "ninjaone_get_policies",
+    "ninjaone_get_policy",
+    "ninjaone_get_tasks",
+    "ninjaone_get_users",
+    "ninjaone_reset_alert",
+    "ninjaone_run_script",
+    "ninjaone_search_devices",
+    "ninjaone_update_device_custom_fields"
+  ],
+  "writeTools": [
+    "ninjaone_reset_alert",
+    "ninjaone_run_script",
+    "ninjaone_update_device_custom_fields"
+  ],
+  "files": 12,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "MIT"
+    },
+    {
+      "id": "P2",
+      "result": "unknown",
+      "evidence": "published package has no provenance attestation; cannot show it matches the source"
+    },
+    {
+      "id": "P3",
+      "result": "pass",
+      "evidence": "0 git tags, 3 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "fail",
+      "evidence": "last change 2025-08-29"
+    },
+    {
+      "id": "P5",
+      "result": "fail",
+      "evidence": "1 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "fail",
+      "evidence": "no lockfile"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "unknown",
+      "evidence": "nothing locked to check"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "1 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "8 reads"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "dist/index.js:3"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "27 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "3 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "fail",
+      "evidence": "ninjaone_api_call"
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "n/a",
+      "evidence": ""
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

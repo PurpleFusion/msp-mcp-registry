@@ -1,0 +1,194 @@
+{
+  "id": "mspbots-itglue",
+  "name": "itglue-mcp (MSPbots)",
+  "maintainer": "MSPbots AI Framework",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/MSPbotsAIFramework/itglue-mcp",
+  "ref": "main",
+  "commit": "abf9dd779c984d29f16887f69d34025565e4891d",
+  "latestRelease": null,
+  "tools": [
+    "archive_configuration",
+    "archive_document",
+    "create_attachment",
+    "create_document",
+    "create_document_section",
+    "create_flexible_asset",
+    "create_location",
+    "create_password",
+    "delete_attachment",
+    "delete_document",
+    "delete_document_section",
+    "get_configuration",
+    "get_document",
+    "get_flexible_asset",
+    "get_flexible_asset_type",
+    "get_location",
+    "get_organization",
+    "get_password",
+    "itglue_create_flexible_asset_type",
+    "itglue_health_check",
+    "itglue_list_account_users",
+    "list_attachments",
+    "list_document_folders",
+    "list_document_sections",
+    "list_flexible_asset_types",
+    "publish_document",
+    "search_configurations",
+    "search_documents",
+    "search_flexible_assets",
+    "search_locations",
+    "search_organizations",
+    "search_passwords",
+    "search_user_metrics",
+    "unarchive_configuration",
+    "unarchive_document",
+    "update_document",
+    "update_document_section",
+    "update_flexible_asset",
+    "update_location",
+    "update_password"
+  ],
+  "writeTools": [
+    "archive_configuration",
+    "archive_document",
+    "create_attachment",
+    "create_document",
+    "create_document_section",
+    "create_flexible_asset",
+    "create_location",
+    "create_password",
+    "delete_attachment",
+    "delete_document",
+    "delete_document_section",
+    "itglue_create_flexible_asset_type",
+    "update_document",
+    "update_document_section",
+    "update_flexible_asset",
+    "update_location",
+    "update_password"
+  ],
+  "files": 31,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "Apache-2.0"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
+    },
+    {
+      "id": "P3",
+      "result": "fail",
+      "evidence": "0 git tags, 0 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-10-31"
+    },
+    {
+      "id": "P5",
+      "result": "pass",
+      "evidence": "4 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "pass",
+      "evidence": "uv.lock"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "fail",
+      "evidence": "certifi@2026.7.22: GHSA-6q48-6c7w-9gw2, certifi@2026.7.22: PYSEC-2026-4320"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "5 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "unknown",
+      "evidence": "no environment reads found"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "src/itglue_mcp/__main__.py:18"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "40 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "17 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "flag",
+      "evidence": "src/itglue_mcp/config.py:29 mcp_http_host: str = \"0.0.0.0\""
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

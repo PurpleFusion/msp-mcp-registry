@@ -1,65 +1,147 @@
 {
   "group": "connectwise-psa",
   "title": "ConnectWise PSA (Manage) MCP servers",
-  "vendorHosts": ["(^|\\.)myconnectwise\\.net$", "(^|\\.)connectwise\\.(com|net)$", "(^|\\.)connectwisedev\\.com$"],
+  "vendorHosts": [
+    "(^|\\.)myconnectwise\\.net$",
+    "(^|\\.)connectwise\\.(com|net)$",
+    "(^|\\.)connectwisedev\\.com$"
+  ],
   "candidates": [
     {
-      "id": "wyre-connectwise-manage", "name": "connectwise-manage-mcp", "maintainer": "WYRE Technology", "source": { "github": "WYRE-AI/connectwise-manage-mcp" },
+      "id": "wyre-connectwise-manage",
+      "name": "connectwise-manage-mcp",
+      "maintainer": "WYRE Technology",
+      "source": {
+        "github": "WYRE-AI/connectwise-manage-mcp"
+      },
       "notes": {
-        "confirmed": { "N1": "pass", "N3": "pass", "C2": "pass" },
+        "confirmed": {
+          "N1": "pass",
+          "N3": "pass",
+          "C2": "pass"
+        },
         "text": "- **N1:** the other hosts are Microsoft sign-in (`login.microsoftonline.com`), used only by its hosted HTTP mode, and two placeholder examples. Run locally over stdio, it talks to ConnectWise only.\n- **N3:** TLS checks are turned off only if you set `CW_MANAGE_REJECT_UNAUTHORIZED=false` (for a self-hosted server with a self-signed certificate), and only for that connection.\n- **C2:** the flagged lines log fixed messages, not secrets; `src/safe-error.ts` strips secrets from error text.\n- **Hosting:** WYRE's Claude Code plugin points at WYRE's hosted copy of this server by default. This assessment is of running the source yourself.\n- **S3:** the shipped lockfile pins versions with published advisories, including `@modelcontextprotocol/sdk` 1.31.0, `undici`, `fast-uri`, `qs` and `body-parser`."
       }
     },
     {
-      "id": "servosity-connectwise-manage", "name": "msp-skills connectwise-manage", "maintainer": "Servosity", "source": { "github": "Servosity/msp-skills", "path": "skills/connectwise-manage" },
+      "id": "servosity-connectwise-manage",
+      "name": "msp-skills connectwise-manage",
+      "maintainer": "Servosity",
+      "source": {
+        "github": "Servosity/msp-skills",
+        "path": "skills/connectwise-manage"
+      },
       "notes": {
-        "confirmed": { "P2": "unknown", "P3": "fail", "N1": "pass", "N2": "pass", "T4": "pass", "D2": "pass", "C3": "fail" },
-        "text": "- **P2, P3:** this connector has no release yet; the repo's tags are for its other connectors. Its release workflow builds binaries in CI and publishes SHA-256 checksums, but without build attestations, so a binary can't yet be shown to come from this source.\n- **N1, N2, T4:** the hits are an example host in another product's help text and code comments.\n- **D2:** each tool runs the project's own companion CLI binary directly (`exec.CommandContext`, no shell). That is its design, not a shell or code evaluation.\n- **C3 (confirmed):** keeps a local cache (files written with owner-only permissions) and a SQLite store of synced data under your user profile. The maintainer documents this.\n- **T1:** tools are generated at runtime from the CLI's command tree, so the 5 found in the source understate the real number by a long way. A read-only switch exists (`cli/internal/mcp/cobratree/classify.go`).\n- **S3:** `golang.org/x/mod` and `golang.org/x/sys` versions with Go advisories."
+        "confirmed": {
+          "P2": "unknown",
+          "P3": "fail",
+          "N1": "pass",
+          "N2": "pass",
+          "T2": "fail",
+          "T3": "fail",
+          "T4": "pass",
+          "D2": "pass",
+          "C3": "fail"
+        },
+        "text": "- **P2, P3:** this connector has no release yet; the repo's tags are for its other connectors. Its release workflow builds binaries in CI and publishes SHA-256 checksums, but without build attestations, so a binary can't yet be shown to come from this source.\n- **N1, N2, T4:** the hits are an example host in another product's help text and code comments.\n- **D2:** each tool runs the project's own companion CLI binary directly (`exec.CommandContext`, no shell). That is its design, not a shell or code evaluation.\n- **C3 (confirmed):** keeps a local cache (files written with owner-only permissions) and a SQLite store of synced data under your user profile. The maintainer documents this.\n- **T1:** tools are generated at runtime from the CLI's command tree, so the 5 found in the source understate the real number by a long way.\n- **T2, T3 (corrected 2026-11-02):** `connectwise-manage_execute` (`cli/internal/mcp/code_orch.go:43`) is always registered and calls any catalogued API endpoint by id, writes included, so no deny rule can make the server read-only. What the first version of this report took for a read-only switch (`cli/internal/mcp/cobratree/classify.go`) marks tools with read-only hints; it doesn't remove the execute tool.\n- **S3:** `golang.org/x/mod` and `golang.org/x/sys` versions with Go advisories."
       }
     },
     {
-      "id": "mspstack-connectwise-psa", "name": "mcp-connectwise-psa", "maintainer": "mspstack", "source": { "github": "mspstack/mcp-connectwise-psa" },
+      "id": "mspstack-connectwise-psa",
+      "name": "mcp-connectwise-psa",
+      "maintainer": "mspstack",
+      "source": {
+        "github": "mspstack/mcp-connectwise-psa"
+      },
       "notes": {
-        "confirmed": { "C2": "pass", "C3": "pass", "T4": "pass", "D1": "pass" },
+        "confirmed": {
+          "C2": "pass",
+          "C3": "pass",
+          "T4": "pass",
+          "D1": "pass"
+        },
         "text": "- **C2:** the flagged line logs an unknown toolset name, not a secret.\n- **C3:** the only file it writes is its library of saved SQL queries (query text, no credentials or results).\n- **T4:** the server instructions give SQL guidance (\"always use TOP and a WHERE clause\"), which is usage advice, not an attempt to steer the model elsewhere.\n- **D1:** HTTP mode listens on all interfaces, but every request must carry the caller's own ConnectWise keys; there is no shared credential to borrow.\n- **Optional SQL toolset (on-prem only):** when `CW_DB_*` is configured, `cw_db_query` reads the whole Manage database through one server-wide read-only login, bypassing each member's ConnectWise permissions, and it is in the default tool selection. The README says so plainly. Leave `CW_DB_*` unset unless you need it.\n- Only one destructive tool (`cw_delete_schedule_entry`); finance is read-only. Published to npm with a provenance attestation.\n- **S3:** the shipped lockfile pins about 40 versions with advisories, including `@modelcontextprotocol/sdk` 1.29.0, `@hono/node-server` and `@azure/msal-node`."
       }
     },
     {
-      "id": "mfrostbutter-connectwise", "name": "connectwise-mcp (PyPI)", "maintainer": "Mfrostbutter", "source": { "github": "Mfrostbutter/connectwise-mcp" },
+      "id": "mfrostbutter-connectwise",
+      "name": "connectwise-mcp (PyPI)",
+      "maintainer": "Mfrostbutter",
+      "source": {
+        "github": "Mfrostbutter/connectwise-mcp"
+      },
       "notes": {
-        "confirmed": { "P2": "unknown", "P3": "pass", "D1": "fail" },
+        "confirmed": {
+          "P2": "unknown",
+          "P3": "pass",
+          "D1": "fail-default"
+        },
         "text": "- **P2, P3:** published to PyPI as `connectwise-mcp` 0.1.0 (the script checks npm only). The PyPI release isn't checked here for a provenance attestation.\n- **D1 (confirmed):** the default transport is HTTP on all interfaces, port 8085 (`server.py:2201`). Authentication applies only if `MCP_AUTH_TOKEN` is set, so with the defaults anyone who can reach that port on your network uses your ConnectWise API keys. Set `MCP_TRANSPORT=stdio`, which is how Tabby9 would run it.\n- Single maintainer, one release (0.1.0), no git tags, no lockfile."
       }
     },
     {
-      "id": "houstontechsys-connectwise", "name": "connectwise-mcp-server (npm)", "maintainer": "houstontechsys", "source": { "npm": "connectwise-mcp-server" },
+      "id": "houstontechsys-connectwise",
+      "name": "connectwise-mcp-server (npm)",
+      "maintainer": "houstontechsys",
+      "source": {
+        "npm": "connectwise-mcp-server"
+      },
       "notes": {
         "text": "- No flags. Published to npm only (1.0.0, July 2026); there is no public source repository, so what's in the package can't be compared with source (P2).\n- npm packages rarely ship a lockfile, so S1/S3 can't pass for any npm-only package: dependencies resolve on the day you install."
       }
     },
     {
-      "id": "alfe-connectwise-psa", "name": "@alfe.ai/connectwise-psa-mcp", "maintainer": "Alfe (kevupton)", "source": { "npm": "@alfe.ai/connectwise-psa-mcp" },
+      "id": "alfe-connectwise-psa",
+      "name": "@alfe.ai/connectwise-psa-mcp",
+      "maintainer": "Alfe (kevupton)",
+      "source": {
+        "npm": "@alfe.ai/connectwise-psa-mcp"
+      },
       "notes": {
-        "confirmed": { "N1": "fail", "C1": "fail", "D1": "pass" },
+        "confirmed": {
+          "N1": "fail",
+          "C1": "fail",
+          "D1": "pass"
+        },
         "text": "- **N1, C1 (confirmed):** every ConnectWise call goes through Alfe's API (`@alfe.ai/agent-api-client`, URL from `alfe login`). Your ConnectWise credentials are stored in Alfe's \"Connections\", not on your machine, so Alfe sees credentials and data.\n- **D1:** `0.0.0.0` appears in a blocklist of private address ranges, not a listener; the server runs over stdio only.\n- Licence is `UNLICENSED` (no right to use granted), which caps the score."
       }
     },
     {
-      "id": "jasondsmith72-cwm-gateway", "name": "CWM-API-Gateway-MCP", "maintainer": "jasondsmith72", "source": { "github": "jasondsmith72/CWM-API-Gateway-MCP" },
+      "id": "jasondsmith72-cwm-gateway",
+      "name": "CWM-API-Gateway-MCP",
+      "maintainer": "jasondsmith72",
+      "source": {
+        "github": "jasondsmith72/CWM-API-Gateway-MCP"
+      },
       "notes": {
-        "confirmed": { "C3": "fail" },
+        "confirmed": {
+          "C3": "fail"
+        },
         "text": "- **C3 (confirmed):** its \"fast memory\" saves queries, including request bodies, to a local SQLite file, so client data can land on disk.\n- **T3:** `execute_api_call` and `send_raw_api_request` send any method to any endpoint, so no deny rule can make it read-only.\n- No licence (caps the score). Last changed March 2025."
       }
     },
     {
-      "id": "taddiemason-connectwise", "name": "Connectwise-MCP-Server", "maintainer": "taddiemason", "source": { "github": "taddiemason/Connectwise-MCP-Server" },
+      "id": "taddiemason-connectwise",
+      "name": "Connectwise-MCP-Server",
+      "maintainer": "taddiemason",
+      "source": {
+        "github": "taddiemason/Connectwise-MCP-Server"
+      },
       "notes": {
-        "confirmed": { "C2": "pass", "D1": "pass" },
+        "confirmed": {
+          "C2": "pass",
+          "D1": "pass"
+        },
         "text": "- **C2:** the flagged line is help text showing how to generate a token.\n- **D1:** HTTP mode refuses to start without `MCP_AUTH_TOKEN` and checks a bearer token on every request.\n- Read-only by default: writes are off unless `CW_ENABLE_WRITES` names categories (`enabled_writes()`). Its write tools (e.g. `add_ticket_note`, `create_time_entry`) are registered behind that switch, which is why none were counted from the source."
       }
     },
     {
-      "id": "xssentials-connectwise", "name": "connectwise-mcp", "maintainer": "Xssentials", "source": { "github": "Xssentials/connectwise-mcp" },
+      "id": "xssentials-connectwise",
+      "name": "connectwise-mcp",
+      "maintainer": "Xssentials",
+      "source": {
+        "github": "Xssentials/connectwise-mcp"
+      },
       "notes": {
         "text": "- The README describes 23 read-only tools. Secrets are meant to come from 1Password (`op run`), which keeps them out of files.\n- Its API client is a second package installed from git without a pinned commit (`XssentialsAI/xssentials`), so what you get changes with that repo.\n- No licence (caps the score)."
       }

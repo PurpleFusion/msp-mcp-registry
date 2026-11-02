@@ -1,0 +1,156 @@
+{
+  "id": "ellswoau-itglue",
+  "name": "ITGlue-MCP",
+  "maintainer": "ellswoau",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/ellswoau/ITGlue-MCP",
+  "ref": "main",
+  "commit": "05d1a9b0ec682fe16b51ddfd36f281210d83f756",
+  "latestRelease": null,
+  "tools": [
+    "create_document",
+    "create_document_section",
+    "get_document",
+    "get_document_images",
+    "get_organization",
+    "get_related_items",
+    "itglue_config",
+    "list_document_folders",
+    "list_document_images",
+    "list_documents",
+    "list_organizations",
+    "publish_document",
+    "render_markdown_blocks",
+    "search_document_contents",
+    "search_documents",
+    "upload_document_file"
+  ],
+  "writeTools": [
+    "create_document",
+    "create_document_section",
+    "upload_document_file"
+  ],
+  "files": 18,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "fail",
+      "evidence": "no licence"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
+    },
+    {
+      "id": "P3",
+      "result": "fail",
+      "evidence": "0 git tags, 0 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-10-01"
+    },
+    {
+      "id": "P5",
+      "result": "fail",
+      "evidence": "1 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "fail",
+      "evidence": "no lockfile"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "unknown",
+      "evidence": "nothing locked to check"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "4 direct"
+    },
+    {
+      "id": "N1",
+      "result": "fail",
+      "evidence": "jsonapi.org (itglue_mcp/client.py:3), itg-prod-paperclip.s3.us-west-2.amazonaws.com (tests_sanity.py:352)"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "24 reads"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "itglue_mcp/server.py:175"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "16 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "3 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "flag",
+      "evidence": "itglue_mcp/server.py:211 host=args.host or \"0.0.0.0\","
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

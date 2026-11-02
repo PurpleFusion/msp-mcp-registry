@@ -132,8 +132,8 @@
     },
     {
       "id": "P2",
-      "result": "unknown",
-      "evidence": "published package has no provenance attestation; cannot show it matches the source"
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
     },
     {
       "id": "P3",
@@ -223,7 +223,7 @@
     {
       "id": "T2",
       "result": "pass",
-      "evidence": "read-only switch: src/api-client.ts:77"
+      "evidence": "read-only switch: src/tools/schedule.ts:20"
     },
     {
       "id": "T3",

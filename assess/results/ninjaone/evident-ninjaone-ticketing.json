@@ -1,0 +1,200 @@
+{
+  "id": "evident-ninjaone-ticketing",
+  "name": "NinjaOne-Ticketing-MCP-Server",
+  "maintainer": "Evident-Dev",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/Evident-Dev/NinjaOne-Ticketing-MCP-Server",
+  "ref": "master",
+  "commit": "49e2242c0dd13a4d51f7dd87457e6b87c1b69af4",
+  "latestRelease": null,
+  "tools": [
+    "ninja_alert_list",
+    "ninja_alert_reset",
+    "ninja_alert_summary",
+    "ninja_billing_add_ticket_product",
+    "ninja_billing_get_agreement",
+    "ninja_billing_get_invoice",
+    "ninja_billing_list_accounts",
+    "ninja_billing_list_agreements",
+    "ninja_billing_list_invoices",
+    "ninja_billing_list_products",
+    "ninja_billing_list_ticket_products",
+    "ninja_billing_list_ticket_time",
+    "ninja_contact_find",
+    "ninja_device_clear_maintenance",
+    "ninja_device_decommission",
+    "ninja_device_get",
+    "ninja_device_last_logged_on_user",
+    "ninja_device_list",
+    "ninja_device_list_activities",
+    "ninja_device_list_disks",
+    "ninja_device_list_os_patches",
+    "ninja_device_list_processors",
+    "ninja_device_list_services",
+    "ninja_device_list_software",
+    "ninja_device_list_volumes",
+    "ninja_device_reboot",
+    "ninja_device_set_maintenance",
+    "ninja_org_create",
+    "ninja_org_find",
+    "ninja_org_find_by_domain",
+    "ninja_org_get",
+    "ninja_org_list_locations",
+    "ninja_scangroup_get",
+    "ninja_scangroup_list",
+    "ninja_scangroup_upload_csv",
+    "ninja_system_auth_status",
+    "ninja_system_status",
+    "ninja_system_whoami",
+    "ninja_ticket_add_billable_time",
+    "ninja_ticket_add_comment",
+    "ninja_ticket_create",
+    "ninja_ticket_get",
+    "ninja_ticket_get_log",
+    "ninja_ticket_list_attributes",
+    "ninja_ticket_list_boards",
+    "ninja_ticket_list_for_board",
+    "ninja_ticket_list_forms",
+    "ninja_ticket_list_statuses",
+    "ninja_ticket_resolve",
+    "ninja_ticket_update",
+    "ninja_user_find",
+    "ninja_user_list"
+  ],
+  "writeTools": [
+    "ninja_alert_reset",
+    "ninja_billing_add_ticket_product",
+    "ninja_device_reboot",
+    "ninja_device_set_maintenance",
+    "ninja_org_create",
+    "ninja_scangroup_upload_csv",
+    "ninja_ticket_add_billable_time",
+    "ninja_ticket_add_comment",
+    "ninja_ticket_create",
+    "ninja_ticket_resolve",
+    "ninja_ticket_update"
+  ],
+  "files": 37,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "fail",
+      "evidence": "no licence"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
+    },
+    {
+      "id": "P3",
+      "result": "fail",
+      "evidence": "0 git tags, 0 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-10-22"
+    },
+    {
+      "id": "P5",
+      "result": "fail",
+      "evidence": "1 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "pass",
+      "evidence": "package-lock.json"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "fail",
+      "evidence": "@hono/node-server@1.19.14: GHSA-frvp-7c67-39w9, @hono/node-server@1.19.14: GHSA-rmxm-3fg6-px4f, @modelcontextprotocol/sdk@1.29.0: GHSA-22jm-h49p-29qw, @modelcontextprotocol/sdk@1.29.0: GHSA-46jr-4wx8-v453, @modelcontextprotocol/sdk@1.29.0: GHSA-6prh-2h8m-c8cw, @modelcontextprotocol/sdk@1.29.0: GHSA-6qxp-vccf-f47h, @modelcontextprotocol/sdk@1.29.0: GHSA-f897-62hf-6gxq, @modelcontextprotocol/sdk@1.29.0: GHSA-rvq5-wwqv-78pq, body-parser@2.2.2: GHSA-27r3-jxmh-p828, body-parser@2.2.2: GHSA-v422-hmwv-36x6, fast-uri@3.1.2: GHSA-333x-w4r6-6crp, fast-uri@3.1.2: GHSA-4c8g-83qw-93j6 (+44 more)"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "4 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "flag",
+      "evidence": "src/db.ts:42 : { rejectUnauthorized: false }"
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "6 reads"
+    },
+    {
+      "id": "C2",
+      "result": "flag",
+      "evidence": "src/index.ts:240 console.log(\"[tech-store] view the new tokens in Railway → Postgres → Data → technicians\"); | src/index.ts:251 console.warn(\"WARNING: No MCP_SHARED_SECRET, no DATABASE_URL, no NINJA_TECHNICIANS.\");"
+    },
+    {
+      "id": "C3",
+      "result": "flag",
+      "evidence": "src/user-oauth.ts:85 // Atomic write: writeFile to .tmp, then rename. Prevents partial writes from | src/user-oauth.ts:100 await fs.writeFile(temporaryPath, JSON.stringify(tokens, null, 2), { mode: 0o600 });"
+    },
+    {
+      "id": "C4",
+      "result": "fail",
+      "evidence": "no local stdio transport found"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "52 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "fail",
+      "evidence": "11 write tools; 11 don't start with a verb: ninja_alert_reset, ninja_billing_add_ticket_product, ninja_device_reboot, ninja_device_set_maintenance, ninja_org_create, ninja_scangroup_upload_csv, ninja_ticket_add_billable_time, ninja_ticket_add_comment"
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "flag",
+      "evidence": "src/index.ts:186 app.listen(config.port, async () => {"
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

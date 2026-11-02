@@ -1,0 +1,210 @@
+{
+  "id": "nsumner42-msp-mcp",
+  "name": "MSP-MCP (datto)",
+  "maintainer": "nsumner42",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/nsumner42/MSP-MCP",
+  "ref": "main",
+  "commit": "1d0dd9332a680d28cc5948057397d71070df9d22",
+  "latestRelease": null,
+  "tools": [
+    "account_summary",
+    "activity_log",
+    "add_record",
+    "approval_requests",
+    "asset_counts",
+    "attachment_logs",
+    "audit_events",
+    "block_device",
+    "bypass_greylisting",
+    "computer_groups",
+    "delete_greylisting_policy",
+    "delete_record",
+    "device_software",
+    "duplicate_assets",
+    "employee_assets",
+    "file_history",
+    "find_computers",
+    "find_devices",
+    "get_action",
+    "get_approval_request",
+    "get_asset",
+    "get_device",
+    "get_job",
+    "get_mab_account",
+    "get_message",
+    "get_records",
+    "greylist_report",
+    "greylisting_policies",
+    "held_messages",
+    "impersonation_logs",
+    "list_components",
+    "list_fields",
+    "list_filters",
+    "list_mab_accounts",
+    "list_nas",
+    "list_open_alerts",
+    "list_sites",
+    "list_zones",
+    "mab_add_macs",
+    "mab_remove_macs",
+    "organizations",
+    "permit_by_hash",
+    "permit_sender",
+    "propagation_status",
+    "release_held_messages",
+    "resolve_alert",
+    "run_quick_job",
+    "run_quick_job_many",
+    "search_action_log",
+    "search_assets",
+    "search_collection",
+    "search_devices",
+    "search_employees",
+    "search_messages",
+    "set_device_udf",
+    "udf_report",
+    "unblock_device",
+    "update_record",
+    "url_clicks",
+    "write_status"
+  ],
+  "writeTools": [
+    "activity_log",
+    "add_record",
+    "delete_greylisting_policy",
+    "delete_record",
+    "mab_add_macs",
+    "mab_remove_macs",
+    "release_held_messages",
+    "resolve_alert",
+    "run_quick_job",
+    "run_quick_job_many",
+    "set_device_udf",
+    "update_record",
+    "write_status"
+  ],
+  "files": 29,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "fail",
+      "evidence": "no licence"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
+    },
+    {
+      "id": "P3",
+      "result": "fail",
+      "evidence": "0 git tags, 0 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-11-02"
+    },
+    {
+      "id": "P5",
+      "result": "fail",
+      "evidence": "1 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "pass",
+      "evidence": "uv.lock"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "fail",
+      "evidence": "certifi@2026.7.22: GHSA-6q48-6c7w-9gw2, certifi@2026.7.22: PYSEC-2026-4320"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "2 direct"
+    },
+    {
+      "id": "N1",
+      "result": "fail",
+      "evidence": "login.assetpanda.com (src/msp_mcp/assetpanda/client.py:31), api.cloudns.net (src/msp_mcp/cloudns/client.py:5), api.services.mimecast.com (src/msp_mcp/mimecast/client.py:5), clear.portnox.com (src/msp_mcp/portnox/client.py:6), portalapi.f.threatlocker.com (src/msp_mcp/threatlocker/client.py:33)"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "17 reads"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "flag",
+      "evidence": "src/msp_mcp/core/guard.py:39 with audit_path().open(\"a\", encoding=\"utf-8\") as f:"
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "src/msp_mcp/assetpanda/server.py:383"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "60 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "read-only switch: src/msp_mcp/crowdstrike/server.py:8"
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "n/a",
+      "evidence": ""
+    },
+    {
+      "id": "D2",
+      "result": "flag",
+      "evidence": "src/msp_mcp/core/credentials.py:19 import subprocess | src/msp_mcp/core/credentials.py:78 r = subprocess.run( | src/msp_mcp/core/credentials.py:82 creationflags=getattr(subprocess, \"CREATE_NO_WINDOW\", 0), | src/msp_mcp/core/credentials.py:84 except (OSError, subprocess.TimeoutExpired): | src/msp_mcp/crowdstrike/server.py:18 import subprocess"
+    }
+  ]
+}

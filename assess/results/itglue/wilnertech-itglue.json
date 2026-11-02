@@ -1,0 +1,172 @@
+{
+  "id": "wilnertech-itglue",
+  "name": "@wilnertech/itglue-mcp-server",
+  "maintainer": "WilnerTech",
+  "assessedOn": "2026-11-02",
+  "source": "https://www.npmjs.com/package/@wilnertech/itglue-mcp-server",
+  "version": "2.3.0",
+  "tarball": "https://registry.npmjs.org/@wilnertech/itglue-mcp-server/-/itglue-mcp-server-2.3.0.tgz",
+  "integrity": "sha512-AxUQgxGajnKUAXiJSjX+ZBHbbIDeAtRfVx7R8v/mvIXYa6ysiqRzuypURfienPOw3C9St0Qkxk8SxbBmfA/fkA==",
+  "tools": [
+    "audit_itglue_document_against_standard",
+    "bulk_create_itglue",
+    "bulk_delete_itglue",
+    "bulk_update_itglue",
+    "get_itglue_batch",
+    "get_itglue_documentation_standard",
+    "itglue_deduplication",
+    "itglue_list_loaded_tools",
+    "itglue_load_tools",
+    "list_itglue_logs",
+    "list_itglue_reference_data",
+    "list_itglue_user_metrics",
+    "manage_itglue_attachments",
+    "manage_itglue_checklists",
+    "manage_itglue_compliant_document",
+    "manage_itglue_configuration_interfaces",
+    "manage_itglue_configurations",
+    "manage_itglue_contacts",
+    "manage_itglue_document_images",
+    "manage_itglue_document_sections",
+    "manage_itglue_documents",
+    "manage_itglue_exports",
+    "manage_itglue_flexible_asset_fields",
+    "manage_itglue_flexible_assets",
+    "manage_itglue_groups",
+    "manage_itglue_locations",
+    "manage_itglue_lookups",
+    "manage_itglue_organizations",
+    "manage_itglue_password_folders",
+    "manage_itglue_passwords",
+    "manage_itglue_related_items",
+    "manage_itglue_users"
+  ],
+  "writeTools": [
+    "bulk_create_itglue",
+    "bulk_delete_itglue",
+    "bulk_update_itglue"
+  ],
+  "files": 172,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "MIT"
+    },
+    {
+      "id": "P2",
+      "result": "unknown",
+      "evidence": "published package has no provenance attestation; cannot show it matches the source"
+    },
+    {
+      "id": "P3",
+      "result": "pass",
+      "evidence": "0 git tags, 6 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "fail",
+      "evidence": "last change 2026-05-13"
+    },
+    {
+      "id": "P5",
+      "result": "fail",
+      "evidence": "1 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "fail",
+      "evidence": "no lockfile"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "unknown",
+      "evidence": "nothing locked to check"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "3 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "4 reads"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "dist/index.js:10"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "32 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "3 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "flag",
+      "evidence": "dist/tools/documentation-standard.js:126 | Link | \\`<a href=\"...\" target=\"_blank\">Link Text</a>\\` | All URLs. **Never use raw URLs.** Always use descriptive link text. |"
+    },
+    {
+      "id": "D1",
+      "result": "n/a",
+      "evidence": ""
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

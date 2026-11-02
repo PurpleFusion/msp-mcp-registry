@@ -1,0 +1,160 @@
+{
+  "id": "wyre-datto-rmm",
+  "name": "datto-rmm-mcp",
+  "maintainer": "WYRE Technology",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/WYRE-AI/datto-rmm-mcp",
+  "ref": "v1.10.1",
+  "commit": "dd0633d9454f84257c42734e2c3bba067be1c03d",
+  "latestRelease": {
+    "tag": "v1.10.1",
+    "date": "2026-10-14"
+  },
+  "tools": [
+    "datto_find_device",
+    "datto_get_alert",
+    "datto_get_device",
+    "datto_get_device_audit",
+    "datto_get_device_patches",
+    "datto_get_job",
+    "datto_get_job_components",
+    "datto_get_job_results",
+    "datto_get_job_stderr",
+    "datto_get_job_stdout",
+    "datto_get_site",
+    "datto_get_site_patches",
+    "datto_list_alerts",
+    "datto_list_components",
+    "datto_list_devices",
+    "datto_list_sites",
+    "datto_resolve_alert",
+    "datto_run_quickjob"
+  ],
+  "writeTools": [
+    "datto_resolve_alert",
+    "datto_run_quickjob"
+  ],
+  "files": 37,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "Apache-2.0"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
+    },
+    {
+      "id": "P3",
+      "result": "pass",
+      "evidence": "40 git tags, 0 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-11-02"
+    },
+    {
+      "id": "P5",
+      "result": "pass",
+      "evidence": "5 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "pass",
+      "evidence": "package-lock.json"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "fail",
+      "evidence": "@modelcontextprotocol/sdk@1.31.0: GHSA-22jm-h49p-29qw, @modelcontextprotocol/sdk@1.31.0: GHSA-46jr-4wx8-v453, @modelcontextprotocol/sdk@1.31.0: GHSA-6prh-2h8m-c8cw, @modelcontextprotocol/sdk@1.31.0: GHSA-rvq5-wwqv-78pq, body-parser@2.3.0: GHSA-27r3-jxmh-p828, fast-uri@3.1.8: GHSA-333x-w4r6-6crp, fast-uri@3.1.8: GHSA-w74x-v6f9-j3xg, fast-uri@3.1.8: GHSA-wjr9-j795-jxcr, fast-uri@3.1.8: GHSA-xhq7-xmqj-769h, ip-address@10.7.2: GHSA-rxp7-6hxx-x8q5, proxy-addr@2.0.7: GHSA-jqcg-44mw-7w3h, qs@6.16.0: GHSA-6pq8-jhm2-2vcw (+1 more)"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "2 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "16 reads"
+    },
+    {
+      "id": "C2",
+      "result": "flag",
+      "evidence": "src/index.ts:89 console.error(PLACEHOLDER_S2S_SECRET_ERROR);"
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "src/index.ts:20"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "18 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "2 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "flag",
+      "evidence": "src/index.ts:112 return configured || \"0.0.0.0\";"
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

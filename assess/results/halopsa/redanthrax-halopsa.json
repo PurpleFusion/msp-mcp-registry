@@ -1,0 +1,138 @@
+{
+  "id": "redanthrax-halopsa",
+  "name": "halopsa-mcp",
+  "maintainer": "redanthrax (Sumerian Software)",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/redanthrax/halopsa-mcp",
+  "ref": "v1.0.32",
+  "commit": "1ed19dd71459cda37c3859f5834d3b9324da1e1c",
+  "latestRelease": {
+    "tag": "v1.0.32",
+    "date": "2026-07-23"
+  },
+  "tools": [],
+  "writeTools": [],
+  "files": 258,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "MIT"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
+    },
+    {
+      "id": "P3",
+      "result": "pass",
+      "evidence": "18 git tags, 0 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-10-29"
+    },
+    {
+      "id": "P5",
+      "result": "pass",
+      "evidence": "3 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "pass",
+      "evidence": "SECURITY.md"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "pass",
+      "evidence": "packages.lock.json"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "unknown",
+      "evidence": "nothing locked to check"
+    },
+    {
+      "id": "S4",
+      "result": "unknown",
+      "evidence": ""
+    },
+    {
+      "id": "N1",
+      "result": "fail",
+      "evidence": "claude.ai (Modules/Common/Security/McpCorsConfiguration.cs:10)"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "22 reads"
+    },
+    {
+      "id": "C2",
+      "result": "flag",
+      "evidence": "Modules/Authentication/Endpoints/CallbackEndpoint.cs:117 logger.LogError(ex, \"OAuth callback token exchange error\"); | Modules/Authentication/Endpoints/TokenExchangeEndpoint.cs:85 logger.LogWarning(\"Token rejected — client_id mismatch | codeHint={CodeHint}\", | Modules/Authentication/Endpoints/TokenExchangeEndpoint.cs:98 logger.LogWarning(\"Token rejected — redirect_uri mismatch | codeHint={CodeHint}\", | Modules/Authentication/Endpoints/TokenExchangeEndpoint.cs:118 logger.LogWarning(\"Token rejected — PKCE mismatch | codeHint={CodeHint}\", | Modules/Authentication/Services/FileTokenStore.cs:62 _logger.LogWarning(ex, \"Could not start token-file watcher; cross-process token sync disabled\");"
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "Program.cs:213"
+    },
+    {
+      "id": "T1",
+      "result": "fail",
+      "evidence": "0 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "unknown",
+      "evidence": "0 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "unknown",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "flag",
+      "evidence": "Modules/Common/Models/HaloPsaSchema.cs:14 \"WORKFLOW: When you don't know which table or column holds a concept, ALWAYS call halopsa_db_search FIRST (e.g. db_search('elapsed'), db_search('contract hours' | Modules/Mcp/HaloPsaMcpConstants.cs:191 Get the HaloPSA database schema cheat sheet plus live lookup IDs (statuses, agents). ALWAYS call this before writing SQL. Returns key tables, common joins, and  | Modules/Mcp/HaloPsaMcpConstants.cs:201 Check the current authentication status with HaloPSA. ALWAYS call this first when the user asks anything about HaloPSA data. Times out after 10 seconds if HaloP | Modules/Mcp/McpSessionInstructions.cs:52 On this first connection you must help the user sign in before any other HaloPSA tool:"
+    },
+    {
+      "id": "D1",
+      "result": "pass",
+      "evidence": "Modules/Mcp/BrowserLauncher.cs:10 Process.Start(\"open\", url); | Modules/Mcp/BrowserLauncher.cs:19 Process.Start(\"xdg-open\", url); | Modules/Mcp/DesktopLoginBootstrapService.cs:8 /// Desktop stdio mode: when no HaloPSA session exists, open the login page once Kestrel is up. | Program.cs:99 builder.WebHost.ConfigureKestrel(options => {"
+    },
+    {
+      "id": "D2",
+      "result": "flag",
+      "evidence": "Modules/Mcp/BrowserLauncher.cs:10 Process.Start(\"open\", url); | Modules/Mcp/BrowserLauncher.cs:15 Process.Start(new ProcessStartInfo(url) { UseShellExecute = true }); | Modules/Mcp/BrowserLauncher.cs:19 Process.Start(\"xdg-open\", url);"
+    }
+  ]
+}

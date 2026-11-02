@@ -1,0 +1,278 @@
+{
+  "id": "jamesdeane2-itglue",
+  "name": "mcp-itglue (Python)",
+  "maintainer": "jamesdeane2",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/jamesdeane2/mcp-itglue",
+  "ref": "main",
+  "commit": "b4e56ca8d288f3abced8b8d0c9e54249b95f2b3e",
+  "latestRelease": null,
+  "tools": [
+    "browser_close",
+    "browser_keep_open",
+    "browser_status",
+    "complete_checklist",
+    "complete_checklist_task_jwt",
+    "create_checklist_from_template_jwt",
+    "create_checklist_jwt",
+    "create_checklist_task_jwt",
+    "create_configuration",
+    "create_contact",
+    "create_document",
+    "create_document_jwt",
+    "create_flexible_asset",
+    "create_location",
+    "create_organization",
+    "create_password",
+    "create_related_item",
+    "delete_checklist_task_jwt",
+    "delete_checklists",
+    "delete_contact",
+    "delete_document",
+    "delete_flexible_asset",
+    "delete_location",
+    "delete_password",
+    "delete_related_items",
+    "get_all_reference_data",
+    "get_checklist",
+    "get_checklist_template",
+    "get_configuration",
+    "get_configuration_relationships",
+    "get_contact",
+    "get_contact_relationships",
+    "get_document",
+    "get_document_folder",
+    "get_domain",
+    "get_flexible_asset",
+    "get_flexible_asset_relationships",
+    "get_flexible_asset_type",
+    "get_location",
+    "get_organization",
+    "get_organization_checklists",
+    "get_organization_documents",
+    "get_organization_domains",
+    "get_organization_flexible_assets",
+    "get_organization_locations",
+    "get_password",
+    "jwt_clear_token",
+    "jwt_token_status",
+    "list_checklist_templates",
+    "list_checklists",
+    "list_configuration_statuses",
+    "list_configuration_types",
+    "list_configurations",
+    "list_contact_types",
+    "list_contacts",
+    "list_countries",
+    "list_document_folders",
+    "list_documents",
+    "list_domains",
+    "list_expiring_domains",
+    "list_flexible_asset_fields",
+    "list_flexible_asset_types",
+    "list_flexible_assets",
+    "list_incomplete_checklists",
+    "list_locations",
+    "list_manufacturers",
+    "list_models",
+    "list_operating_systems",
+    "list_organization_statuses",
+    "list_organization_types",
+    "list_organizations",
+    "list_password_categories",
+    "list_passwords",
+    "list_regions",
+    "list_related_items",
+    "search_configurations",
+    "search_contacts",
+    "search_documents",
+    "search_domains",
+    "search_flexible_assets",
+    "search_locations",
+    "search_manufacturers",
+    "search_models",
+    "search_operating_systems",
+    "search_organizations",
+    "search_passwords",
+    "session_browser_close",
+    "session_browser_keep_open",
+    "session_browser_status",
+    "session_clear",
+    "session_status",
+    "uncomplete_checklist",
+    "uncomplete_checklist_task_jwt",
+    "update_checklist",
+    "update_checklist_task_jwt",
+    "update_configuration",
+    "update_contact",
+    "update_document",
+    "update_document_jwt",
+    "update_flexible_asset",
+    "update_location",
+    "update_organization",
+    "update_password",
+    "update_related_item",
+    "upload_file_to_itglue"
+  ],
+  "writeTools": [
+    "browser_close",
+    "complete_checklist",
+    "complete_checklist_task_jwt",
+    "create_checklist_from_template_jwt",
+    "create_checklist_jwt",
+    "create_checklist_task_jwt",
+    "create_configuration",
+    "create_contact",
+    "create_document",
+    "create_document_jwt",
+    "create_flexible_asset",
+    "create_location",
+    "create_organization",
+    "create_password",
+    "create_related_item",
+    "delete_checklist_task_jwt",
+    "delete_checklists",
+    "delete_contact",
+    "delete_document",
+    "delete_flexible_asset",
+    "delete_location",
+    "delete_password",
+    "delete_related_items",
+    "session_browser_close",
+    "update_checklist",
+    "update_checklist_task_jwt",
+    "update_configuration",
+    "update_contact",
+    "update_document",
+    "update_document_jwt",
+    "update_flexible_asset",
+    "update_location",
+    "update_organization",
+    "update_password",
+    "update_related_item",
+    "upload_file_to_itglue"
+  ],
+  "files": 35,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "MIT"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
+    },
+    {
+      "id": "P3",
+      "result": "fail",
+      "evidence": "0 git tags, 0 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-10-19"
+    },
+    {
+      "id": "P5",
+      "result": "pass",
+      "evidence": "3 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "pass",
+      "evidence": "uv.lock"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "fail",
+      "evidence": "certifi@2026.1.4: GHSA-6q48-6c7w-9gw2, certifi@2026.1.4: PYSEC-2026-4320"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "0 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "unknown",
+      "evidence": "no environment reads found"
+    },
+    {
+      "id": "C2",
+      "result": "flag",
+      "evidence": "capture_jwt_token.py:25 print(\"IT Glue JWT Token Capture\") | capture_jwt_token.py:31 print(f\"\\nExisting token found:\") | capture_jwt_token.py:37 print(\"Using existing token.\") | capture_jwt_token.py:49 print(\"Token captured successfully!\") | capture_jwt_token.py:50 print(f\"  User: {token.email}\")"
+    },
+    {
+      "id": "C3",
+      "result": "flag",
+      "evidence": "src/mcp_itglue/jwt_auth.py:130 with open(TOKEN_CACHE_FILE, \"w\") as f: | src/mcp_itglue/session_auth.py:92 with open(SESSION_CACHE_FILE, \"w\") as f: | src/mcp_itglue/tools/output.py:83 with open(filepath, \"w\") as f:"
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "src/mcp_itglue/server.py:91"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "105 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "fail",
+      "evidence": "36 write tools; 1 don't start with a verb: session_browser_close"
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "n/a",
+      "evidence": ""
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

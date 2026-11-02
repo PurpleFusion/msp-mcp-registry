@@ -1,0 +1,188 @@
+{
+  "id": "witsecops-itglue",
+  "name": "@wit-secops/itglue-mcp",
+  "maintainer": "WIT-SecOps",
+  "assessedOn": "2026-11-02",
+  "source": "https://www.npmjs.com/package/@wit-secops/itglue-mcp",
+  "version": "1.11.0",
+  "tarball": "https://registry.npmjs.org/@wit-secops/itglue-mcp/-/itglue-mcp-1.11.0.tgz",
+  "integrity": "sha512-mSGkEa7pJ7I4/51SdZKE/gqwEBQET14PeOcOOJH5CszkzpAdgvFhbBHrta1Fj7/F49IR9tA5nAClqjjwMtSkKg==",
+  "tools": [
+    "itglue_create_configuration",
+    "itglue_create_configuration_interface",
+    "itglue_create_contact",
+    "itglue_create_document",
+    "itglue_create_document_section",
+    "itglue_create_flexible_asset",
+    "itglue_create_related_items",
+    "itglue_delete_configurations",
+    "itglue_delete_contacts",
+    "itglue_delete_document_section",
+    "itglue_delete_documents",
+    "itglue_delete_flexible_assets",
+    "itglue_delete_related_items",
+    "itglue_get_document",
+    "itglue_get_document_section",
+    "itglue_index_documents",
+    "itglue_index_status",
+    "itglue_list_document_sections",
+    "itglue_list_documents",
+    "itglue_list_related_items",
+    "itglue_publish_document",
+    "itglue_search_documents",
+    "itglue_update_configuration",
+    "itglue_update_configuration_interface",
+    "itglue_update_contact",
+    "itglue_update_document",
+    "itglue_update_document_section",
+    "itglue_update_flexible_asset",
+    "itglue_update_flexible_assets",
+    "itglue_update_related_item"
+  ],
+  "writeTools": [
+    "itglue_create_configuration",
+    "itglue_create_configuration_interface",
+    "itglue_create_contact",
+    "itglue_create_document",
+    "itglue_create_document_section",
+    "itglue_create_flexible_asset",
+    "itglue_create_related_items",
+    "itglue_delete_configurations",
+    "itglue_delete_contacts",
+    "itglue_delete_document_section",
+    "itglue_delete_documents",
+    "itglue_delete_flexible_assets",
+    "itglue_delete_related_items",
+    "itglue_update_configuration",
+    "itglue_update_configuration_interface",
+    "itglue_update_contact",
+    "itglue_update_document",
+    "itglue_update_document_section",
+    "itglue_update_flexible_asset",
+    "itglue_update_flexible_assets",
+    "itglue_update_related_item"
+  ],
+  "files": 125,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "MIT"
+    },
+    {
+      "id": "P2",
+      "result": "unknown",
+      "evidence": "published package has no provenance attestation; cannot show it matches the source"
+    },
+    {
+      "id": "P3",
+      "result": "pass",
+      "evidence": "0 git tags, 13 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-10-30"
+    },
+    {
+      "id": "P5",
+      "result": "fail",
+      "evidence": "1 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "fail",
+      "evidence": "no lockfile"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "unknown",
+      "evidence": "nothing locked to check"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "3 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "4 reads"
+    },
+    {
+      "id": "C2",
+      "result": "flag",
+      "evidence": "dist/index.js:118 console.error(\"Warning: --api-key is visible in process listings; prefer the ITGLUE_API_KEY environment variable.\");"
+    },
+    {
+      "id": "C3",
+      "result": "flag",
+      "evidence": "dist/services/index/store.js:18 await fs.writeFile(tmp, payload, { mode: 0o600 });"
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "dist/index.js:5"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "30 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "read-only switch: dist/index.js:78"
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "pass",
+      "evidence": "dist/index.js:145 function createServer(config) { | dist/index.js:180 const server = createServer(config);"
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

@@ -151,7 +151,7 @@
     {
       "id": "C4",
       "result": "pass",
-      "evidence": "connectwise_mcp.py:1552"
+      "evidence": "connectwise_mcp.py:1529"
     },
     {
       "id": "T1",
@@ -161,7 +161,7 @@
     {
       "id": "T2",
       "result": "pass",
-      "evidence": "0 write tools; 0 don't start with a verb: "
+      "evidence": "read-only switch: connectwise_mcp.py:66"
     },
     {
       "id": "T3",

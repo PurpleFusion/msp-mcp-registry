@@ -1,0 +1,135 @@
+{
+  "id": "lcleveland-ninjaone",
+  "name": "ninjaone-mcp",
+  "maintainer": "lcleveland",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/lcleveland/ninjaone-mcp",
+  "ref": "main",
+  "commit": "4118a1c188493529fcf461555a95cd291f02a0c2",
+  "latestRelease": null,
+  "tools": [],
+  "writeTools": [],
+  "files": 42,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "MIT"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
+    },
+    {
+      "id": "P3",
+      "result": "fail",
+      "evidence": "0 git tags, 0 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-10-30"
+    },
+    {
+      "id": "P5",
+      "result": "pass",
+      "evidence": "2 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "pass",
+      "evidence": "go.sum"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "pass",
+      "evidence": "12 locked packages, none with known vulnerabilities"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "2 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "1 reads"
+    },
+    {
+      "id": "C2",
+      "result": "flag",
+      "evidence": "internal/server/http.go:78 log.Info(\"user signed in: script runs and ticket writes now use their token\") | internal/server/http.go:94 log.Info(\"listening\", \"addr\", cfg.Addr, \"path\", cfg.Path, \"authenticated\", cfg.HTTPAuthToken != \"\")"
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "cmd/ninjaone-mcp/main.go:59"
+    },
+    {
+      "id": "T1",
+      "result": "fail",
+      "evidence": "0 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "unknown",
+      "evidence": "0 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "unknown",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "pass",
+      "evidence": "internal/server/http.go:95 err := srv.ListenAndServe()"
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

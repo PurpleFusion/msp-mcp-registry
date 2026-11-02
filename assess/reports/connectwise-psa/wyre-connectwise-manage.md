@@ -6,14 +6,14 @@
 | Source | https://github.com/WYRE-AI/connectwise-manage-mcp |
 | Assessed at | `v1.15.11` — commit `cdb17bdaeee6ed65c5cf627f04ae7c3ff0ae07d6` |
 | Date | 2026-11-02 |
-| Score | **89/100** |
+| Score | **93/100** |
 
 > Desk assessment under [ASSESSMENT.md](../../../ASSESSMENT.md): source read by `scripts/assess.js`, flagged items checked by a person. Nothing was run. It applies to the commit or version above only.
 
 | # | Check | Result | Evidence |
 |---|---|---|---|
 | P1 | Commercial-use licence | ✅ | Apache-2.0 |
-| P2 | Install provably built from source | ❔ | published package has no provenance attestation; cannot show it matches the source |
+| P2 | Install provably built from source | ✅ | installed from a pinned commit |
 | P3 | Versioned releases | ✅ | 51 git tags, 0 published versions |
 | P4 | Changed in last 90 days | ✅ | last change 2026-10-29 |
 | P5 | More than one contributor | ✅ | 13 contributor(s) |
@@ -31,7 +31,7 @@
 | C3 | Nothing written to disk | ✅ |  |
 | C4 | Runs locally (stdio) | ✅ | src/index.ts:48 |
 | T1 | Tool list readable | ✅ | 84 tools found |
-| T2 | Read-only possible | ✅ | read-only switch: src/api-client.ts:77 |
+| T2 | Read-only possible | ✅ | read-only switch: src/tools/schedule.ts:20 |
 | T3 | No arbitrary-request tool | ✅ |  |
 | T4 | Descriptions don't steer the model | ✅ |  |
 | D1 | HTTP mode safe | ✅ | src/index.ts:204 httpServer = createServer((req: IncomingMessage, res: ServerResponse) => { \| src/index.ts:441 httpServer!.listen(port, host, () => { |
