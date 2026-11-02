@@ -1,0 +1,162 @@
+{
+  "id": "xssentials-connectwise",
+  "name": "connectwise-mcp",
+  "maintainer": "Xssentials",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/Xssentials/connectwise-mcp",
+  "ref": "main",
+  "commit": "b73f4478dd6dfff15bf713b091955e65ce3a5223",
+  "latestRelease": null,
+  "tools": [
+    "cw_ar_aging",
+    "cw_company",
+    "cw_configurations",
+    "cw_create_member",
+    "cw_expense_reports",
+    "cw_find",
+    "cw_inventory",
+    "cw_invoice_list",
+    "cw_invoice_lookup",
+    "cw_opportunity_status",
+    "cw_pick_ship_status",
+    "cw_ping",
+    "cw_product_catalog",
+    "cw_project_list",
+    "cw_project_status",
+    "cw_purchase_approvals",
+    "cw_purchasing_status",
+    "cw_query",
+    "cw_report",
+    "cw_sales_orders",
+    "cw_schedule_entries",
+    "cw_service_tickets",
+    "cw_ticket_detail",
+    "cw_time_entries"
+  ],
+  "writeTools": [
+    "cw_create_member"
+  ],
+  "files": 9,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "fail",
+      "evidence": "no licence"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
+    },
+    {
+      "id": "P3",
+      "result": "fail",
+      "evidence": "0 git tags, 0 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-09-02"
+    },
+    {
+      "id": "P5",
+      "result": "fail",
+      "evidence": "1 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "fail",
+      "evidence": "no lockfile"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "unknown",
+      "evidence": "nothing locked to check"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "2 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "2 reads"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "connectwise_mcp/__main__.py:2948"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "24 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "1 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "n/a",
+      "evidence": ""
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

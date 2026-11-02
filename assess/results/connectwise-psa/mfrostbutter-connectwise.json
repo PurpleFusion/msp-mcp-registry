@@ -1,0 +1,194 @@
+{
+  "id": "mfrostbutter-connectwise",
+  "name": "connectwise-mcp (PyPI)",
+  "maintainer": "Mfrostbutter",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/Mfrostbutter/connectwise-mcp",
+  "ref": "main",
+  "commit": "15d3794c703bfdc613466abf601071a8170c5f90",
+  "latestRelease": null,
+  "tools": [
+    "add_agreement_addition",
+    "add_project_note",
+    "add_project_phase",
+    "add_ticket_note",
+    "create_agreement",
+    "create_opportunity",
+    "create_project",
+    "create_ticket",
+    "get_aging_invoices",
+    "get_agreement",
+    "get_agreement_additions",
+    "get_agreement_count_by_type",
+    "get_agreement_types",
+    "get_agreements",
+    "get_board_statuses",
+    "get_boards",
+    "get_client_mrr",
+    "get_company",
+    "get_company_statuses",
+    "get_company_types",
+    "get_configuration",
+    "get_configuration_statuses",
+    "get_configurations",
+    "get_contacts",
+    "get_invoice",
+    "get_invoices",
+    "get_members",
+    "get_open_tickets",
+    "get_opportunities",
+    "get_priorities",
+    "get_project_statuses",
+    "get_project_tickets",
+    "get_projects",
+    "get_ticket",
+    "get_ticket_count",
+    "get_ticket_time",
+    "get_time_entries",
+    "get_work_types",
+    "log_time",
+    "search_companies",
+    "search_cw_kb_articles",
+    "search_tickets",
+    "update_agreement",
+    "update_project",
+    "update_ticket_status"
+  ],
+  "writeTools": [
+    "add_agreement_addition",
+    "add_project_note",
+    "add_project_phase",
+    "add_ticket_note",
+    "create_agreement",
+    "create_opportunity",
+    "create_project",
+    "create_ticket",
+    "log_time",
+    "update_agreement",
+    "update_project",
+    "update_ticket_status"
+  ],
+  "files": 8,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "MIT"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
+    },
+    {
+      "id": "P3",
+      "result": "fail",
+      "evidence": "0 git tags, 0 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "fail",
+      "evidence": "last change 2026-06-21"
+    },
+    {
+      "id": "P5",
+      "result": "fail",
+      "evidence": "1 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "fail",
+      "evidence": "no lockfile"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "unknown",
+      "evidence": "nothing locked to check"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "2 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "7 reads"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "server.py:2198"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "45 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "12 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "flag",
+      "evidence": "server.py:2201 mcp.run(transport=\"http\", host=\"0.0.0.0\", port=port)"
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

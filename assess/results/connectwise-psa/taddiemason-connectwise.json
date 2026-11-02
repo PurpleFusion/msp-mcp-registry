@@ -1,0 +1,187 @@
+{
+  "id": "taddiemason-connectwise",
+  "name": "Connectwise-MCP-Server",
+  "maintainer": "taddiemason",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/taddiemason/Connectwise-MCP-Server",
+  "ref": "main",
+  "commit": "c0910076ef4a6976f7cbeda3dba51dfe90c4ae66",
+  "latestRelease": null,
+  "tools": [
+    "connectwise_get_activities",
+    "connectwise_get_agreement_additions",
+    "connectwise_get_agreements",
+    "connectwise_get_billing_cycles",
+    "connectwise_get_board_statuses",
+    "connectwise_get_board_subtypes",
+    "connectwise_get_board_teams",
+    "connectwise_get_board_types",
+    "connectwise_get_companies",
+    "connectwise_get_company",
+    "connectwise_get_company_note_types",
+    "connectwise_get_company_notes",
+    "connectwise_get_company_sites",
+    "connectwise_get_company_statuses",
+    "connectwise_get_company_teams",
+    "connectwise_get_company_types",
+    "connectwise_get_configuration",
+    "connectwise_get_configuration_types",
+    "connectwise_get_configurations",
+    "connectwise_get_contact",
+    "connectwise_get_contact_notes",
+    "connectwise_get_contact_types",
+    "connectwise_get_contacts",
+    "connectwise_get_departments",
+    "connectwise_get_documents",
+    "connectwise_get_expense_entries",
+    "connectwise_get_invoices",
+    "connectwise_get_manufacturers",
+    "connectwise_get_members",
+    "connectwise_get_opportunities",
+    "connectwise_get_product_catalog",
+    "connectwise_get_product_types",
+    "connectwise_get_products",
+    "connectwise_get_project_phases",
+    "connectwise_get_project_team_members",
+    "connectwise_get_project_tickets",
+    "connectwise_get_projects",
+    "connectwise_get_purchase_order_line_items",
+    "connectwise_get_purchase_orders",
+    "connectwise_get_schedule_entries",
+    "connectwise_get_service_boards",
+    "connectwise_get_slas",
+    "connectwise_get_ticket",
+    "connectwise_get_ticket_configurations",
+    "connectwise_get_ticket_notes",
+    "connectwise_get_ticket_priorities",
+    "connectwise_get_ticket_schedules",
+    "connectwise_get_ticket_sources",
+    "connectwise_get_ticket_tasks",
+    "connectwise_get_tickets",
+    "connectwise_get_time_entries"
+  ],
+  "writeTools": [],
+  "files": 21,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "MIT"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
+    },
+    {
+      "id": "P3",
+      "result": "fail",
+      "evidence": "0 git tags, 0 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-10-30"
+    },
+    {
+      "id": "P5",
+      "result": "pass",
+      "evidence": "2 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "fail",
+      "evidence": "no lockfile"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "unknown",
+      "evidence": "nothing locked to check"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "2 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "15 reads"
+    },
+    {
+      "id": "C2",
+      "result": "flag",
+      "evidence": "connectwise_mcp.py:1537 \"    python -c \\\"import secrets; print(secrets.token_urlsafe(32))\\\"\\n\""
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "connectwise_mcp.py:1552"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "51 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "0 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "flag",
+      "evidence": "connectwise_mcp.py:1546 uvicorn.run(build_http_app(), host=\"0.0.0.0\", port=port, log_level=\"info\")"
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

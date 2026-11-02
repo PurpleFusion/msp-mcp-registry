@@ -1,0 +1,151 @@
+{
+  "id": "jasondsmith72-cwm-gateway",
+  "name": "CWM-API-Gateway-MCP",
+  "maintainer": "jasondsmith72",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/jasondsmith72/CWM-API-Gateway-MCP",
+  "ref": "main",
+  "commit": "a34642e234a811cc8959d8a94d4912fe3cd4ff47",
+  "latestRelease": null,
+  "tools": [
+    "clear_fast_memory",
+    "delete_from_fast_memory",
+    "execute_api_call",
+    "get_api_endpoint_details",
+    "get_category_endpoints",
+    "list_api_categories",
+    "list_fast_memory",
+    "natural_language_api_search",
+    "save_to_fast_memory",
+    "search_api_endpoints",
+    "send_raw_api_request"
+  ],
+  "writeTools": [
+    "delete_from_fast_memory",
+    "execute_api_call",
+    "send_raw_api_request"
+  ],
+  "files": 31,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "fail",
+      "evidence": "UNLICENSED"
+    },
+    {
+      "id": "P2",
+      "result": "unknown",
+      "evidence": "published package has no provenance attestation; cannot show it matches the source"
+    },
+    {
+      "id": "P3",
+      "result": "fail",
+      "evidence": "0 git tags, 1 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "fail",
+      "evidence": "last change 2025-03-25"
+    },
+    {
+      "id": "P5",
+      "result": "fail",
+      "evidence": "1 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "fail",
+      "evidence": "no lockfile"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "unknown",
+      "evidence": "nothing locked to check"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "1 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "6 reads"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "flag",
+      "evidence": "api_gateway/api_db_utils.py:9 import sqlite3 | api_gateway/api_db_utils.py:24 self.conn = sqlite3.connect(self.db_path) | api_gateway/api_db_utils.py:26 self.conn.row_factory = sqlite3.Row | api_gateway/api_db_utils.py:344 db = APIDatabase(\"connectwise_api.db\") | api_gateway/fast_memory_db.py:10 import sqlite3"
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "api_gateway/server.py:710"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "11 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "3 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "fail",
+      "evidence": "execute_api_call, send_raw_api_request"
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "n/a",
+      "evidence": ""
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}
