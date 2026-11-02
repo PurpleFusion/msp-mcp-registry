@@ -3,10 +3,11 @@
   "$id": "https://purplefusion.com.au/schemas/msp-mcp-registry/v1",
   "title": "PurpleFusion MSP MCP Registry",
   "type": "object",
-  "required": ["schemaVersion", "updated", "reviewers", "servers"],
+  "required": ["schemaVersion", "serial", "updated", "reviewers", "servers"],
   "additionalProperties": false,
   "properties": {
     "schemaVersion": { "const": 1 },
+    "serial": { "type": "integer", "description": "Goes up by one every time the registry is signed. Tabby9 refuses a copy with a lower serial than one it has seen, so an old signed copy can't be replayed." },
     "updated": { "type": "string", "format": "date" },
     "reviewers": {
       "type": "array",
@@ -182,7 +183,21 @@
             "vendorDocs": { "type": "string", "format": "uri" }
           }
         },
-        "warnings": { "type": "array", "items": { "type": "string" } },
+        "warnings": {
+          "type": "array",
+          "description": "Facts about risk to the user, each with its source. Severity levels are defined in README.md.",
+          "items": {
+            "type": "object",
+            "required": ["severity", "risk", "detail"],
+            "additionalProperties": false,
+            "properties": {
+              "severity": { "enum": ["critical", "high", "medium", "low", "info"] },
+              "risk": { "type": "string", "maxLength": 80, "description": "The risk in a few words" },
+              "detail": { "type": "string", "maxLength": 400, "description": "What the server does, what could go wrong, and what to do about it. Facts only." },
+              "source": { "type": "string", "format": "uri", "description": "Where the fact comes from: the maintainer's docs or code" }
+            }
+          }
+        },
         "deprecated": { "type": "boolean", "default": false }
       },
       "allOf": [

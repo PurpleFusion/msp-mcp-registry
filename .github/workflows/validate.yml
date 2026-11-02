@@ -13,3 +13,4 @@ jobs:
           python-version: "3.12"
       - run: pip install jsonschema
       - run: python scripts/validate.py
+      - run: node scripts/sign.js --verify

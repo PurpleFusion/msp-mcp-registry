@@ -52,7 +52,7 @@ A server earns the **Reviewed** tier when a named reviewer has worked through ev
 
 ## 9. Verdict
 - [ ] Tier recommended: `reviewed` or stays `listed`, with one paragraph of reasoning.
-- [ ] `warnings` text finalised; it is what the user sees in Tabby9 before they click Install.
+- [ ] `warnings` finalised: each one a fact with a `source`, at the level defined in README.md (critical / high / medium / low / info). It is what the user sees in Tabby9 before they click Install.
 - [ ] `review.expires` set: 6 months, or sooner if the maintainer ships fast.
 - [ ] Reviewer has no undisclosed interest in the vendor or maintainer. If any, disclosed at the top of the review and a second reviewer signs off.
 

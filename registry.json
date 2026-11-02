@@ -1,5 +1,6 @@
 {
   "schemaVersion": 1,
+  "serial": 1,
   "updated": "2026-11-02",
   "reviewers": [
     {
@@ -16,7 +17,7 @@
       "name": "Pax8",
       "vendor": "Pax8",
       "category": "distribution",
-      "description": "Pax8 marketplace: subscriptions, products, companies and billing, via Pax8's official hosted MCP server.",
+      "description": "Pax8 marketplace: companies, product catalogue, subscriptions, orders and invoices, via Pax8's own hosted MCP server.",
       "tier": "listed",
       "maintainer": {
         "name": "Pax8",
@@ -28,39 +29,69 @@
         "marketplace": "WYRE-AI/msp-claude-plugins",
         "plugin": "pax8"
       },
+      "server": {
+        "transport": "http",
+        "url": "https://mcp.pax8.com/v1/mcp",
+        "hostedBy": "Pax8",
+        "headers": {
+          "x-pax8-mcp-token": "${PAX8_MCP_TOKEN}"
+        }
+      },
       "credentials": [
         {
           "env": "PAX8_MCP_TOKEN",
           "label": "Pax8 MCP token",
           "type": "token",
-          "help": "Generated in the Pax8 Platform under integrations",
-          "leastPrivilege": "Read-only token unless you need ordering"
+          "help": "Pax8 Partner Portal > Integrations > MCP (app.pax8.com/integrations/mcp)"
         }
       ],
       "scope": {
         "reads": [
           "Companies",
+          "Product catalogue",
           "Subscriptions",
-          "Products and pricing",
+          "Orders and provisioning status",
           "Invoices"
         ],
         "writes": [
-          "Subscription changes (if the token allows)"
+          "Provision, modify and cancel client subscriptions",
+          "Place orders"
         ],
         "touchesSecrets": false,
         "multiTenant": true,
         "readOnlyMode": {
-          "supported": true,
-          "denyTools": [],
-          "env": "PAX8_MCP_TOKEN",
-          "value": "(issue a read-only token in the Pax8 Platform)"
+          "supported": false,
+          "denyTools": [
+            "create_*",
+            "update_*",
+            "cancel_*",
+            "provision_*",
+            "order_*"
+          ]
         }
       },
+      "network": {
+        "endpoints": [
+          "mcp.pax8.com"
+        ]
+      },
       "links": {
-        "source": "https://github.com/WYRE-AI/msp-claude-plugins"
+        "source": "https://github.com/WYRE-AI/msp-claude-plugins/tree/main/msp-claude-plugins/pax8/pax8",
+        "vendorDocs": "https://app.pax8.com/integrations/mcp"
       },
       "warnings": [
-        "Vendor-hosted: your data goes to Pax8's MCP endpoint. Promote to vendor-verified once Pax8's own docs page is confirmed and pinned."
+        {
+          "severity": "high",
+          "risk": "Can order and cancel client subscriptions",
+          "detail": "The plugin lists provisioning, modifying and cancelling cloud subscriptions and placing orders. A change here alters a client's services and your billing. Keep it read-only unless you need to order through Claude.",
+          "source": "https://github.com/WYRE-AI/msp-claude-plugins/blob/main/msp-claude-plugins/pax8/pax8/README.md"
+        },
+        {
+          "severity": "info",
+          "risk": "Hosted by Pax8",
+          "detail": "The MCP server is Pax8's own, hosted at mcp.pax8.com. Your token and the data Claude reads go to Pax8, the vendor you already use. The skills come from WYRE's plugin.",
+          "source": "https://github.com/WYRE-AI/msp-claude-plugins/blob/main/msp-claude-plugins/pax8/pax8/README.md"
+        }
       ]
     },
     {
@@ -68,7 +99,7 @@
       "name": "HaloPSA",
       "vendor": "HaloPSA",
       "category": "psa",
-      "description": "Tickets, clients, assets, agents, contracts and invoices in HaloPSA.",
+      "description": "Tickets, clients, sites, contacts, assets and contracts in HaloPSA.",
       "tier": "listed",
       "maintainer": {
         "name": "WYRE Technology",
@@ -78,6 +109,11 @@
         "method": "claude-plugin",
         "marketplace": "WYRE-AI/msp-claude-plugins",
         "plugin": "halopsa"
+      },
+      "server": {
+        "transport": "http",
+        "url": "https://halopsa-mcp.wyre.workers.dev/mcp",
+        "hostedBy": "WYRE Technology"
       },
       "credentials": [
         {
@@ -92,29 +128,27 @@
           "label": "OAuth client ID",
           "type": "oauth-client-id",
           "secret": false,
-          "help": "Config > Integrations > HaloPSA API > Applications"
+          "help": "Configuration > Integrations > HaloPSA API > View Applications"
         },
         {
           "env": "HALOPSA_CLIENT_SECRET",
           "label": "OAuth client secret",
           "type": "oauth-client-secret",
-          "help": "Same screen. Use Client Credentials, not Resource Owner.",
-          "leastPrivilege": "Create a dedicated API agent with read:tickets, read:customers; add write permissions only if you enable writes"
+          "help": "Same screen. Use Client Credentials.",
+          "leastPrivilege": "Create a dedicated API application with only the permissions you need. Leave write permissions off unless you turn on writes."
         }
       ],
       "scope": {
         "reads": [
-          "Tickets and actions",
-          "Clients and sites",
+          "Tickets, actions and attachments",
+          "Clients, sites and contacts",
           "Assets",
-          "Agents",
-          "Contracts",
-          "Invoices"
+          "Contracts and recurring items"
         ],
         "writes": [
-          "Create and update tickets",
-          "Add ticket actions and time",
-          "Update assets"
+          "Create and update tickets, actions and attachments",
+          "Create, update and delete clients, sites and contacts",
+          "Update assets and contracts"
         ],
         "touchesSecrets": false,
         "multiTenant": true,
@@ -128,24 +162,33 @@
           ]
         }
       },
-      "links": {
-        "source": "https://github.com/WYRE-AI/msp-claude-plugins",
-        "docs": "https://mcp.wyre.ai/mcp-servers/"
-      },
-      "server": {
-        "transport": "http",
-        "url": "https://halopsa-mcp.wyre.workers.dev/mcp",
-        "hostedBy": "WYRE Technology"
-      },
       "network": {
         "endpoints": [
           "halopsa-mcp.wyre.workers.dev"
         ]
       },
+      "links": {
+        "source": "https://github.com/WYRE-AI/msp-claude-plugins/tree/main/msp-claude-plugins/halopsa/halopsa",
+        "docs": "https://mcp.wyre.ai/mcp-servers/"
+      },
       "warnings": [
-        "Hosted by WYRE, not HaloPSA: by default the plugin talks to WYRE's server at halopsa-mcp.wyre.workers.dev, so your HaloPSA client secret and ticket data pass through WYRE. How credentials reach that server isn't documented yet, so Tabby9 doesn't offer an install for it.",
-        "The plugin's own setup puts your client secret in plain text in ~/.claude/settings.json. Don't follow that step.",
-        "Marked beta by its maintainer."
+        {
+          "severity": "high",
+          "risk": "Credentials and data pass through a third party",
+          "detail": "By default the plugin connects to an MCP server hosted by WYRE at halopsa-mcp.wyre.workers.dev, not by HaloPSA. Your HaloPSA client secret and the ticket data Claude reads pass through it. How credentials reach that server isn't documented yet, so Tabby9 doesn't offer an install.",
+          "source": "https://github.com/WYRE-AI/msp-claude-plugins/blob/main/msp-claude-plugins/halopsa/halopsa/README.md"
+        },
+        {
+          "severity": "medium",
+          "risk": "Setup guide stores the secret in plain text",
+          "detail": "The plugin's recommended setup puts HALOPSA_CLIENT_SECRET in ~/.claude/settings.json, a plain-text file that backups and sync tools copy. Don't follow that step.",
+          "source": "https://github.com/WYRE-AI/msp-claude-plugins/blob/main/msp-claude-plugins/halopsa/halopsa/README.md"
+        },
+        {
+          "severity": "medium",
+          "risk": "Reads text written by outsiders",
+          "detail": "Ticket text comes from end users and email. Text crafted to instruct Claude can reach it this way. Keep it read-only, or don't give the same session a shell or browser."
+        }
       ]
     },
     {
@@ -153,7 +196,7 @@
       "name": "ConnectWise PSA (Manage)",
       "vendor": "ConnectWise",
       "category": "psa",
-      "description": "Tickets, companies, contacts, projects and time entries in ConnectWise PSA; cloud and on-prem.",
+      "description": "Tickets, companies, contacts, projects and time entries in ConnectWise PSA.",
       "tier": "listed",
       "maintainer": {
         "name": "WYRE Technology",
@@ -164,53 +207,59 @@
         "marketplace": "WYRE-AI/msp-claude-plugins",
         "plugin": "connectwise-psa"
       },
+      "server": {
+        "transport": "http",
+        "url": "https://connectwise-manage-mcp.wyre.workers.dev/mcp",
+        "hostedBy": "WYRE Technology"
+      },
       "credentials": [
         {
-          "env": "CW_MANAGE_URL",
-          "label": "ConnectWise URL",
-          "type": "url",
+          "env": "CW_API_URL",
+          "label": "API host",
+          "type": "other",
           "secret": false,
-          "help": "e.g. https://api-au.myconnectwise.net or your on-prem host"
+          "help": "Your regional API host, e.g. api-au.myconnectwise.net"
         },
         {
-          "env": "CW_MANAGE_COMPANY_ID",
+          "env": "CW_COMPANY_ID",
           "label": "Company ID",
           "type": "other",
-          "secret": false
+          "secret": false,
+          "help": "The company identifier you sign in with"
         },
         {
-          "env": "CW_MANAGE_PUBLIC_KEY",
+          "env": "CW_PUBLIC_KEY",
           "label": "Public key",
           "type": "api-key",
           "secret": false,
           "help": "System > Members > API Members > API Keys"
         },
         {
-          "env": "CW_MANAGE_PRIVATE_KEY",
+          "env": "CW_PRIVATE_KEY",
           "label": "Private key",
           "type": "api-key",
-          "leastPrivilege": "Dedicated API member with a security role limited to the boards and modules you need"
+          "leastPrivilege": "A dedicated API member whose security role covers only the boards and modules you need"
         },
         {
-          "env": "CW_MANAGE_CLIENT_ID",
-          "label": "ClientID",
+          "env": "CW_CLIENT_ID",
+          "label": "Client ID",
           "type": "other",
           "secret": false,
-          "help": "Register at developer.connectwise.com"
+          "help": "Register an application at developer.connectwise.com"
         }
       ],
       "scope": {
         "reads": [
           "Service tickets",
-          "Companies and contacts",
-          "Projects",
-          "Time entries",
-          "Agreements"
+          "Companies, sites and contacts",
+          "Projects and phases",
+          "Time entries"
         ],
         "writes": [
           "Create and update tickets",
-          "Log time",
-          "Create contacts"
+          "Create, update and delete companies and contacts",
+          "Create projects",
+          "Log time"
         ],
         "touchesSecrets": false,
         "multiTenant": true,
@@ -223,11 +272,26 @@
           ]
         }
       },
+      "network": {
+        "endpoints": [
+          "connectwise-manage-mcp.wyre.workers.dev"
+        ]
+      },
       "links": {
         "source": "https://github.com/WYRE-AI/connectwise-manage-mcp"
       },
       "warnings": [
-        "Marked beta by its maintainer."
+        {
+          "severity": "high",
+          "risk": "Credentials and data pass through a third party",
+          "detail": "By default the plugin connects to an MCP server hosted by WYRE at connectwise-manage-mcp.wyre.workers.dev, not by ConnectWise. Your API keys and the ticket data Claude reads pass through it. How credentials reach that server isn't documented yet, so Tabby9 doesn't offer an install.",
+          "source": "https://github.com/WYRE-AI/msp-claude-plugins/blob/main/msp-claude-plugins/connectwise/manage/README.md"
+        },
+        {
+          "severity": "medium",
+          "risk": "Reads text written by outsiders",
+          "detail": "Ticket text comes from end users and email. Text crafted to instruct Claude can reach it this way. Keep it read-only, or don't give the same session a shell or browser."
+        }
       ]
     },
     {
@@ -246,36 +310,44 @@
         "marketplace": "WYRE-AI/msp-claude-plugins",
         "plugin": "connectwise-automate"
       },
+      "server": {
+        "transport": "http",
+        "url": "https://connectwise-automate-mcp.wyre.workers.dev/mcp",
+        "hostedBy": "WYRE Technology"
+      },
       "credentials": [
         {
-          "env": "CW_AUTOMATE_URL",
-          "label": "Automate server URL",
-          "type": "url",
-          "secret": false
+          "env": "CONNECTWISE_AUTOMATE_SERVER",
+          "label": "Automate server",
+          "type": "other",
+          "secret": false,
+          "help": "Your Automate server hostname"
         },
         {
-          "env": "CW_AUTOMATE_USERNAME",
+          "env": "CONNECTWISE_AUTOMATE_USERNAME",
           "label": "Integrator username",
           "type": "username",
           "secret": false
         },
         {
-          "env": "CW_AUTOMATE_PASSWORD",
+          "env": "CONNECTWISE_AUTOMATE_PASSWORD",
           "label": "Integrator password",
           "type": "password",
-          "leastPrivilege": "Integrator account with read-only user class until writes are needed"
+          "leastPrivilege": "An integrator account limited to what you need; don't use a full admin login"
         }
       ],
       "scope": {
         "reads": [
-          "Computers and agents",
-          "Clients and locations",
-          "Alerts and monitors",
-          "Scripts (list)"
+          "Computers across all clients",
+          "Clients, locations and groups",
+          "Monitors and alerts",
+          "Scripts and their results"
         ],
         "writes": [
-          "Run scripts on endpoints",
-          "Acknowledge alerts"
+          "Run scripts on client computers",
+          "Change monitoring templates, thresholds and assignments",
+          "Acknowledge alerts and create tickets from them",
+          "Change clients, locations and groups"
         ],
         "touchesSecrets": false,
         "multiTenant": true,
@@ -284,17 +356,34 @@
           "denyTools": [
             "run_*",
             "execute_*",
+            "create_*",
             "update_*",
-            "delete_*"
+            "delete_*",
+            "acknowledge_*"
           ]
         }
       },
+      "network": {
+        "endpoints": [
+          "connectwise-automate-mcp.wyre.workers.dev"
+        ]
+      },
       "links": {
-        "source": "https://github.com/WYRE-AI/msp-claude-plugins"
+        "source": "https://github.com/WYRE-AI/msp-claude-plugins/tree/main/msp-claude-plugins/connectwise/automate"
       },
       "warnings": [
-        "Can run scripts on client endpoints. Treat 'run script' tools as high-impact: keep them denied unless you have a specific need and a Claude Code approval prompt in front of them.",
-        "Marked beta by its maintainer."
+        {
+          "severity": "critical",
+          "risk": "Can run scripts on client computers",
+          "detail": "The plugin lists running scripts on computers across all clients. One wrong call runs code on client machines. Keep it read-only unless you have a specific need, and keep Claude Code's approval prompt in front of every script run.",
+          "source": "https://github.com/WYRE-AI/msp-claude-plugins/blob/main/msp-claude-plugins/connectwise/automate/README.md"
+        },
+        {
+          "severity": "high",
+          "risk": "Credentials and data pass through a third party",
+          "detail": "By default the plugin connects to an MCP server hosted by WYRE at connectwise-automate-mcp.wyre.workers.dev, not by ConnectWise. Your integrator password passes through it. How credentials reach that server isn't documented yet, so Tabby9 doesn't offer an install.",
+          "source": "https://github.com/WYRE-AI/msp-claude-plugins/blob/main/msp-claude-plugins/connectwise/automate/README.md"
+        }
       ]
     },
     {
@@ -302,7 +391,7 @@
       "name": "Autotask PSA",
       "vendor": "Kaseya / Datto",
       "category": "psa",
-      "description": "Companies, tickets, projects, contracts, time entries and billing in Autotask.",
+      "description": "Tickets, service calls, companies, contacts, projects, contracts and time entries in Autotask.",
       "tier": "listed",
       "maintainer": {
         "name": "WYRE Technology",
@@ -313,13 +402,18 @@
         "marketplace": "WYRE-AI/msp-claude-plugins",
         "plugin": "autotask"
       },
+      "server": {
+        "transport": "http",
+        "url": "https://autotask-mcp.wyre.workers.dev/mcp",
+        "hostedBy": "WYRE Technology"
+      },
       "credentials": [
         {
           "env": "AUTOTASK_USERNAME",
           "label": "API user",
           "type": "username",
           "secret": false,
-          "help": "Admin > Resources (Users) > New API User"
+          "help": "The API user's email address"
         },
         {
           "env": "AUTOTASK_SECRET",
@@ -331,22 +425,29 @@
           "label": "Integration code",
           "type": "other",
           "secret": false,
-          "leastPrivilege": "API user with a security level built for this integration; disable modules you do not need"
+          "leastPrivilege": "An API user with a security level built for this integration, with modules you don't need turned off"
+        },
+        {
+          "env": "AUTOTASK_API_ZONE",
+          "label": "API zone",
+          "type": "other",
+          "secret": false,
+          "help": "Your data centre zone, e.g. webservices5"
         }
       ],
       "scope": {
         "reads": [
+          "Tickets and service calls",
           "Companies and contacts",
-          "Tickets and notes",
           "Projects and tasks",
           "Contracts",
-          "Time entries",
-          "Billing items"
+          "Time entries"
         ],
         "writes": [
-          "Create and update tickets",
-          "Create time entries",
-          "Create notes"
+          "Create and update tickets and service calls",
+          "Create and change companies and contacts",
+          "Create projects and assign resources",
+          "Log time"
         ],
         "touchesSecrets": false,
         "multiTenant": true,
@@ -359,16 +460,34 @@
           ]
         }
       },
+      "network": {
+        "endpoints": [
+          "autotask-mcp.wyre.workers.dev"
+        ]
+      },
       "links": {
         "source": "https://github.com/WYRE-AI/autotask-mcp"
-      }
+      },
+      "warnings": [
+        {
+          "severity": "high",
+          "risk": "Credentials and data pass through a third party",
+          "detail": "By default the plugin connects to an MCP server hosted by WYRE at autotask-mcp.wyre.workers.dev, not by Kaseya. Your API secret and the ticket data Claude reads pass through it. How credentials reach that server isn't documented yet, so Tabby9 doesn't offer an install.",
+          "source": "https://github.com/WYRE-AI/msp-claude-plugins/blob/main/msp-claude-plugins/kaseya/autotask/README.md"
+        },
+        {
+          "severity": "medium",
+          "risk": "Reads text written by outsiders",
+          "detail": "Ticket text comes from end users and email. Text crafted to instruct Claude can reach it this way. Keep it read-only, or don't give the same session a shell or browser."
+        }
+      ]
     },
     {
       "id": "ninjaone",
       "name": "NinjaOne",
       "vendor": "NinjaOne",
       "category": "rmm",
-      "description": "Devices, organisations, alerts, patch status and tickets in NinjaOne.",
+      "description": "Devices, organisations, locations, alerts and tickets in NinjaOne.",
       "tier": "listed",
       "maintainer": {
         "name": "WYRE Technology",
@@ -379,13 +498,18 @@
         "marketplace": "WYRE-AI/msp-claude-plugins",
         "plugin": "ninjaone"
       },
+      "server": {
+        "transport": "http",
+        "url": "https://ninjaone-mcp.wyre.workers.dev/mcp",
+        "hostedBy": "WYRE Technology"
+      },
       "credentials": [
         {
           "env": "NINJAONE_REGION",
           "label": "Region",
           "type": "other",
           "secret": false,
-          "help": "e.g. oc for Oceania, us, eu"
+          "help": "us, eu or oc"
         },
         {
           "env": "NINJAONE_CLIENT_ID",
@@ -398,86 +522,20 @@
           "env": "NINJAONE_CLIENT_SECRET",
           "label": "OAuth client secret",
           "type": "oauth-client-secret",
-          "leastPrivilege": "Client credentials app with 'monitoring' scope only; add 'management' only if you enable writes"
+          "leastPrivilege": "A client-credentials app with the monitoring scope only. Add management only if you turn on writes."
         }
       ],
       "scope": {
         "reads": [
-          "Devices and health",
+          "Devices, services and inventory",
           "Organisations and locations",
           "Alerts",
-          "Patch and AV status",
           "Tickets"
         ],
         "writes": [
-          "Reset alerts",
-          "Run scripts (if 'management' scope granted)",
-          "Reboot devices (if granted)"
-        ],
-        "touchesSecrets": false,
-        "multiTenant": true,
-        "readOnlyMode": {
-          "supported": true,
-          "env": "NINJAONE_SCOPE",
-          "value": "monitoring"
-        }
-      },
-      "links": {
-        "source": "https://github.com/WYRE-AI/msp-claude-plugins"
-      },
-      "warnings": [
-        "Read-only is enforced at the NinjaOne side by granting only the 'monitoring' OAuth scope. Prefer that over tool denial.",
-        "Marked beta by its maintainer."
-      ]
-    },
-    {
-      "id": "datto-rmm",
-      "name": "Datto RMM",
-      "vendor": "Kaseya / Datto",
-      "category": "rmm",
-      "description": "Sites, devices, alerts and audits in Datto RMM.",
-      "tier": "listed",
-      "maintainer": {
-        "name": "Servosity / Compounding Teams",
-        "url": "https://msp-skills.compoundingteams.com/"
-      },
-      "install": {
-        "method": "claude-plugin",
-        "marketplace": "Servosity/msp-skills",
-        "plugin": "datto-rmm"
-      },
-      "credentials": [
-        {
-          "env": "DATTO_RMM_PLATFORM",
-          "label": "Platform",
-          "type": "other",
-          "secret": false,
-          "help": "Your Datto RMM region: pinotage, merlot, concord, vidal, zinfandel or syrah"
-        },
-        {
-          "env": "DATTO_RMM_API_KEY",
-          "label": "API key",
-          "type": "api-key",
-          "secret": false,
-          "help": "Setup > Users > generate API keys"
-        },
-        {
-          "env": "DATTO_RMM_API_SECRET_KEY",
-          "label": "API secret key",
-          "type": "api-key",
-          "leastPrivilege": "Dedicated API user; API access is all-or-nothing per user in Datto RMM, so use a user with a read-only security level"
-        }
-      ],
-      "scope": {
-        "reads": [
-          "Sites",
-          "Devices and audits",
-          "Alerts",
-          "Jobs"
-        ],
-        "writes": [
-          "Resolve alerts",
-          "Create quick jobs (if the user role allows)"
+          "Device maintenance",
+          "Manage alerts",
+          "Create and update tickets"
         ],
         "touchesSecrets": false,
         "multiTenant": true,
@@ -485,14 +543,51 @@
           "supported": false,
           "denyTools": [
             "create_*",
+            "update_*",
+            "delete_*",
+            "reset_*",
             "run_*",
-            "resolve_*"
+            "reboot_*"
           ]
         }
       },
+      "network": {
+        "endpoints": [
+          "ninjaone-mcp.wyre.workers.dev"
+        ]
+      },
       "links": {
-        "source": "https://github.com/Servosity/msp-skills/tree/main/skills/datto-rmm",
-        "docs": "https://msp-skills.compoundingteams.com/"
+        "source": "https://github.com/WYRE-AI/msp-claude-plugins/tree/main/msp-claude-plugins/ninjaone/ninjaone-rmm"
+      },
+      "warnings": [
+        {
+          "severity": "high",
+          "risk": "Credentials and data pass through a third party",
+          "detail": "By default the plugin connects to an MCP server hosted by WYRE at ninjaone-mcp.wyre.workers.dev, not by NinjaOne. Your client secret and device data pass through it. How credentials reach that server isn't documented yet, so Tabby9 doesn't offer an install.",
+          "source": "https://github.com/WYRE-AI/msp-claude-plugins/blob/main/msp-claude-plugins/ninjaone/ninjaone-rmm/README.md"
+        },
+        {
+          "severity": "info",
+          "risk": "Read-only is best set in NinjaOne",
+          "detail": "Granting the API app only the monitoring scope makes NinjaOne itself refuse changes. That is stronger than blocking tools in Claude Code."
+        }
+      ]
+    },
+    {
+      "id": "datto-rmm",
+      "name": "Datto RMM",
+      "vendor": "Kaseya / Datto",
+      "category": "rmm",
+      "description": "Sites, devices, alerts, jobs and audits in Datto RMM, with a local copy of your fleet for fleet-wide questions.",
+      "tier": "listed",
+      "maintainer": {
+        "name": "Servosity",
+        "url": "https://github.com/Servosity/msp-skills"
+      },
+      "install": {
+        "method": "claude-plugin",
+        "marketplace": "Servosity/msp-skills",
+        "plugin": "datto-rmm"
       },
       "server": {
         "transport": "stdio",
@@ -519,9 +614,78 @@
         "sha256": "6b8672871c55777b3b07fa0b71f052a85fe9cacca9ebf87b9200bd506d834bca",
         "pinnedOn": "2026-11-02"
       },
+      "credentials": [
+        {
+          "env": "DATTO_RMM_PLATFORM",
+          "label": "Platform",
+          "type": "other",
+          "secret": false,
+          "help": "Your Datto RMM region: pinotage, merlot, concord, vidal, zinfandel or syrah"
+        },
+        {
+          "env": "DATTO_RMM_API_KEY",
+          "label": "API key",
+          "type": "api-key",
+          "secret": false,
+          "help": "Setup > Users > generate API keys"
+        },
+        {
+          "env": "DATTO_RMM_API_SECRET_KEY",
+          "label": "API secret key",
+          "type": "api-key",
+          "leastPrivilege": "A dedicated API user. API access is all-or-nothing per user in Datto RMM, so give that user a read-only security level."
+        }
+      ],
+      "scope": {
+        "reads": [
+          "Sites",
+          "Devices and audits",
+          "Alerts",
+          "Jobs",
+          "Variables"
+        ],
+        "writes": [
+          "Every Datto RMM API operation the user's role allows, including jobs on devices",
+          "Resolve alerts",
+          "Change site and account variables"
+        ],
+        "touchesSecrets": false,
+        "multiTenant": true,
+        "readOnlyMode": {
+          "supported": false,
+          "denyTools": [
+            "create_*",
+            "run_*",
+            "resolve_*",
+            "update_*",
+            "delete_*",
+            "set_*"
+          ]
+        }
+      },
+      "links": {
+        "source": "https://github.com/Servosity/msp-skills/tree/main/skills/datto-rmm",
+        "docs": "https://msp-skills.compoundingteams.com/"
+      },
       "warnings": [
-        "Keeps a local SQLite copy of your Datto RMM fleet under your user profile. Anyone with access to your Windows account can read it.",
-        "Use only the default stdio mode. Its maintainer warns that its HTTP mode has no password and can be reached by any web page you open."
+        {
+          "severity": "critical",
+          "risk": "Can start jobs on client devices",
+          "detail": "It covers every Datto RMM API operation, which includes starting jobs (components) on devices. One wrong call runs code on client machines. Use an API user with a read-only security level unless you need changes.",
+          "source": "https://github.com/Servosity/msp-skills/blob/main/skills/datto-rmm/README.md"
+        },
+        {
+          "severity": "medium",
+          "risk": "Keeps a local copy of your fleet",
+          "detail": "It syncs your Datto RMM sites, devices, alerts and audits into a SQLite file under your Windows user profile. Anyone or any program with access to your account can read it.",
+          "source": "https://github.com/Servosity/msp-skills/blob/main/skills/datto-rmm/README.md"
+        },
+        {
+          "severity": "medium",
+          "risk": "HTTP mode in this version is unsafe",
+          "detail": "Its maintainer warns that this version's HTTP mode has no password, listens on every network interface and can be reached by a web page you open. Tabby9 runs it only in its default local (stdio) mode.",
+          "source": "https://github.com/Servosity/msp-skills/blob/main/skills/datto-rmm/mcp-install.md"
+        }
       ]
     },
     {
@@ -529,7 +693,7 @@
       "name": "IT Glue",
       "vendor": "Kaseya / IT Glue",
       "category": "documentation",
-      "description": "Organisations, configurations, flexible assets, documents and passwords in IT Glue.",
+      "description": "Organisations, configurations, contacts, documents, flexible assets and passwords in IT Glue.",
       "tier": "listed",
       "maintainer": {
         "name": "WYRE Technology",
@@ -540,35 +704,38 @@
         "marketplace": "WYRE-AI/msp-claude-plugins",
         "plugin": "itglue"
       },
+      "server": {
+        "transport": "http",
+        "url": "https://itglue-mcp.wyre.workers.dev/mcp",
+        "hostedBy": "WYRE Technology"
+      },
       "credentials": [
         {
-          "env": "ITGLUE_API_URL",
-          "label": "API URL",
-          "type": "url",
+          "env": "ITGLUE_REGION",
+          "label": "Region",
+          "type": "other",
           "secret": false,
-          "help": "https://api.au.itglue.com for Australian tenants"
+          "help": "us, eu or au"
         },
         {
           "env": "ITGLUE_API_KEY",
           "label": "API key",
           "type": "api-key",
           "help": "Account > Settings > API Keys",
-          "leastPrivilege": "Create a key WITHOUT 'Password Access' unless you have explicitly decided Claude may read passwords"
+          "leastPrivilege": "Create the key without Password Access unless you have decided Claude may read client passwords"
         }
       ],
       "scope": {
         "reads": [
           "Organisations",
           "Configurations",
-          "Flexible assets",
-          "Documents",
           "Contacts",
+          "Documents and flexible assets",
           "Passwords (if the key has Password Access)"
         ],
         "writes": [
-          "Create and update flexible assets",
-          "Create documents",
-          "Create passwords"
+          "Create and update documents and flexible assets",
+          "Create and update passwords"
         ],
         "touchesSecrets": true,
         "multiTenant": true,
@@ -581,11 +748,27 @@
           ]
         }
       },
+      "network": {
+        "endpoints": [
+          "itglue-mcp.wyre.workers.dev"
+        ]
+      },
       "links": {
-        "source": "https://github.com/WYRE-AI/msp-claude-plugins"
+        "source": "https://github.com/WYRE-AI/msp-claude-plugins/tree/main/msp-claude-plugins/kaseya/it-glue"
       },
       "warnings": [
-        "Can return client passwords in plain text into the conversation. Issue the API key without Password Access by default. Everything Claude reads is sent to Anthropic under your plan's terms."
+        {
+          "severity": "high",
+          "risk": "Can return client passwords into the conversation",
+          "detail": "The plugin includes password retrieval. A returned password becomes part of the conversation, which is sent to Anthropic under your plan's terms and kept in Claude Code's local transcripts. Create the API key without Password Access.",
+          "source": "https://github.com/WYRE-AI/msp-claude-plugins/blob/main/msp-claude-plugins/kaseya/it-glue/README.md"
+        },
+        {
+          "severity": "high",
+          "risk": "Credentials and data pass through a third party",
+          "detail": "By default the plugin connects to an MCP server hosted by WYRE at itglue-mcp.wyre.workers.dev, not by Kaseya. Your API key and the documentation Claude reads pass through it. How credentials reach that server isn't documented yet, so Tabby9 doesn't offer an install.",
+          "source": "https://github.com/WYRE-AI/msp-claude-plugins/blob/main/msp-claude-plugins/kaseya/it-glue/README.md"
+        }
       ]
     },
     {
@@ -593,7 +776,7 @@
       "name": "Hudu",
       "vendor": "Hudu",
       "category": "documentation",
-      "description": "Companies, assets, articles, passwords, websites and procedures in Hudu.",
+      "description": "Companies, assets, articles, websites and passwords in Hudu.",
       "tier": "listed",
       "maintainer": {
         "name": "WYRE Technology",
@@ -604,33 +787,38 @@
         "marketplace": "WYRE-AI/msp-claude-plugins",
         "plugin": "hudu"
       },
+      "server": {
+        "transport": "http",
+        "url": "https://hudu-mcp.wyre.workers.dev/mcp",
+        "hostedBy": "WYRE Technology"
+      },
       "credentials": [
         {
           "env": "HUDU_BASE_URL",
           "label": "Hudu URL",
           "type": "url",
-          "secret": false
+          "secret": false,
+          "help": "e.g. https://your-company.huducloud.com"
         },
         {
           "env": "HUDU_API_KEY",
           "label": "API key",
           "type": "api-key",
           "help": "Admin > API Keys",
-          "leastPrivilege": "Create a key with 'Password Access' off unless explicitly needed"
+          "leastPrivilege": "If your Hudu version offers it, create the key without password access"
         }
       ],
       "scope": {
         "reads": [
           "Companies",
           "Assets",
-          "Articles",
-          "Websites",
-          "Procedures",
-          "Passwords (if the key allows)"
+          "Knowledge base articles",
+          "Websites, SSL and email security records",
+          "Asset passwords"
         ],
         "writes": [
           "Create and update assets and articles",
-          "Create passwords"
+          "Create and update passwords"
         ],
         "touchesSecrets": true,
         "multiTenant": true,
@@ -644,12 +832,27 @@
           ]
         }
       },
+      "network": {
+        "endpoints": [
+          "hudu-mcp.wyre.workers.dev"
+        ]
+      },
       "links": {
-        "source": "https://mcp.wyre.ai/mcp-servers/"
+        "source": "https://github.com/WYRE-AI/msp-claude-plugins/tree/main/msp-claude-plugins/hudu/hudu"
       },
       "warnings": [
-        "Can return client passwords in plain text. Issue the API key without password access by default.",
-        "Marked beta by its maintainer."
+        {
+          "severity": "high",
+          "risk": "Can return client passwords into the conversation",
+          "detail": "The plugin retrieves asset passwords. A returned password becomes part of the conversation, which is sent to Anthropic under your plan's terms and kept in Claude Code's local transcripts.",
+          "source": "https://github.com/WYRE-AI/msp-claude-plugins/blob/main/msp-claude-plugins/hudu/hudu/README.md"
+        },
+        {
+          "severity": "high",
+          "risk": "Credentials and data pass through a third party",
+          "detail": "By default the plugin connects to an MCP server hosted by WYRE at hudu-mcp.wyre.workers.dev, not by Hudu. Your API key and the documentation Claude reads pass through it. How credentials reach that server isn't documented yet, so Tabby9 doesn't offer an install.",
+          "source": "https://github.com/WYRE-AI/msp-claude-plugins/blob/main/msp-claude-plugins/hudu/hudu/README.md"
+        }
       ]
     },
     {
@@ -657,16 +860,41 @@
       "name": "Huntress",
       "vendor": "Huntress",
       "category": "security",
-      "description": "Organisations, agents, incident reports and billing in Huntress.",
+      "description": "Organisations, agents, incident reports, escalations and billing in Huntress, with a local copy for cross-client questions.",
       "tier": "listed",
       "maintainer": {
-        "name": "Servosity / Compounding Teams",
-        "url": "https://msp-skills.compoundingteams.com/"
+        "name": "Servosity",
+        "url": "https://github.com/Servosity/msp-skills"
       },
       "install": {
         "method": "claude-plugin",
         "marketplace": "Servosity/msp-skills",
         "plugin": "huntress"
+      },
+      "server": {
+        "transport": "stdio",
+        "runtime": "binary",
+        "command": "huntress-mcp.exe",
+        "files": [
+          {
+            "name": "huntress-mcp.exe",
+            "url": "https://github.com/Servosity/msp-skills/releases/download/huntress-v0.1.11/huntress-mcp-windows-amd64.exe",
+            "sha256": "fcbf29410d92f30475fa4da7bd1f7c686a3719b8aabd69953dcfced15896740b",
+            "platform": "win32-x64"
+          },
+          {
+            "name": "huntress-cli.exe",
+            "url": "https://github.com/Servosity/msp-skills/releases/download/huntress-v0.1.11/huntress-cli-windows-amd64.exe",
+            "sha256": "f7559e030bcff8c8eb98a61588beb9f40b7972684c4f84e6f4d8790b83c2dc2b",
+            "platform": "win32-x64"
+          }
+        ]
+      },
+      "pin": {
+        "version": "0.1.11",
+        "commit": "3403752ed6b46d5c1463631f6e872a157fb428cb",
+        "sha256": "fcbf29410d92f30475fa4da7bd1f7c686a3719b8aabd69953dcfced15896740b",
+        "pinnedOn": "2026-11-02"
       },
       "credentials": [
         {
@@ -674,69 +902,103 @@
           "label": "API key",
           "type": "api-key",
           "secret": false,
-          "help": "Huntress portal > API Credentials"
+          "help": "Huntress > Account Settings > API Credentials"
         },
         {
           "env": "HUNTRESS_API_SECRET",
           "label": "API secret",
-          "type": "api-key"
+          "type": "api-key",
+          "leastPrivilege": "A credential without write scope; resolving, approving and rejecting need write scope"
         }
       ],
       "scope": {
         "reads": [
           "Organisations",
           "Agents",
-          "Incident reports",
+          "Incident reports and escalations",
           "Billing reports"
         ],
-        "writes": [],
+        "writes": [
+          "Resolve incident reports",
+          "Approve or reject escalations",
+          "Create, update and delete records the credential allows"
+        ],
         "touchesSecrets": false,
         "multiTenant": true,
         "readOnlyMode": {
           "supported": true,
-          "denyTools": []
+          "env": "HUNTRESS_MCP_READ_ONLY",
+          "value": "1"
         }
       },
       "links": {
-        "source": "https://msp-skills.compoundingteams.com/"
+        "source": "https://github.com/Servosity/msp-skills/tree/main/skills/huntress",
+        "docs": "https://msp-skills.compoundingteams.com/"
       },
-      "warnings": []
+      "warnings": [
+        {
+          "severity": "medium",
+          "risk": "Keeps a local copy of your Huntress data",
+          "detail": "It syncs incidents, agents and billing data into a SQLite file under your Windows user profile. Anyone or any program with access to your account can read it.",
+          "source": "https://github.com/Servosity/msp-skills/blob/main/skills/huntress/README.md"
+        }
+      ]
     },
     {
       "id": "cipp",
       "name": "CIPP + Microsoft 365",
       "vendor": "CIPP",
       "category": "m365",
-      "description": "Entra ID, Intune, Exchange Online and Defender across every client tenant via CIPP.",
+      "description": "Entra ID, Intune, Exchange Online, Defender and GDAP across every client tenant via your CIPP instance.",
       "tier": "listed",
       "maintainer": {
-        "name": "Servosity / Compounding Teams",
-        "url": "https://msp-skills.compoundingteams.com/"
+        "name": "Servosity",
+        "url": "https://github.com/Servosity/msp-skills"
       },
       "install": {
         "method": "claude-plugin",
         "marketplace": "Servosity/msp-skills",
         "plugin": "cipp"
       },
+      "server": {
+        "transport": "stdio",
+        "runtime": "binary",
+        "command": "cipp-mcp.exe",
+        "files": [
+          {
+            "name": "cipp-mcp.exe",
+            "url": "https://github.com/Servosity/msp-skills/releases/download/cipp-v0.1.13/cipp-mcp-windows-amd64.exe",
+            "sha256": "914102db9a1cb80ee9f1edff32c470f533baccf79475e4d5aa56fb47edbc2f0b",
+            "platform": "win32-x64"
+          },
+          {
+            "name": "cipp-cli.exe",
+            "url": "https://github.com/Servosity/msp-skills/releases/download/cipp-v0.1.13/cipp-cli-windows-amd64.exe",
+            "sha256": "f958419b2572d170f3d231d9e50b8672f2eedfe91210d7c8c832dec23e70a42b",
+            "platform": "win32-x64"
+          }
+        ]
+      },
+      "pin": {
+        "version": "0.1.13",
+        "commit": "3403752ed6b46d5c1463631f6e872a157fb428cb",
+        "sha256": "914102db9a1cb80ee9f1edff32c470f533baccf79475e4d5aa56fb47edbc2f0b",
+        "pinnedOn": "2026-11-02"
+      },
       "credentials": [
         {
-          "env": "CIPP_URL",
-          "label": "CIPP URL",
+          "env": "CIPP_BASE_URL",
+          "label": "CIPP API URL",
           "type": "url",
-          "secret": false
-        },
-        {
-          "env": "CIPP_CLIENT_ID",
-          "label": "API client ID",
-          "type": "oauth-client-id",
           "secret": false,
-          "help": "CIPP > Settings > API clients"
+          "help": "The URL CIPP shows for your API client. It must include /api."
         },
         {
-          "env": "CIPP_CLIENT_SECRET",
-          "label": "API client secret",
-          "type": "oauth-client-secret",
-          "leastPrivilege": "Create a CIPP API client with a read-only role and limited tenant scope"
+          "env": "CIPP_API_KEY",
+          "label": "Bearer token",
+          "type": "token",
+          "help": "A token for a CIPP API client (Integrations > CIPP-API)",
+          "leastPrivilege": "Give the API client a read-only Custom Role, as the skill's own docs advise"
         }
       ],
       "scope": {
@@ -744,27 +1006,38 @@
           "Users and groups",
           "Devices",
           "Mailboxes",
-          "Security alerts",
+          "Security alerts and Conditional Access",
           "Licences",
-          "Standards status"
+          "Admin role changes"
         ],
         "writes": [
-          "Everything CIPP can do: user changes, mailbox rules, Conditional Access, device actions (role-dependent)"
+          "Changes CIPP can make in client tenants (shown as a preview; carried out only with --execute)"
         ],
         "touchesSecrets": false,
         "multiTenant": true,
         "readOnlyMode": {
           "supported": true,
-          "denyTools": [],
-          "env": "CIPP_ROLE",
-          "value": "readonly"
+          "env": "CIPP_MCP_READ_ONLY",
+          "value": "1"
         }
       },
       "links": {
-        "source": "https://msp-skills.compoundingteams.com/"
+        "source": "https://github.com/Servosity/msp-skills/tree/main/skills/cipp",
+        "docs": "https://msp-skills.compoundingteams.com/"
       },
       "warnings": [
-        "Highest blast radius in this registry: write access here is write access to every client tenant. Read-only CIPP role is mandatory until a reviewed version exists."
+        {
+          "severity": "critical",
+          "risk": "Can change every client tenant",
+          "detail": "CIPP reaches every client's Microsoft 365 tenant. With writes on, a change Claude makes can alter users, mailboxes or Conditional Access across clients. Keep the read-only switch on and give the CIPP API client a read-only role.",
+          "source": "https://github.com/Servosity/msp-skills/blob/main/skills/cipp/README.md"
+        },
+        {
+          "severity": "medium",
+          "risk": "Keeps a local copy of tenant data",
+          "detail": "It keeps a local store of what it reads from your tenants, for history and offline questions, under your Windows user profile. Anyone or any program with access to your account can read it.",
+          "source": "https://github.com/Servosity/msp-skills/blob/main/skills/cipp/README.md"
+        }
       ]
     }
   ]

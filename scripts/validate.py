@@ -70,7 +70,8 @@ for s in reg.get("servers", []):
     if ro and not ro.get("supported") and not ro.get("denyTools"):
         err(f"{sid}: readOnlyMode.supported=false requires a denyTools list")
 
-    if scope.get("touchesSecrets") and not any("password" in w.lower() or "secret" in w.lower() for w in s.get("warnings", [])):
+    texts = [(w.get("risk", "") + " " + w.get("detail", "")).lower() for w in s.get("warnings", []) if isinstance(w, dict)]
+    if scope.get("touchesSecrets") and not any("password" in t or "secret" in t for t in texts):
         err(f"{sid}: touchesSecrets=true but no warning mentions passwords/secrets")
 
     inst = s.get("install", {})
@@ -87,7 +88,7 @@ for s in reg.get("servers", []):
             for k in ("url", "hostedBy"):
                 if not srv.get(k):
                     err(f"{sid}: http server requires server.{k}")
-            if srv.get("hostedBy") and not any("hosted" in w.lower() for w in s.get("warnings", [])):
+            if srv.get("hostedBy") and not any("hosted" in t for t in texts):
                 err(f"{sid}: http server hosted by someone needs a warning that says who hosts it")
             for v in (srv.get("headers") or {}).values():
                 for ref in re.findall(r"\$\{([A-Z0-9_]+)\}", v):
