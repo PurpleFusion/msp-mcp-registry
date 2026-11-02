@@ -3,10 +3,11 @@
   "$id": "https://purplefusion.com.au/schemas/msp-mcp-registry/v1",
   "title": "PurpleFusion MSP MCP Registry",
   "type": "object",
-  "required": ["schemaVersion", "updated", "reviewers", "servers"],
+  "required": ["schemaVersion", "serial", "updated", "reviewers", "servers"],
   "additionalProperties": false,
   "properties": {
     "schemaVersion": { "const": 1 },
+    "serial": { "type": "integer", "description": "Goes up by one every time the registry is signed. Tabby9 refuses a copy with a lower serial than one it has seen, so an old signed copy can't be replayed." },
     "updated": { "type": "string", "format": "date" },
     "reviewers": {
       "type": "array",
@@ -65,6 +66,40 @@
             "url": { "type": "string", "format": "uri", "description": "remote-http: server URL" },
             "image": { "type": "string", "description": "docker: image reference" },
             "args": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "server": {
+          "type": "object",
+          "description": "The MCP server itself, which a plugin may not contain. Tabby9 writes this entry into Claude Code's config, wrapped by its launcher. Without it, Tabby9 shows the entry but offers no install.",
+          "required": ["transport"],
+          "additionalProperties": false,
+          "properties": {
+            "transport": { "enum": ["stdio", "http"] },
+            "url": { "type": "string", "format": "uri", "description": "http: the endpoint" },
+            "hostedBy": { "type": "string", "description": "http: who runs the endpoint. Credentials sent to it leave the user's machine." },
+            "headers": { "type": "object", "additionalProperties": { "type": "string" }, "description": "http: header name to value; ${ENV} refers to a credentials[] entry" },
+            "runtime": { "enum": ["npx", "uvx", "binary", "docker"], "description": "stdio: how the server is started" },
+            "package": { "type": "string", "description": "npx/uvx: package name" },
+            "version": { "type": "string", "description": "npx/uvx: exact version" },
+            "image": { "type": "string", "pattern": "@sha256:[0-9a-f]{64}$", "description": "docker: image pinned by digest" },
+            "files": {
+              "type": "array",
+              "description": "binary: files Tabby9 downloads into one folder, checks against sha256, and puts first on the server's PATH",
+              "items": {
+                "type": "object",
+                "required": ["name", "url", "sha256"],
+                "additionalProperties": false,
+                "properties": {
+                  "name": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$", "description": "File name to save as" },
+                  "url": { "type": "string", "format": "uri" },
+                  "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+                  "platform": { "enum": ["win32-x64", "win32-arm64"] }
+                }
+              }
+            },
+            "command": { "type": "string", "description": "binary: which of files[] to run" },
+            "args": { "type": "array", "items": { "type": "string" } },
+            "env": { "type": "object", "additionalProperties": { "type": "string" }, "description": "Fixed, non-secret environment values" }
           }
         },
         "pin": {
@@ -148,7 +183,21 @@
             "vendorDocs": { "type": "string", "format": "uri" }
           }
         },
-        "warnings": { "type": "array", "items": { "type": "string" } },
+        "warnings": {
+          "type": "array",
+          "description": "Facts about risk to the user, each with its source. Severity levels are defined in README.md.",
+          "items": {
+            "type": "object",
+            "required": ["severity", "risk", "detail"],
+            "additionalProperties": false,
+            "properties": {
+              "severity": { "enum": ["critical", "high", "medium", "low", "info"] },
+              "risk": { "type": "string", "maxLength": 80, "description": "The risk in a few words" },
+              "detail": { "type": "string", "maxLength": 400, "description": "What the server does, what could go wrong, and what to do about it. Facts only." },
+              "source": { "type": "string", "format": "uri", "description": "Where the fact comes from: the maintainer's docs or code" }
+            }
+          }
+        },
         "deprecated": { "type": "boolean", "default": false }
       },
       "allOf": [

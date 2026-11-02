@@ -70,7 +70,8 @@ for s in reg.get("servers", []):
     if ro and not ro.get("supported") and not ro.get("denyTools"):
         err(f"{sid}: readOnlyMode.supported=false requires a denyTools list")
 
-    if scope.get("touchesSecrets") and not any("password" in w.lower() or "secret" in w.lower() for w in s.get("warnings", [])):
+    texts = [(w.get("risk", "") + " " + w.get("detail", "")).lower() for w in s.get("warnings", []) if isinstance(w, dict)]
+    if scope.get("touchesSecrets") and not any("password" in t or "secret" in t for t in texts):
         err(f"{sid}: touchesSecrets=true but no warning mentions passwords/secrets")
 
     inst = s.get("install", {})
@@ -79,6 +80,36 @@ for s in reg.get("servers", []):
     for k in need.get(m, []):
         if not inst.get(k):
             err(f"{sid}: install.method {m} requires install.{k}")
+
+    srv = s.get("server")
+    if srv:
+        envs = {c.get("env") for c in s.get("credentials", [])}
+        if srv.get("transport") == "http":
+            for k in ("url", "hostedBy"):
+                if not srv.get(k):
+                    err(f"{sid}: http server requires server.{k}")
+            if srv.get("hostedBy") and not any("hosted" in t for t in texts):
+                err(f"{sid}: http server hosted by someone needs a warning that says who hosts it")
+            for v in (srv.get("headers") or {}).values():
+                for ref in re.findall(r"\$\{([A-Z0-9_]+)\}", v):
+                    if ref not in envs:
+                        err(f"{sid}: header refers to ${{{ref}}} but no credential has that env")
+        else:
+            rt = srv.get("runtime")
+            if not rt:
+                err(f"{sid}: stdio server requires server.runtime")
+            if rt in ("npx", "uvx") and not (srv.get("package") and srv.get("version")):
+                err(f"{sid}: {rt} server requires server.package and an exact server.version")
+            if rt == "docker" and not srv.get("image"):
+                err(f"{sid}: docker server requires server.image pinned by digest")
+            if rt == "binary":
+                names = {f.get("name") for f in srv.get("files", [])}
+                if not names:
+                    err(f"{sid}: binary server requires server.files")
+                if srv.get("command") not in names:
+                    err(f"{sid}: server.command must be one of server.files[].name")
+        if set(srv.get("env") or {}) & envs:
+            err(f"{sid}: server.env must not set a credential's env var")
 
     for c in s.get("credentials", []):
         if c.get("secret", True) and c.get("type") in ("url", "username", "tenant-id"):
