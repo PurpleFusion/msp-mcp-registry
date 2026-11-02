@@ -41,6 +41,8 @@ Warnings state facts about the risk to the person installing a server, with a li
 - `scripts/validate.py` — schema + consistency checks. Runs in CI on every PR.
 - `registry.json.sig` and `keys/` — the signature over `registry.json` and the public keys that check it. See Signing.
 - `scripts/sign.js` — signs the registry; `--verify` runs in CI.
+- `ASSESSMENT.md` — the rubric for desk assessments: source and releases read, nothing run, scored out of 100 so servers for the same product can be compared.
+- `assess/` — candidates per product, results, and one report per server plus a `RANKING.md`. `node scripts/assess.js assess/candidates/<group>.json` runs it; `--rescore` re-renders after a person adds notes.
 
 ## Signing
 

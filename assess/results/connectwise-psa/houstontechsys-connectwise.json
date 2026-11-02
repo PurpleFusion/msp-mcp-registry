@@ -1,0 +1,153 @@
+{
+  "id": "houstontechsys-connectwise",
+  "name": "connectwise-mcp-server (npm)",
+  "maintainer": "houstontechsys",
+  "assessedOn": "2026-11-02",
+  "source": "https://www.npmjs.com/package/connectwise-mcp-server",
+  "version": "1.0.0",
+  "tarball": "https://registry.npmjs.org/connectwise-mcp-server/-/connectwise-mcp-server-1.0.0.tgz",
+  "integrity": "sha512-QCf4+Fq9JpEYaVXfNSoKseiJUi++vFoioPYjxGoDZLPDMCPOhC1ny/SoaiAXFC7K+AWREuFV/0kiS19oS2ZKdw==",
+  "tools": [
+    "connectwise_add_ticket_note",
+    "connectwise_add_time_entry",
+    "connectwise_create_ticket",
+    "connectwise_get_company",
+    "connectwise_get_contact",
+    "connectwise_get_ticket",
+    "connectwise_list_ticket_notes",
+    "connectwise_search_companies",
+    "connectwise_search_contacts",
+    "connectwise_search_tickets",
+    "connectwise_test_connection",
+    "connectwise_update_ticket"
+  ],
+  "writeTools": [
+    "connectwise_add_ticket_note",
+    "connectwise_add_time_entry",
+    "connectwise_create_ticket",
+    "connectwise_update_ticket"
+  ],
+  "files": 42,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "MIT"
+    },
+    {
+      "id": "P2",
+      "result": "unknown",
+      "evidence": "published package has no provenance attestation; cannot show it matches the source"
+    },
+    {
+      "id": "P3",
+      "result": "fail",
+      "evidence": "0 git tags, 1 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "fail",
+      "evidence": "last change 2026-07-02"
+    },
+    {
+      "id": "P5",
+      "result": "fail",
+      "evidence": "1 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "fail",
+      "evidence": "no lockfile"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "unknown",
+      "evidence": "nothing locked to check"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "3 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "1 reads"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "dist/index.js:10"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "12 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "read-only switch: dist/tools/companies.js:46"
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "n/a",
+      "evidence": ""
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

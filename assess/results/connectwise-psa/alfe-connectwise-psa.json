@@ -1,0 +1,145 @@
+{
+  "id": "alfe-connectwise-psa",
+  "name": "@alfe.ai/connectwise-psa-mcp",
+  "maintainer": "Alfe (kevupton)",
+  "assessedOn": "2026-11-02",
+  "source": "https://www.npmjs.com/package/@alfe.ai/connectwise-psa-mcp",
+  "version": "0.1.13",
+  "tarball": "https://registry.npmjs.org/@alfe.ai/connectwise-psa-mcp/-/connectwise-psa-mcp-0.1.13.tgz",
+  "integrity": "sha512-+DCo+1Wjl3S1JLFYKl57/7/G1mnJ37heiELMO72qHZxSBuOXoghU+g0Yj29xjE+gMMsbki9XFjg5Wc72qcyCaA==",
+  "tools": [
+    "connectwise_psa_add_ticket_note",
+    "connectwise_psa_create_ticket",
+    "connectwise_psa_list_board_statuses",
+    "connectwise_psa_list_ticket_notes",
+    "connectwise_psa_update_ticket"
+  ],
+  "writeTools": [
+    "connectwise_psa_add_ticket_note",
+    "connectwise_psa_create_ticket",
+    "connectwise_psa_update_ticket"
+  ],
+  "files": 12,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "fail",
+      "evidence": "UNLICENSED"
+    },
+    {
+      "id": "P2",
+      "result": "unknown",
+      "evidence": "published package has no provenance attestation; cannot show it matches the source"
+    },
+    {
+      "id": "P3",
+      "result": "pass",
+      "evidence": "0 git tags, 14 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-10-28"
+    },
+    {
+      "id": "P5",
+      "result": "pass",
+      "evidence": "2 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "fail",
+      "evidence": "no lockfile"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "unknown",
+      "evidence": "nothing locked to check"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "4 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "unknown",
+      "evidence": "no environment reads found"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "dist/server2.cjs:478"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "5 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "read-only switch: dist/server2.cjs:325"
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "flag",
+      "evidence": "dist/server2.cjs:41 [\"0.0.0.0\", 8], | dist/server2.cjs:457 function createServer(connect, options = {}) { | dist/server2.cjs:479 const server = createServer(connect); | dist/server2.js:41 [\"0.0.0.0\", 8],"
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}
