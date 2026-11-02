@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "serial": 2,
+  "serial": 3,
   "updated": "2026-11-02",
   "reviewers": [
     {
@@ -788,21 +788,14 @@
           "Variables"
         ],
         "writes": [
-          "Every Datto RMM API operation the user's role allows, including jobs on devices",
-          "Resolve alerts",
-          "Change site and account variables"
+          "Anything the Datto RMM API allows the user's role, through one tool (datto-rmm_execute): running jobs (components) on devices, moving devices, changing variables, resolving alerts, resetting API keys"
         ],
         "touchesSecrets": false,
         "multiTenant": true,
         "readOnlyMode": {
           "supported": false,
           "denyTools": [
-            "create_*",
-            "run_*",
-            "resolve_*",
-            "update_*",
-            "delete_*",
-            "set_*"
+            "datto-rmm_execute"
           ]
         }
       },
@@ -813,9 +806,9 @@
       "warnings": [
         {
           "severity": "critical",
-          "risk": "Can start jobs on client devices",
-          "detail": "It covers every Datto RMM API operation, which includes starting jobs (components) on devices. One wrong call runs code on client machines. Use an API user with a read-only security level unless you need changes.",
-          "source": "https://github.com/Servosity/msp-skills/blob/main/skills/datto-rmm/README.md"
+          "risk": "One tool can run jobs on devices and reset API keys",
+          "detail": "datto-rmm_execute calls any Datto RMM endpoint it knows by id, including starting jobs on devices and resetting API keys. This version has no read-only switch, and because the endpoint is a parameter no rule can allow its reads and block its writes. Read-only here means blocking that tool, which stops all live API calls. Use an API user with a read-only security level.",
+          "source": "https://github.com/Servosity/msp-skills/blob/datto-rmm-v0.1.10/skills/datto-rmm/cli/internal/mcp/code_orch.go"
         },
         {
           "severity": "medium",
