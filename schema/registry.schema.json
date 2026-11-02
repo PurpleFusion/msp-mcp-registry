@@ -59,7 +59,7 @@
           "required": ["method"],
           "additionalProperties": false,
           "properties": {
-            "method": { "enum": ["claude-plugin", "npx", "uvx", "remote-http", "docker"] },
+            "method": { "enum": ["claude-plugin", "npx", "uvx", "remote-http", "docker", "binary"], "description": "binary: prebuilt files described in server.files" },
             "marketplace": { "type": "string", "description": "claude-plugin: owner/repo of the marketplace" },
             "plugin": { "type": "string", "description": "claude-plugin: plugin name within the marketplace" },
             "package": { "type": "string", "description": "npx/uvx: package name" },
