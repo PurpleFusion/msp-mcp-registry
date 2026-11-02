@@ -40,7 +40,7 @@
 ## Notes from the person checking
 
 - **N1, C3:** the repo holds two programs. The MCP server (`chatpsa`, `src/chatpsa/server.py`) imports neither the OpenAI client (`ai.py`) nor the SQLite stores (`approvals.py`, `history.py`); those belong to the separate web "agent desk" (`chatpsa-web`, `src/chatpsa/web.py`), which listens on 127.0.0.1 by default (`web.py:1230`) and sends ticket images and questions to `api.openai.com`. Run only the MCP server and it talks to HaloPSA only and writes nothing to disk.
-- **T2:** read-only by default: write tools are registered only if `CHATPSA_ENABLE_WRITES` is true (`src/chatpsa/config.py:33,117`), and each write supports dry-run, confirmation and read-back. The script's "switch" hit is an unrelated `read_only` field in `web.py:188`.
+- **T2:** read-only by default: all 31 tools are registered, but write tools refuse to run unless `CHATPSA_ENABLE_WRITES` is true (`change_control.py:503`; default off, `src/chatpsa/config.py:33,117`), and each write also needs an exact confirmation phrase (corrected 2026-11-03: an earlier version said write tools weren't registered), and each write supports dry-run, confirmation and read-back. The script's "switch" hit is an unrelated `read_only` field in `web.py:188`.
 - Its writes are to HaloPSA configuration (statuses, ticket types, categories), not tickets.
 - Single contributor, no tags. Some user-facing text is in Italian.
 
