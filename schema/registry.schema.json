@@ -41,8 +41,8 @@
         "category": { "enum": ["psa", "rmm", "documentation", "security", "backup", "m365", "distribution", "accounting", "crm", "network", "other"] },
         "description": { "type": "string", "maxLength": 200 },
         "tier": {
-          "enum": ["vendor-verified", "reviewed", "listed"],
-          "description": "vendor-verified: published or endorsed by the product vendor. reviewed: a named reviewer read the pinned version against REVIEW-CHECKLIST.md. listed: exists, not reviewed."
+          "enum": ["vendor-verified", "reviewed", "assessed", "listed"],
+          "description": "vendor-verified: published or endorsed by the product vendor. reviewed: a named reviewer read and ran the pinned version against REVIEW-CHECKLIST.md. assessed: the pinned version's source and release were scored against ASSESSMENT.md, nothing run. listed: exists, not reviewed."
         },
         "maintainer": {
           "type": "object",
@@ -173,6 +173,22 @@
             "expires": { "type": "string", "format": "date", "description": "Re-review due; Tabby9 shows a stale badge after this" }
           }
         },
+        "assessment": {
+          "type": "object",
+          "description": "A desk assessment (ASSESSMENT.md) of the pinned version. Required for tier assessed; allowed on any tier.",
+          "required": ["by", "date", "score", "report"],
+          "additionalProperties": false,
+          "properties": {
+            "by": { "type": "string", "description": "reviewer id of the person who checked the flags" },
+            "date": { "type": "string", "format": "date" },
+            "score": { "type": "integer", "description": "0 to 100, after caps" },
+            "caps": { "type": "array", "items": { "type": "string" }, "description": "Caps applied, in plain words" },
+            "report": { "type": "string", "description": "Path to the report, e.g. assess/reports/connectwise-psa/mspstack-connectwise-psa.md" },
+            "group": { "type": "string", "description": "The ranking it belongs to, e.g. connectwise-psa (assess/reports/<group>/RANKING.md)" },
+            "rank": { "type": "integer", "description": "Its place in that ranking when assessed" },
+            "of": { "type": "integer", "description": "How many servers were ranked" }
+          }
+        },
         "links": {
           "type": "object",
           "additionalProperties": false,
@@ -202,8 +218,12 @@
       },
       "allOf": [
         {
-          "if": { "properties": { "tier": { "enum": ["reviewed", "vendor-verified"] } } },
+          "if": { "properties": { "tier": { "enum": ["reviewed", "vendor-verified", "assessed"] } } },
           "then": { "required": ["pin"] }
+        },
+        {
+          "if": { "properties": { "tier": { "const": "assessed" } } },
+          "then": { "required": ["assessment"] }
         },
         {
           "if": { "properties": { "tier": { "const": "reviewed" } } },

@@ -1,5 +1,5 @@
 {
   "alg": "ed25519",
   "keyId": "pf-2026-11",
-  "sig": "uDMQGURPlDKJlhKipjnD4jNItxqpmsBlt3YBSpyRsbZ35jtJhX8GcBF0XMKLhLSdhhGCEq6z8IYHDcb0gZmUBA=="
+  "sig": "4VosuzecNeZe6CLkmdsQR3+68X/lmfI1SJs6yX+rNPkbQUZjoRhok3mT7pIXLNA2aHGYfc4FezBdfSyk/1rPAw=="
 }

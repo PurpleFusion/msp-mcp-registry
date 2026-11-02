@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "serial": 1,
+  "serial": 2,
   "updated": "2026-11-02",
   "reviewers": [
     {
@@ -291,6 +291,149 @@
           "severity": "medium",
           "risk": "Reads text written by outsiders",
           "detail": "Ticket text comes from end users and email. Text crafted to instruct Claude can reach it this way. Keep it read-only, or don't give the same session a shell or browser."
+        }
+      ]
+    },
+    {
+      "id": "mspstack-connectwise-psa",
+      "name": "ConnectWise PSA (mspstack)",
+      "vendor": "ConnectWise",
+      "category": "psa",
+      "description": "Tickets, time, schedule, companies, configurations and invoices in ConnectWise PSA, grouped into toolsets per role. Runs on your PC.",
+      "tier": "assessed",
+      "maintainer": {
+        "name": "mspstack",
+        "url": "https://github.com/mspstack"
+      },
+      "install": {
+        "method": "npx",
+        "package": "mcp-connectwise-psa"
+      },
+      "server": {
+        "transport": "stdio",
+        "runtime": "npx",
+        "package": "mcp-connectwise-psa",
+        "version": "0.12.0"
+      },
+      "pin": {
+        "version": "0.12.0",
+        "commit": "35638a8853fd69c2e0fb54c030334a216eabaac2",
+        "pinnedOn": "2026-11-02"
+      },
+      "assessment": {
+        "by": "dvidos",
+        "date": "2026-11-02",
+        "score": 91,
+        "report": "assess/reports/connectwise-psa/mspstack-connectwise-psa.md",
+        "group": "connectwise-psa",
+        "rank": 1,
+        "of": 9
+      },
+      "credentials": [
+        {
+          "env": "CW_SITE",
+          "label": "ConnectWise host",
+          "type": "other",
+          "secret": false,
+          "help": "Your ConnectWise API host, e.g. api-au.myconnectwise.net, or your on-prem host"
+        },
+        {
+          "env": "CW_COMPANY_ID",
+          "label": "Company ID",
+          "type": "other",
+          "secret": false,
+          "help": "The company identifier you sign in with"
+        },
+        {
+          "env": "CW_CLIENT_ID",
+          "label": "Client ID",
+          "type": "other",
+          "secret": false,
+          "help": "Register an integration at developer.connectwise.com"
+        },
+        {
+          "env": "CW_PUBLIC_KEY",
+          "label": "Public key",
+          "type": "api-key",
+          "secret": false,
+          "help": "System > Members > API Members > API Keys"
+        },
+        {
+          "env": "CW_PRIVATE_KEY",
+          "label": "Private key",
+          "type": "api-key",
+          "leastPrivilege": "A dedicated API member whose security role covers only the boards and modules you need. ConnectWise applies that role to every tool."
+        },
+        {
+          "env": "CW_MEMBER_IDENTIFIER",
+          "label": "Member identifier",
+          "type": "username",
+          "secret": false,
+          "help": "The member the keys belong to; used by the my-tickets and my-time tools"
+        }
+      ],
+      "scope": {
+        "reads": [
+          "Tickets, notes, tasks and ticket time",
+          "Your time entries and timesheets",
+          "Schedule entries and member availability",
+          "Companies, contacts and sites",
+          "Configurations (devices and assets)",
+          "Invoices, agreements and unbilled time",
+          "Any other API path, read-only (cw_get)"
+        ],
+        "writes": [
+          "Create and update tickets, add notes, merge (bundle) tickets",
+          "Create and update time entries, submit timesheets",
+          "Schedule tickets, update and delete schedule entries"
+        ],
+        "touchesSecrets": false,
+        "multiTenant": true,
+        "readOnlyMode": {
+          "supported": false,
+          "denyTools": [
+            "cw_create_ticket",
+            "cw_update_ticket",
+            "cw_add_ticket_note",
+            "cw_bundle_tickets",
+            "cw_create_time_entry",
+            "cw_update_time_entry",
+            "cw_submit_timesheet",
+            "cw_schedule_ticket",
+            "cw_update_schedule_entry",
+            "cw_delete_schedule_entry",
+            "cw_db_save_query"
+          ]
+        }
+      },
+      "network": {
+        "endpoints": [
+          "Your ConnectWise API host"
+        ],
+        "telemetry": false
+      },
+      "links": {
+        "source": "https://github.com/mspstack/mcp-connectwise-psa",
+        "issues": "https://github.com/mspstack/mcp-connectwise-psa/issues",
+        "docs": "https://github.com/mspstack/mcp-connectwise-psa#readme"
+      },
+      "warnings": [
+        {
+          "severity": "medium",
+          "risk": "Reads text written by outsiders",
+          "detail": "Ticket text comes from end users and email. Text crafted to instruct Claude can reach it this way. Keep it read-only, or don't give the same session a shell or browser."
+        },
+        {
+          "severity": "medium",
+          "risk": "Dependencies are resolved when you install",
+          "detail": "The npm package doesn't ship a lockfile, so installing it fetches whatever dependency versions match its ranges that day. The repository's own lockfile pins versions with published advisories, including the MCP SDK.",
+          "source": "https://github.com/PurpleFusion/msp-mcp-registry/blob/main/assess/reports/connectwise-psa/mspstack-connectwise-psa.md"
+        },
+        {
+          "severity": "info",
+          "risk": "Optional database access stays off",
+          "detail": "An optional on-prem SQL toolset reads the whole Manage database through one shared read-only login, bypassing each member's permissions. It turns on only when CW_DB_* settings exist; Tabby9 doesn't set them.",
+          "source": "https://github.com/mspstack/mcp-connectwise-psa#exception-the-sql-toolset"
         }
       ]
     },

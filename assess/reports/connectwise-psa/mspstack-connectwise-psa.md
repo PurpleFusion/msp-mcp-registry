@@ -44,7 +44,7 @@
 - **T4:** the server instructions give SQL guidance ("always use TOP and a WHERE clause"), which is usage advice, not an attempt to steer the model elsewhere.
 - **D1:** HTTP mode listens on all interfaces, but every request must carry the caller's own ConnectWise keys; there is no shared credential to borrow.
 - **Optional SQL toolset (on-prem only):** when `CW_DB_*` is configured, `cw_db_query` reads the whole Manage database through one server-wide read-only login, bypassing each member's ConnectWise permissions, and it is in the default tool selection. The README says so plainly. Leave `CW_DB_*` unset unless you need it.
-- Only one destructive tool (`cw_delete_schedule_entry`); finance is read-only. Published to npm with a provenance attestation.
+- Two write tools aren't counted by name in the tool list below: `cw_bundle_tickets` (merges tickets) and `cw_schedule_ticket` (creates a schedule entry); its README lists both. Only one destructive tool (`cw_delete_schedule_entry`); finance is read-only. Published to npm with a provenance attestation.
 - **S3:** the shipped lockfile pins about 40 versions with advisories, including `@modelcontextprotocol/sdk` 1.29.0, `@hono/node-server` and `@azure/msal-node`.
 
 ## Tools (45, read from source)

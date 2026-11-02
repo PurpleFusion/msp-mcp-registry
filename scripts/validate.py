@@ -60,6 +60,27 @@ for s in reg.get("servers", []):
         if not (pin.get("commit") or pin.get("sha256")):
             err(f"{sid}: reviewed entries must pin a commit or sha256, not just a version")
 
+    assessment = s.get("assessment")
+    if assessment:
+        if assessment.get("by") not in reviewer_ids:
+            err(f"{sid}: assessment.by '{assessment.get('by')}' not in reviewers list")
+        if not 0 <= assessment.get("score", -1) <= 100:
+            err(f"{sid}: assessment.score must be 0 to 100")
+        report = ROOT / assessment.get("report", "")
+        if not report.is_file():
+            err(f"{sid}: assessment.report '{assessment.get('report')}' does not exist")
+        else:
+            # The pin must be exactly what was assessed: the report names the commit or version.
+            text = report.read_text(encoding="utf-8")
+            pin = s.get("pin", {})
+            if not any(v and v in text for v in (pin.get("commit"), pin.get("version") and f"`{pin.get('version')}`")):
+                err(f"{sid}: pin doesn't match the commit or version in {assessment.get('report')}")
+            m = re.search(r"\| Score \| \*\*(\d+)/100\*\*", text)
+            if m and int(m.group(1)) != assessment.get("score"):
+                err(f"{sid}: assessment.score {assessment.get('score')} but the report says {m.group(1)}")
+    if tier == "assessed" and not (s.get("pin", {}).get("commit") or s.get("pin", {}).get("sha256")):
+        err(f"{sid}: assessed entries must pin a commit or sha256, not just a version")
+
     if tier == "vendor-verified" and not s.get("maintainer", {}).get("vendorOfficial"):
         err(f"{sid}: vendor-verified requires maintainer.vendorOfficial = true")
 

@@ -16,6 +16,7 @@ This registry does **not** host or build servers. It points at servers that alre
 |---|---|
 | `vendor-verified` | Published or formally endorsed by the product vendor, and pinned. |
 | `reviewed` | A named reviewer worked through [REVIEW-CHECKLIST.md](REVIEW-CHECKLIST.md) against the pinned version and published `reviews/<id>.md`. |
+| `assessed` | The pinned version's source and release were scored against [ASSESSMENT.md](ASSESSMENT.md) and the flagged findings checked by a named person. Nothing was run. The score and report travel with the entry. |
 | `listed` | Exists and is useful. Nobody here has read it. Install at your own risk; Tabby9 says so. |
 
 "Reviewed" means *a named person read this version and recorded what it does*. It is not a certification or a guarantee. A new upstream release returns an entry to `listed` until re-reviewed.
