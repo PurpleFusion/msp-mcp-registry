@@ -38,6 +38,7 @@ The Tabby9 Connectors panel (in development) reads each entry like this, so writ
 - `warnings` appear in an amber box on the detail view and again before Install.
 - `credentials[]` become the fields of the install form, with `help` and `leastPrivilege` shown under each. Values go to Windows Credential Manager and are passed to the server as environment variables; they are never written to `.claude.json` or `.mcp.json`. Fields with `secret: false` are shown in the clear.
 - `scope.readOnlyMode` is how the default read-only install is enforced: the `env`/`value` switch when `supported` is true, otherwise each `denyTools` pattern becomes a Claude Code `permissions.deny` rule (`mcp__<id>__<pattern>`).
+- `server` describes the MCP server itself (a plugin often contains only skills). Tabby9 offers Install only for entries that have one. A `binary` server's files are downloaded and checked against `sha256` before they run. An `http` server shows who hosts it, because credentials sent to it leave your machine.
 - `install` and `pin` decide the exact command and version installed. When the installed version stops matching `pin`, the panel says so and won't update until the pin here moves.
 - `id` is the MCP server name in Claude Code, so it must never change once published.
 

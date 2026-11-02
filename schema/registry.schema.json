@@ -67,6 +67,40 @@
             "args": { "type": "array", "items": { "type": "string" } }
           }
         },
+        "server": {
+          "type": "object",
+          "description": "The MCP server itself, which a plugin may not contain. Tabby9 writes this entry into Claude Code's config, wrapped by its launcher. Without it, Tabby9 shows the entry but offers no install.",
+          "required": ["transport"],
+          "additionalProperties": false,
+          "properties": {
+            "transport": { "enum": ["stdio", "http"] },
+            "url": { "type": "string", "format": "uri", "description": "http: the endpoint" },
+            "hostedBy": { "type": "string", "description": "http: who runs the endpoint. Credentials sent to it leave the user's machine." },
+            "headers": { "type": "object", "additionalProperties": { "type": "string" }, "description": "http: header name to value; ${ENV} refers to a credentials[] entry" },
+            "runtime": { "enum": ["npx", "uvx", "binary", "docker"], "description": "stdio: how the server is started" },
+            "package": { "type": "string", "description": "npx/uvx: package name" },
+            "version": { "type": "string", "description": "npx/uvx: exact version" },
+            "image": { "type": "string", "pattern": "@sha256:[0-9a-f]{64}$", "description": "docker: image pinned by digest" },
+            "files": {
+              "type": "array",
+              "description": "binary: files Tabby9 downloads into one folder, checks against sha256, and puts first on the server's PATH",
+              "items": {
+                "type": "object",
+                "required": ["name", "url", "sha256"],
+                "additionalProperties": false,
+                "properties": {
+                  "name": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$", "description": "File name to save as" },
+                  "url": { "type": "string", "format": "uri" },
+                  "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+                  "platform": { "enum": ["win32-x64", "win32-arm64"] }
+                }
+              }
+            },
+            "command": { "type": "string", "description": "binary: which of files[] to run" },
+            "args": { "type": "array", "items": { "type": "string" } },
+            "env": { "type": "object", "additionalProperties": { "type": "string" }, "description": "Fixed, non-secret environment values" }
+          }
+        },
         "pin": {
           "type": "object",
           "description": "The exact version a review applies to. Required for tier reviewed and vendor-verified.",

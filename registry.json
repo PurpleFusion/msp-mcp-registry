@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-10-31",
+  "updated": "2026-11-02",
   "reviewers": [
     {
       "id": "dvidos",
@@ -81,11 +81,11 @@
       },
       "credentials": [
         {
-          "env": "HALOPSA_URL",
-          "label": "HaloPSA URL",
-          "type": "url",
+          "env": "HALOPSA_TENANT",
+          "label": "HaloPSA tenant",
+          "type": "other",
           "secret": false,
-          "help": "Your tenant URL, e.g. https://yourmsp.halopsa.com"
+          "help": "The part before .halopsa.com in your HaloPSA address, e.g. yourmsp"
         },
         {
           "env": "HALOPSA_CLIENT_ID",
@@ -132,7 +132,19 @@
         "source": "https://github.com/WYRE-AI/msp-claude-plugins",
         "docs": "https://mcp.wyre.ai/mcp-servers/"
       },
+      "server": {
+        "transport": "http",
+        "url": "https://halopsa-mcp.wyre.workers.dev/mcp",
+        "hostedBy": "WYRE Technology"
+      },
+      "network": {
+        "endpoints": [
+          "halopsa-mcp.wyre.workers.dev"
+        ]
+      },
       "warnings": [
+        "Hosted by WYRE, not HaloPSA: by default the plugin talks to WYRE's server at halopsa-mcp.wyre.workers.dev, so your HaloPSA client secret and ticket data pass through WYRE. How credentials reach that server isn't documented yet, so Tabby9 doesn't offer an install for it.",
+        "The plugin's own setup puts your client secret in plain text in ~/.claude/settings.json. Don't follow that step.",
         "Marked beta by its maintainer."
       ]
     },
@@ -436,21 +448,22 @@
       },
       "credentials": [
         {
-          "env": "DATTO_RMM_URL",
-          "label": "Platform URL",
-          "type": "url",
+          "env": "DATTO_RMM_PLATFORM",
+          "label": "Platform",
+          "type": "other",
           "secret": false,
-          "help": "e.g. https://syrah-api.centrastage.net"
+          "help": "Your Datto RMM region: pinotage, merlot, concord, vidal, zinfandel or syrah"
         },
         {
           "env": "DATTO_RMM_API_KEY",
           "label": "API key",
           "type": "api-key",
-          "secret": false
+          "secret": false,
+          "help": "Setup > Users > generate API keys"
         },
         {
-          "env": "DATTO_RMM_API_SECRET",
-          "label": "API secret",
+          "env": "DATTO_RMM_API_SECRET_KEY",
+          "label": "API secret key",
           "type": "api-key",
           "leastPrivilege": "Dedicated API user; API access is all-or-nothing per user in Datto RMM, so use a user with a read-only security level"
         }
@@ -478,8 +491,38 @@
         }
       },
       "links": {
-        "source": "https://msp-skills.compoundingteams.com/"
-      }
+        "source": "https://github.com/Servosity/msp-skills/tree/main/skills/datto-rmm",
+        "docs": "https://msp-skills.compoundingteams.com/"
+      },
+      "server": {
+        "transport": "stdio",
+        "runtime": "binary",
+        "command": "datto-rmm-mcp.exe",
+        "files": [
+          {
+            "name": "datto-rmm-mcp.exe",
+            "url": "https://github.com/Servosity/msp-skills/releases/download/datto-rmm-v0.1.10/datto-rmm-mcp-windows-amd64.exe",
+            "sha256": "6b8672871c55777b3b07fa0b71f052a85fe9cacca9ebf87b9200bd506d834bca",
+            "platform": "win32-x64"
+          },
+          {
+            "name": "datto-rmm-cli.exe",
+            "url": "https://github.com/Servosity/msp-skills/releases/download/datto-rmm-v0.1.10/datto-rmm-cli-windows-amd64.exe",
+            "sha256": "426ee7eaf3b31fc520b4605305c27c8e7f9776fd45a542f3b6bc384a7b8fdcaf",
+            "platform": "win32-x64"
+          }
+        ]
+      },
+      "pin": {
+        "version": "0.1.10",
+        "commit": "e9c7c7e2a5bfa1753cf464257a3f8b54994f7853",
+        "sha256": "6b8672871c55777b3b07fa0b71f052a85fe9cacca9ebf87b9200bd506d834bca",
+        "pinnedOn": "2026-11-02"
+      },
+      "warnings": [
+        "Keeps a local SQLite copy of your Datto RMM fleet under your user profile. Anyone with access to your Windows account can read it.",
+        "Use only the default stdio mode. Its maintainer warns that its HTTP mode has no password and can be reached by any web page you open."
+      ]
     },
     {
       "id": "itglue",
