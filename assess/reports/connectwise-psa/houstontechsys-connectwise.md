@@ -31,7 +31,7 @@
 | C3 | Nothing written to disk | ✅ |  |
 | C4 | Runs locally (stdio) | ✅ | dist/index.js:10 |
 | T1 | Tool list readable | ✅ | 12 tools found |
-| T2 | Read-only possible | ✅ | read-only switch: dist/tools/companies.js:46 |
+| T2 | Read-only possible | ✅ | 4 write tools; 0 don't start with a verb:  |
 | T3 | No arbitrary-request tool | ✅ |  |
 | T4 | Descriptions don't steer the model | ✅ |  |
 | D1 | HTTP mode safe | — |  |

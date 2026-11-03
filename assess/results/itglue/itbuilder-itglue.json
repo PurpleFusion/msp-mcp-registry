@@ -1,0 +1,135 @@
+{
+  "id": "itbuilder-itglue",
+  "name": "itglue-mcp (ITbuilder)",
+  "maintainer": "ITbuilder Ltd",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/ITbuilder-Ltd/itglue-mcp",
+  "ref": "main",
+  "commit": "fd6835e89e68ac7c944e72496a8a31871654a40d",
+  "latestRelease": null,
+  "tools": [],
+  "writeTools": [],
+  "files": 42,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "MIT"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
+    },
+    {
+      "id": "P3",
+      "result": "fail",
+      "evidence": "0 git tags, 0 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-10-20"
+    },
+    {
+      "id": "P5",
+      "result": "fail",
+      "evidence": "1 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "fail",
+      "evidence": "no lockfile"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "unknown",
+      "evidence": "nothing locked to check"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "0 direct"
+    },
+    {
+      "id": "N1",
+      "result": "fail",
+      "evidence": "login.microsoftonline.com (itglue_mcp/server/entra.py:68), global.consent.azure-apim.net (itglue_mcp/server/entra.py:75)"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "4 reads"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "itglue_mcp/server/serve.py:32"
+    },
+    {
+      "id": "T1",
+      "result": "fail",
+      "evidence": "0 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "unknown",
+      "evidence": "0 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "unknown",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "flag",
+      "evidence": "itglue_mcp/server/serve.py:44 \"\"\"True for localhost and for an address that ipaddress says is loopback. \"0.0.0.0\", \"::\" and every"
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "group": "datto-rmm",
+  "title": "Datto RMM MCP servers",
+  "vendorHosts": [
+    "(^|\\.)centrastage\\.net$",
+    "(^|\\.)datto\\.com$",
+    "(^|\\.)rmm\\.datto\\.com$"
+  ],
+  "candidates": [
+    {
+      "id": "servosity-datto-rmm",
+      "name": "msp-skills datto-rmm",
+      "maintainer": "Servosity",
+      "source": {
+        "github": "Servosity/msp-skills",
+        "path": "skills/datto-rmm",
+        "ref": "datto-rmm-v0.1.10"
+      },
+      "notes": {
+        "confirmed": {
+          "P2": "unknown",
+          "N1": "pass",
+          "N2": "pass",
+          "T4": "pass",
+          "D2": "pass",
+          "C3": "fail",
+          "T2": "fail",
+          "T3": "fail",
+          "D1": "fail"
+        },
+        "text": "- **P2:** what you install is the prebuilt binary from the `datto-rmm-v0.1.10` release. GitHub's release attestation records each asset's SHA-256 against commit `e9c7c7e` (it matches the registry pin `6b867287…`), but there is no build-provenance attestation, so the binary can't be shown to be built from this source.\n- **N1, N2, T4:** the hits are code comments and an example host in help text (`cli/internal/cli/doctor_verdict.go:79`, `cli/internal/cliutil/jwtshape.go:16`, `cli/internal/mcp/cobratree/shellout.go:285`, `cli/internal/cliutil/text.go:14`). Datto calls go only to `*-api.centrastage.net`.\n- **D2:** tools run the project's own companion CLI binary directly (`exec.CommandContext`, no shell, `cobratree/shellout.go:287`); the other hits open a browser for sign-in. That is its design, not a shell or code evaluation.\n- **C3 (confirmed):** `sync` copies the fleet (sites, devices, alerts, audits) into a SQLite store at `~/.local/share/<name>/data.db` (`cli/internal/cli/helpers.go:1910`), plus a response cache written with owner-only permissions (`cli/internal/cache/cache.go:48`). The maintainer documents the local fleet store.\n- **T3 (confirmed), running jobs on devices:** `datto-rmm_execute` (`cli/internal/mcp/code_orch.go:43`) is always registered and calls any endpoint in its built-in list by `endpoint_id`, including `device.quickjob.create-quick-job` (runs a component on a device, `code_orch.go:366`), `device.site.move-device`, site/account variable and proxy changes, and `user.reset-api-keys` (`code_orch.go:656`). Because the endpoint is a parameter, a deny rule on the tool name can't separate reads from writes.\n- **T2 (confirmed fail):** the matched `readOnlyIntent` (`cli/internal/client/client.go:422`) is an internal flag for the generator's test harness, and `mcp:read-only` is a hint annotation on generated tools (`cobratree/classify.go:20`); neither is a switch you can turn on. No environment setting disables writes; the README's advice is an API user with a read-only security level in Datto.\n- **D1:** HTTP mode is opt-in (`--transport http` or `PP_MCP_TRANSPORT=http`), listens on `:7777`, all interfaces, with no authentication (`cmd/datto-rmm-mcp/main.go:23,52`), and uses the server's own Datto credentials. The default is stdio, which is how the registry runs it. Opt-in, so it fails D1 without the open-by-default cap.\n- **T1:** tools are generated at runtime from the CLI's command tree, so the 5 found in the source understate the real number.\n- **S3:** `golang.org/x/mod` and `golang.org/x/sys` versions with Go advisories."
+      }
+    },
+    {
+      "id": "wyre-datto-rmm",
+      "name": "datto-rmm-mcp",
+      "maintainer": "WYRE Technology",
+      "source": {
+        "github": "WYRE-AI/datto-rmm-mcp"
+      },
+      "notes": {
+        "confirmed": {
+          "P2": "pass",
+          "N2": "pass",
+          "C2": "pass",
+          "D1": "pass"
+        },
+        "text": "- **P2:** `@wyre-ai/datto-rmm-mcp` is not on the public npm registry; the script read npm's \"not found\" reply as a package without provenance. Installed from the pinned commit, as for the other GitHub sources.\n- **N2:** the hits are the function name `neutralizeClosingTag(` matching the `gtag(` pattern (`src/untrusted-content.ts:135,146`). No telemetry.\n- **C2:** the flagged line prints a fixed error message; the code states the secret is never logged (`src/index.ts:80-90`).\n- **D1:** stdio is the default (`src/index.ts:297`). HTTP mode refuses to start without `CONDUIT_S2S_SECRET` and checks the `X-Gateway-S2S` header on every request (`src/index.ts:87-99,172`); without a secret it only runs with `MCP_ALLOW_INSECURE_DEV=1`, and then only on 127.0.0.1.\n- **Running jobs on devices:** `datto_run_quickjob` runs a component on one device with caller-supplied variables (`src/mcp-server.ts:620,1098`). Writes are limited to that and `datto_resolve_alert`; there is no read-only switch, but both names can be matched by a deny rule. Tool output is wrapped in a `<datto-data>` block marked as data, not instructions (`src/untrusted-content.ts`).\n- **API client not read here:** the Datto calls are made by a separate package, `@wyre-ai/node-datto-rmm`, resolved from GitHub Packages (`package-lock.json:1946`), which needs a GitHub token even to install. Its code isn't part of this assessment. The regional `*-api.centrastage.net` hosts appear in `src/patches.ts:29-34`.\n- **Hosting:** WYRE's Claude Code plugin points at WYRE's hosted gateway by default. This assessment is of running the source yourself. The copy under `WYRE-AI/msp-claude-plugins/msp-claude-plugins/mcp-servers/datto-rmm-mcp` is an older vendored snapshot of this repo.\n- **S3:** the shipped lockfile pins versions with published advisories, including `@modelcontextprotocol/sdk` 1.31.0, `body-parser` and `fast-uri`."
+      }
+    },
+    {
+      "id": "veeemlab-datto-rmm",
+      "name": "@veeemlab/datto-rmm-mcp",
+      "maintainer": "veeemlab (Vitalii Morgunov)",
+      "source": {
+        "github": "veeemlab/datto-rmm-mcp"
+      },
+      "notes": {
+        "text": "- **Read-only switch:** `DATTO_MCP_READONLY=true` leaves out every tool in `DESTRUCTIVE_TOOLS`, including `create-quick-job` (`src/security.ts:3-31`, `src/index.ts:34`).\n- **Running jobs on devices:** with the switch off, `create-quick-job` runs a component on a device. It and nine other tools (`reset-api-keys`, `move-device`, `set-site-proxy`, variable deletes and others) require a `confirm` argument equal to the tool's name in capitals (`src/security.ts:26-28`). The model can fill that in itself, so it slows a mistaken call rather than requiring a person.\n- **S2:** `prepare` runs the project's own TypeScript build (`npm run build`) when installed from git; it doesn't run when installed from npm. Published to npm with a provenance attestation.\n- Runs over stdio only. Last changed May 2026, single maintainer.\n- **S3:** the shipped lockfile pins versions with advisories, including `@modelcontextprotocol/sdk` 1.29.0 and `@hono/node-server`."
+      }
+    },
+    {
+      "id": "joshfisher-datto-rmm",
+      "name": "datto-rmm-mcp-server",
+      "maintainer": "josh-fisher",
+      "source": {
+        "github": "josh-fisher/datto-rmm",
+        "path": "apps/mcp-server"
+      },
+      "notes": {
+        "confirmed": {
+          "S1": "pass"
+        },
+        "text": "- **S1:** the lockfile is `pnpm-lock.yaml` at the monorepo root, outside the assessed folder. The script doesn't read pnpm lockfiles, so S3 couldn't be checked.\n- **P2:** published to npm as `datto-rmm-mcp-server` 0.1.0 without a provenance attestation. Building from source needs the pnpm workspace, since the API client is the sibling package `datto-rmm-api` (`workspace:*`). That client talks only to the six `*-api.centrastage.net` hosts.\n- **Running jobs on devices:** `create-quick-job` (`src/tools/index.ts:352`, a `PUT /v2/device/{deviceUid}/quickjob` in `src/tools/devices.ts:263`) runs a component on a device. There is no read-only switch; every write tool (15, including `move-device`, `update-site-proxy` and variable deletes) starts with a verb a deny rule can match.\n- One release (v0.1.0, January 2026), single maintainer. A copy without the lockfile exists at `floriand-mspblue/datto-rmm-mcp-dev`; it isn't assessed separately."
+      }
+    },
+    {
+      "id": "mspbots-datto-rmm",
+      "name": "datto-rmm-mcp",
+      "maintainer": "MSPbots",
+      "source": {
+        "github": "MSPbotsAIFramework/datto-rmm-mcp"
+      },
+      "notes": {
+        "confirmed": {
+          "C1": "fail",
+          "D1": "pass"
+        },
+        "text": "- **C4, C1:** HTTP only; there is no stdio mode (`src/datto_rmm_mcp/__main__.py:41`). Datto keys aren't read from the environment: each request carries the caller's own key and secret in `X-Datto-Api-Key` / `X-Datto-Api-Secret` headers (`server.py:99-100`). It's built to sit behind MSPbots' gateway.\n- **D1:** listens on all interfaces, port 8080 (`config.py:9-10`), but every `/mcp` request without both key headers gets a 401 (`server.py:102-117`); there is no shared credential to borrow.\n- **Caller-chosen API host:** an `X-Datto-Api-Url` header, when sent, replaces the regional host with no check that it is a Datto host (`server.py:53-57`), and the key and secret go to that URL for the token exchange. Whoever runs the server can be made to send requests to any address it can reach.\n- **Running jobs on devices:** `dattormm_run_component` runs a component on a device right away (`tools/jobs.py:27`). It refuses unless `confirm=true`, which the model sets itself; there is no read-only switch. Only six tools in all.\n- **S3:** the lockfile pins `mcp` 1.29.1, `pyjwt` 2.13.0 and `certifi` versions with advisories."
+      }
+    },
+    {
+      "id": "am3cramirez-dattormm",
+      "name": "dattormm-mcp",
+      "maintainer": "am3cramirez",
+      "source": {
+        "github": "am3cramirez/dattormm-mcp"
+      },
+      "notes": {
+        "confirmed": {
+          "P2": "pass",
+          "D1": "fail"
+        },
+        "text": "- **P2:** `dattormm-mcp` is not on npm; the script read npm's \"not found\" reply as a package without provenance. Installed from the pinned commit.\n- **D1:** stdio is the default. With `MCP_TRANSPORT=http` it calls `listen(port)` with no host, which listens on all interfaces, port 3000, and has no authentication (`src/index.ts:19-64`); anyone who can reach that port uses your Datto keys, including the job tool. The script missed it because no `0.0.0.0` appears in the call. Opt-in, so it fails D1 without the open-by-default cap.\n- **Running jobs on devices:** `datto_run_quickjob` runs a component on a device. There is no read-only switch; all 15 write tools start with `datto_` followed by a verb a deny rule can match.\n- One commit (July 2026), single contributor, no tags."
+      }
+    },
+    {
+      "id": "logiphys-datto-rmm",
+      "name": "lgp-mcp-servers datto-rmm-mcp",
+      "maintainer": "Logiphys",
+      "source": {
+        "github": "Logiphys/lgp-mcp-servers"
+      },
+      "notes": {
+        "confirmed": {
+          "N1": "pass",
+          "C2": "pass",
+          "T2": "pass"
+        },
+        "text": "- **Monorepo:** one Go module with separate servers for Autotask, IT Glue, Datto RMM, Datto Backup/EDR/Network and others; the whole repo was read because they share `go.sum`. The Datto RMM binary (`cmd/datto-rmm-mcp/main.go`) loads only `pkg/dattormm`, `pkg/config` and `pkg/mcputil`, and runs over stdio only.\n- **N1:** the other hosts belong to the other servers. `pkg/dattormm/client.go:25-30` lists only the six `*-api.centrastage.net` hosts; `https://logiphys.de` is a text field in the server-info tool's output, not a request (`pkg/mcputil/serverinfo.go:37`).\n- **C2:** the flagged lines (IT Glue server) log the tool name and error, not a secret.\n- **T2:** the two names flagged (`get_activity_log`, `list_alerts_archive`) are reads in other servers. The Datto RMM server has no read-only switch, but all its write tools start with a verb.\n- **Running jobs on devices:** `create_quick_job` runs a component on a device (`pkg/dattormm/tools_devices.go:185`), marked destructive, with no confirmation step or switch. Other writes include `move_device`, `update_site_proxy` and variable create/delete.\n- `DATTO_BASE_URL` can replace the regional host."
+      }
+    },
+    {
+      "id": "nsumner42-msp-mcp",
+      "name": "MSP-MCP (datto)",
+      "maintainer": "nsumner42",
+      "source": {
+        "github": "nsumner42/MSP-MCP"
+      },
+      "notes": {
+        "confirmed": {
+          "N1": "pass",
+          "C3": "pass",
+          "D2": "pass"
+        },
+        "text": "- **Monorepo:** one Python package with separate stdio servers for Datto RMM, CrowdStrike, Mimecast, ThreatLocker, Portnox, AssetPanda and ClouDNS. The other hosts belong to those servers; the Datto RMM server's client talks only to `*-api.centrastage.net` (`src/msp_mcp/datto/client.py:17`).\n- **Writes off by default:** Datto write tools refuse unless `MSP_MCP_DATTO_WRITES=1` is set (`src/msp_mcp/core/guard.py:43-52`). Every write attempt, allowed or refused, is appended to `%LOCALAPPDATA%\\MSP-MCP\\audit.log` (action and target, no credentials). That log is the C3 hit; it isn't a data cache.\n- **Running jobs on devices:** `run_quick_job` and `run_quick_job_many` run a component on one or many devices once writes are on (`datto/server.py:430,479`). The many-device version defaults to a dry run and refuses more than 25 devices unless `max_devices` is raised.\n- **C1, D2:** credentials don't come from environment variables but from a DPAPI-encrypted file in the user's profile, or from a `Credential.ps1` that it runs with `powershell.exe` (`core/credentials.py:26-32,78`). That is a fixed command with the credential name passed in an environment variable; no model input reaches it. The script you dot-source isn't part of the repo.\n- No licence (caps the score). No tags."
+      }
+    },
+    {
+      "id": "aaroncampbell-autotask-rmm",
+      "name": "Autotask_MCP-public (RMM tools)",
+      "maintainer": "Aaron Campbell",
+      "source": {
+        "github": "AaronCampbellit/Autotask_MCP-public"
+      },
+      "notes": {
+        "confirmed": {
+          "P2": "pass",
+          "C3": "fail",
+          "T4": "pass",
+          "D1": "pass"
+        },
+        "text": "- **What it is:** a hosted, multi-user Autotask PSA server with a web console that also has 55 Datto RMM tools (`docs/DATTO-RMM.md`). It needs PostgreSQL and Microsoft Entra ID sign-in, and has no stdio mode (C4).\n- **Licence:** \"All rights reserved\"; no right to copy or deploy is granted (`LICENSE`), which caps the score.\n- **P2:** the package name `rarity-autotask-mcp` is not on npm; the script read npm's \"not found\" reply as a package without provenance.\n- **D1:** listens on all interfaces, but `/mcp` requires an Entra ID bearer token on every request (`apps/server/src/app.ts:225-227`).\n- **C3 (confirmed):** state lives in PostgreSQL, including the Datto key and secret, which are stored encrypted (`docs/DATTO-RMM.md`); fixture mode writes demo tokens to `work/demo-credentials.json` (`apps/server/src/main.ts:15`).\n- **N1:** the other hosts are its other integrations (Autotask, IT Glue, Microsoft Graph and sign-in).\n- **Running jobs on devices:** `rmm_quickjob_run` only runs components an administrator approved in the console, with fixed variable values the model can't change, for users granted `rmm.execute` (`packages/rmm/src/service.ts:29,40`).\n- **T1:** the RMM tools are declared in a form the script doesn't read, so the 10 tools found are mostly Autotask.\n- **T4:** the hit is a code comment.\n- **S3:** the lockfile pins `@modelcontextprotocol/server` 2.0.0 and `zod` versions with advisories."
+      }
+    }
+  ]
+}

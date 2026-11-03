@@ -1,0 +1,195 @@
+{
+  "id": "impendingtech-halopsa",
+  "name": "HaloPSA-MCP-Server",
+  "maintainer": "Tim-ImpendingTech",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/Tim-ImpendingTech/HaloPSA-MCP-Server",
+  "ref": "main",
+  "commit": "6cab248f7f3da9ae091fc6ab9fd3d6bdced0ad86",
+  "latestRelease": null,
+  "tools": [
+    "halo_create_action",
+    "halo_create_appointment",
+    "halo_create_asset",
+    "halo_create_client",
+    "halo_create_kb_article",
+    "halo_create_project",
+    "halo_create_site",
+    "halo_create_ticket",
+    "halo_get_agent",
+    "halo_get_appointment",
+    "halo_get_asset",
+    "halo_get_client",
+    "halo_get_contract",
+    "halo_get_invoice",
+    "halo_get_kb_article",
+    "halo_get_my_tickets",
+    "halo_get_opportunity",
+    "halo_get_project",
+    "halo_get_quotation",
+    "halo_get_site",
+    "halo_get_supplier",
+    "halo_get_ticket",
+    "halo_list_actions",
+    "halo_list_agents",
+    "halo_list_appointments",
+    "halo_list_assets",
+    "halo_list_assigned_tickets",
+    "halo_list_clients",
+    "halo_list_contracts",
+    "halo_list_created_tickets",
+    "halo_list_invoices",
+    "halo_list_opportunities",
+    "halo_list_priorities",
+    "halo_list_projects",
+    "halo_list_quotations",
+    "halo_list_sites",
+    "halo_list_statuses",
+    "halo_list_suppliers",
+    "halo_list_teams",
+    "halo_list_ticket_types",
+    "halo_list_tickets",
+    "halo_search_kb_articles",
+    "halo_update_asset",
+    "halo_update_client",
+    "halo_update_project",
+    "halo_update_ticket"
+  ],
+  "writeTools": [
+    "halo_create_action",
+    "halo_create_appointment",
+    "halo_create_asset",
+    "halo_create_client",
+    "halo_create_kb_article",
+    "halo_create_project",
+    "halo_create_site",
+    "halo_create_ticket",
+    "halo_update_asset",
+    "halo_update_client",
+    "halo_update_project",
+    "halo_update_ticket"
+  ],
+  "files": 28,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "MIT"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
+    },
+    {
+      "id": "P3",
+      "result": "fail",
+      "evidence": "0 git tags, 0 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "fail",
+      "evidence": "last change 2026-02-26"
+    },
+    {
+      "id": "P5",
+      "result": "pass",
+      "evidence": "2 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "pass",
+      "evidence": "package-lock.json"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "fail",
+      "evidence": "@hono/node-server@1.19.9: GHSA-92pp-h63x-v22m, @hono/node-server@1.19.9: GHSA-frvp-7c67-39w9, @hono/node-server@1.19.9: GHSA-wc8c-qw6v-h7f6, @modelcontextprotocol/sdk@1.27.1: GHSA-22jm-h49p-29qw, @modelcontextprotocol/sdk@1.27.1: GHSA-46jr-4wx8-v453, @modelcontextprotocol/sdk@1.27.1: GHSA-6prh-2h8m-c8cw, @modelcontextprotocol/sdk@1.27.1: GHSA-6qxp-vccf-f47h, @modelcontextprotocol/sdk@1.27.1: GHSA-f897-62hf-6gxq, @modelcontextprotocol/sdk@1.27.1: GHSA-rvq5-wwqv-78pq, body-parser@2.2.2: GHSA-27r3-jxmh-p828, body-parser@2.2.2: GHSA-v422-hmwv-36x6, express-rate-limit@8.2.1: GHSA-46wh-pxpv-q5gq (+61 more)"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "2 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "4 reads"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "src/index.ts:4"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "46 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "12 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "n/a",
+      "evidence": ""
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

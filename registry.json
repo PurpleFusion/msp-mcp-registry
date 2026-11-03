@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "serial": 1,
+  "serial": 4,
   "updated": "2026-11-02",
   "reviewers": [
     {
@@ -192,6 +192,130 @@
       ]
     },
     {
+      "id": "chatpsa-halopsa",
+      "name": "HaloPSA (ChatPSA open)",
+      "vendor": "HaloPSA",
+      "category": "psa",
+      "description": "Investigate HaloPSA tickets, workflows, rules and the knowledge base. Optional guarded changes to statuses, ticket types and categories. Runs on your PC.",
+      "tier": "assessed",
+      "maintainer": {
+        "name": "ethergrade (INTELGUARD-IO)",
+        "url": "https://github.com/ethergrade"
+      },
+      "install": {
+        "method": "uvx",
+        "package": "git+https://github.com/ethergrade/ChatPSA@354d70132b392b094ad5166e41de6cd12dcd3679"
+      },
+      "pin": {
+        "version": "0.1.0",
+        "commit": "354d70132b392b094ad5166e41de6cd12dcd3679",
+        "pinnedOn": "2026-11-02"
+      },
+      "assessment": {
+        "by": "dvidos",
+        "date": "2026-11-02",
+        "score": 93,
+        "report": "assess/reports/halopsa/ethergrade-chatpsa.md",
+        "group": "halopsa",
+        "rank": 1,
+        "of": 12
+      },
+      "credentials": [
+        {
+          "env": "HALO_BASE_URL",
+          "label": "HaloPSA URL",
+          "type": "url",
+          "secret": false,
+          "help": "Your HaloPSA web address, e.g. https://yourtenant.halopsa.com"
+        },
+        {
+          "env": "HALO_CLIENT_ID",
+          "label": "Client ID",
+          "type": "oauth-client-id",
+          "secret": false,
+          "help": "Configuration > Integrations > HaloPSA API > View Applications > New, with Client ID and Secret (Services) authentication"
+        },
+        {
+          "env": "HALO_CLIENT_SECRET",
+          "label": "Client secret",
+          "type": "oauth-client-secret",
+          "secret": true,
+          "help": "Shown once when you create the application",
+          "leastPrivilege": "Run the application as a dedicated agent and give it read permissions only. Grant edit rights on configuration only if you mean to turn writes on."
+        }
+      ],
+      "scope": {
+        "reads": [
+          "One ticket at a time: summary, status, type, client, site, user, team, workflow and SLA only",
+          "Statuses, ticket types, categories and outcomes",
+          "Workflows and ticket rules, with diagnostics for broken workflows",
+          "Knowledge base articles and tags",
+          "Plans for workflow, rule and KB changes (previews only; nothing is sent)"
+        ],
+        "writes": [
+          "Only when CHATPSA_ENABLE_WRITES is true, and each needs an exact typed confirmation",
+          "Create, update and delete ticket statuses",
+          "Create, update and delete ticket types",
+          "Create, update and delete ticket categories"
+        ],
+        "touchesSecrets": false,
+        "multiTenant": true,
+        "readOnlyMode": {
+          "supported": true,
+          "env": "CHATPSA_ENABLE_WRITES",
+          "value": "false"
+        }
+      },
+      "network": {
+        "endpoints": [
+          "Your HaloPSA URL (/auth/token and /api)"
+        ],
+        "telemetry": false
+      },
+      "links": {
+        "source": "https://github.com/ethergrade/ChatPSA/tree/354d70132b392b094ad5166e41de6cd12dcd3679",
+        "docs": "https://github.com/ethergrade/ChatPSA/blob/354d70132b392b094ad5166e41de6cd12dcd3679/README.md",
+        "issues": "https://github.com/ethergrade/ChatPSA/issues"
+      },
+      "warnings": [
+        {
+          "severity": "medium",
+          "risk": "Reads text written by outsiders",
+          "detail": "Ticket summaries and user names come from end users and email. Text crafted to instruct Claude can reach it this way. Keep it read-only, or don't give the same session a shell or browser."
+        },
+        {
+          "severity": "medium",
+          "risk": "Can change PSA configuration if writes are on",
+          "detail": "With CHATPSA_ENABLE_WRITES=true it can delete or change ticket statuses, types and categories, which every client's tickets use. Each write is a dry run unless the exact confirmation text is given. Tabby9's read-only install sets CHATPSA_ENABLE_WRITES=false.",
+          "source": "https://github.com/ethergrade/ChatPSA/blob/354d70132b392b094ad5166e41de6cd12dcd3679/src/chatpsa/change_control.py#L503-L519"
+        },
+        {
+          "severity": "medium",
+          "risk": "Dependencies are resolved when you install",
+          "detail": "Installing from the Git commit doesn't use the repository's uv.lock, so every dependency except the MCP SDK (pinned to 2.2.0) is fetched at whatever version matches its range that day.",
+          "source": "https://github.com/ethergrade/ChatPSA/blob/354d70132b392b094ad5166e41de6cd12dcd3679/pyproject.toml"
+        },
+        {
+          "severity": "low",
+          "risk": "No releases, one maintainer",
+          "detail": "There are no tags or releases, no security policy and a single contributor. This entry installs one exact commit. Some messages are in Italian.",
+          "source": "https://github.com/ethergrade/ChatPSA"
+        },
+        {
+          "severity": "info",
+          "risk": "Only the MCP server, not the web agent desk",
+          "detail": "The same package contains chatpsa-web, a separate web app that sends ticket images and questions to OpenAI and keeps a local SQLite history. This entry runs only the chatpsa MCP server, which talks to HaloPSA and writes nothing to disk.",
+          "source": "https://github.com/ethergrade/ChatPSA/blob/354d70132b392b094ad5166e41de6cd12dcd3679/src/chatpsa/server.py"
+        },
+        {
+          "severity": "info",
+          "risk": "No release to install yet",
+          "detail": "ChatPSA has no tagged release and isn't on PyPI, so it could only be installed from git with dependencies resolved on the day. The assessment applies to commit 354d701 on main. Tabby9 lists it but doesn't offer an install until a release can be pinned.",
+          "source": "https://github.com/ethergrade/ChatPSA"
+        }
+      ]
+    },
+    {
       "id": "connectwise-manage",
       "name": "ConnectWise PSA (Manage)",
       "vendor": "ConnectWise",
@@ -291,6 +415,149 @@
           "severity": "medium",
           "risk": "Reads text written by outsiders",
           "detail": "Ticket text comes from end users and email. Text crafted to instruct Claude can reach it this way. Keep it read-only, or don't give the same session a shell or browser."
+        }
+      ]
+    },
+    {
+      "id": "mspstack-connectwise-psa",
+      "name": "ConnectWise PSA (mspstack)",
+      "vendor": "ConnectWise",
+      "category": "psa",
+      "description": "Tickets, time, schedule, companies, configurations and invoices in ConnectWise PSA, grouped into toolsets per role. Runs on your PC.",
+      "tier": "assessed",
+      "maintainer": {
+        "name": "mspstack",
+        "url": "https://github.com/mspstack"
+      },
+      "install": {
+        "method": "npx",
+        "package": "mcp-connectwise-psa"
+      },
+      "server": {
+        "transport": "stdio",
+        "runtime": "npx",
+        "package": "mcp-connectwise-psa",
+        "version": "0.12.0"
+      },
+      "pin": {
+        "version": "0.12.0",
+        "commit": "35638a8853fd69c2e0fb54c030334a216eabaac2",
+        "pinnedOn": "2026-11-02"
+      },
+      "assessment": {
+        "by": "dvidos",
+        "date": "2026-11-02",
+        "score": 91,
+        "report": "assess/reports/connectwise-psa/mspstack-connectwise-psa.md",
+        "group": "connectwise-psa",
+        "rank": 1,
+        "of": 9
+      },
+      "credentials": [
+        {
+          "env": "CW_SITE",
+          "label": "ConnectWise host",
+          "type": "other",
+          "secret": false,
+          "help": "Your ConnectWise API host, e.g. api-au.myconnectwise.net, or your on-prem host"
+        },
+        {
+          "env": "CW_COMPANY_ID",
+          "label": "Company ID",
+          "type": "other",
+          "secret": false,
+          "help": "The company identifier you sign in with"
+        },
+        {
+          "env": "CW_CLIENT_ID",
+          "label": "Client ID",
+          "type": "other",
+          "secret": false,
+          "help": "Register an integration at developer.connectwise.com"
+        },
+        {
+          "env": "CW_PUBLIC_KEY",
+          "label": "Public key",
+          "type": "api-key",
+          "secret": false,
+          "help": "System > Members > API Members > API Keys"
+        },
+        {
+          "env": "CW_PRIVATE_KEY",
+          "label": "Private key",
+          "type": "api-key",
+          "leastPrivilege": "A dedicated API member whose security role covers only the boards and modules you need. ConnectWise applies that role to every tool."
+        },
+        {
+          "env": "CW_MEMBER_IDENTIFIER",
+          "label": "Member identifier",
+          "type": "username",
+          "secret": false,
+          "help": "The member the keys belong to; used by the my-tickets and my-time tools"
+        }
+      ],
+      "scope": {
+        "reads": [
+          "Tickets, notes, tasks and ticket time",
+          "Your time entries and timesheets",
+          "Schedule entries and member availability",
+          "Companies, contacts and sites",
+          "Configurations (devices and assets)",
+          "Invoices, agreements and unbilled time",
+          "Any other API path, read-only (cw_get)"
+        ],
+        "writes": [
+          "Create and update tickets, add notes, merge (bundle) tickets",
+          "Create and update time entries, submit timesheets",
+          "Schedule tickets, update and delete schedule entries"
+        ],
+        "touchesSecrets": false,
+        "multiTenant": true,
+        "readOnlyMode": {
+          "supported": false,
+          "denyTools": [
+            "cw_create_ticket",
+            "cw_update_ticket",
+            "cw_add_ticket_note",
+            "cw_bundle_tickets",
+            "cw_create_time_entry",
+            "cw_update_time_entry",
+            "cw_submit_timesheet",
+            "cw_schedule_ticket",
+            "cw_update_schedule_entry",
+            "cw_delete_schedule_entry",
+            "cw_db_save_query"
+          ]
+        }
+      },
+      "network": {
+        "endpoints": [
+          "Your ConnectWise API host"
+        ],
+        "telemetry": false
+      },
+      "links": {
+        "source": "https://github.com/mspstack/mcp-connectwise-psa",
+        "issues": "https://github.com/mspstack/mcp-connectwise-psa/issues",
+        "docs": "https://github.com/mspstack/mcp-connectwise-psa#readme"
+      },
+      "warnings": [
+        {
+          "severity": "medium",
+          "risk": "Reads text written by outsiders",
+          "detail": "Ticket text comes from end users and email. Text crafted to instruct Claude can reach it this way. Keep it read-only, or don't give the same session a shell or browser."
+        },
+        {
+          "severity": "medium",
+          "risk": "Dependencies are resolved when you install",
+          "detail": "The npm package doesn't ship a lockfile, so installing it fetches whatever dependency versions match its ranges that day. The repository's own lockfile pins versions with published advisories, including the MCP SDK.",
+          "source": "https://github.com/PurpleFusion/msp-mcp-registry/blob/main/assess/reports/connectwise-psa/mspstack-connectwise-psa.md"
+        },
+        {
+          "severity": "info",
+          "risk": "Optional database access stays off",
+          "detail": "An optional on-prem SQL toolset reads the whole Manage database through one shared read-only login, bypassing each member's permissions. It turns on only when CW_DB_* settings exist; Tabby9 doesn't set them.",
+          "source": "https://github.com/mspstack/mcp-connectwise-psa#exception-the-sql-toolset"
         }
       ]
     },
@@ -574,6 +841,129 @@
       ]
     },
     {
+      "id": "lcleveland-ninjaone",
+      "name": "NinjaOne (lcleveland)",
+      "vendor": "NinjaOne",
+      "category": "rmm",
+      "description": "Organizations, devices, alerts, patches, documentation, tickets and backups in NinjaOne. Read-only unless a write capability is turned on.",
+      "tier": "assessed",
+      "maintainer": {
+        "name": "lcleveland",
+        "url": "https://github.com/lcleveland"
+      },
+      "install": {
+        "method": "binary"
+      },
+      "pin": {
+        "version": "0.1.0",
+        "commit": "4118a1c188493529fcf461555a95cd291f02a0c2",
+        "pinnedOn": "2026-11-02"
+      },
+      "assessment": {
+        "by": "dvidos",
+        "date": "2026-11-02",
+        "score": 95,
+        "report": "assess/reports/ninjaone/lcleveland-ninjaone.md",
+        "group": "ninjaone",
+        "rank": 1,
+        "of": 14
+      },
+      "credentials": [
+        {
+          "env": "NINJAONE_REGION",
+          "label": "Region",
+          "type": "other",
+          "secret": false,
+          "help": "The host you sign in to: app or us (app.ninjarmm.com), us2, eu, ca, oc or fed"
+        },
+        {
+          "env": "NINJAONE_CLIENT_ID",
+          "label": "Client ID",
+          "type": "oauth-client-id",
+          "secret": false,
+          "help": "Administration > Apps > API > Client App IDs > Add. Platform: API Services (machine-to-machine); grant type: Client credentials. Only system administrators can add one."
+        },
+        {
+          "env": "NINJAONE_CLIENT_SECRET",
+          "label": "Client secret",
+          "type": "oauth-client-secret",
+          "secret": true,
+          "help": "Shown when you save the API Services app",
+          "leastPrivilege": "Give the app only the monitoring scope; it is read-only and enough for every read tool. Writes need management, which covers every kind of write. No tool uses control."
+        }
+      ],
+      "scope": {
+        "reads": [
+          "Organizations, locations, devices and device details (disks, volumes, software, services)",
+          "Fleet-wide reports, policies, device roles, groups, tags and software licences",
+          "Users and contacts",
+          "Alerts, activities and running jobs",
+          "OS and software patches, pending and installed",
+          "Custom field values (secure fields are never returned), documents and knowledge base articles",
+          "NinjaOne tickets, boards and log entries",
+          "Backup jobs and usage",
+          "Any other v2 API path, read-only (ninjaone_api)"
+        ],
+        "writes": [
+          "Only when turned on with --allow-<capability>; all are off by default",
+          "Tickets: create, update, comment (--allow-tickets)",
+          "Documents, templates, KB articles and tags (--allow-documentation)",
+          "Custom field values (--allow-custom-fields)",
+          "Maintenance mode, alert reset and delete, patch scans (--allow-device-maintenance)",
+          "Reboot, Windows service control, patch install, policy-override reset (--allow-device-actions)",
+          "Run scripts on a device, often as SYSTEM (--allow-scripts)",
+          "Edit, move, approve and decommission devices, create and edit organizations and locations, licences (--allow-device-admin)"
+        ],
+        "touchesSecrets": false,
+        "multiTenant": true,
+        "readOnlyMode": {
+          "supported": true
+        }
+      },
+      "network": {
+        "endpoints": [
+          "Your NinjaOne region host (app, us2, eu, ca, oc or fed .ninjarmm.com)"
+        ],
+        "telemetry": false
+      },
+      "links": {
+        "source": "https://github.com/lcleveland/ninjaone-mcp/tree/4118a1c188493529fcf461555a95cd291f02a0c2",
+        "docs": "https://github.com/lcleveland/ninjaone-mcp/blob/4118a1c188493529fcf461555a95cd291f02a0c2/README.md",
+        "issues": "https://github.com/lcleveland/ninjaone-mcp/issues"
+      },
+      "warnings": [
+        {
+          "severity": "critical",
+          "risk": "Can run scripts and reboot devices if turned on",
+          "detail": "With --allow-scripts or --allow-device-actions it runs scripts (often as SYSTEM), reboots, installs patches and controls services on client devices. Both are off by default; script runs and forced reboots need the device's exact name as confirmation. Tabby9's read-only install passes no --allow flags.",
+          "source": "https://github.com/lcleveland/ninjaone-mcp/blob/4118a1c188493529fcf461555a95cd291f02a0c2/README.md#write-capabilities"
+        },
+        {
+          "severity": "medium",
+          "risk": "Reads text written by outsiders",
+          "detail": "Tickets, documents and device data such as software names come from end users and client machines. Text crafted to instruct Claude can reach it this way. Keep it read-only, or don't give the same session a shell or browser."
+        },
+        {
+          "severity": "medium",
+          "risk": "Optional user sign-in keeps a token on disk",
+          "detail": "Script runs and ticket writes need a signed-in NinjaOne user. If you set that up, the server keeps the user's rotating refresh token in a file created with mode 0600, which Windows ignores, so the file gets its folder's permissions. Without sign-in, nothing is written to disk.",
+          "source": "https://github.com/lcleveland/ninjaone-mcp/blob/4118a1c188493529fcf461555a95cd291f02a0c2/internal/ninjaone/user.go#L201"
+        },
+        {
+          "severity": "low",
+          "risk": "No releases or security policy",
+          "detail": "The project has no tags, releases or SECURITY.md. It is built for Linux and NixOS; Windows builds are not published by the maintainer.",
+          "source": "https://github.com/lcleveland/ninjaone-mcp"
+        },
+        {
+          "severity": "info",
+          "risk": "No release to install yet",
+          "detail": "The maintainer publishes source only: no tagged release and no Windows build. The assessment applies to commit 4118a1c on main. Tabby9 lists it but doesn't offer an install until a release can be pinned.",
+          "source": "https://github.com/lcleveland/ninjaone-mcp"
+        }
+      ]
+    },
+    {
       "id": "datto-rmm",
       "name": "Datto RMM",
       "vendor": "Kaseya / Datto",
@@ -645,21 +1035,14 @@
           "Variables"
         ],
         "writes": [
-          "Every Datto RMM API operation the user's role allows, including jobs on devices",
-          "Resolve alerts",
-          "Change site and account variables"
+          "Anything the Datto RMM API allows the user's role, through one tool (datto-rmm_execute): running jobs (components) on devices, moving devices, changing variables, resolving alerts, resetting API keys"
         ],
         "touchesSecrets": false,
         "multiTenant": true,
         "readOnlyMode": {
           "supported": false,
           "denyTools": [
-            "create_*",
-            "run_*",
-            "resolve_*",
-            "update_*",
-            "delete_*",
-            "set_*"
+            "datto-rmm_execute"
           ]
         }
       },
@@ -670,9 +1053,9 @@
       "warnings": [
         {
           "severity": "critical",
-          "risk": "Can start jobs on client devices",
-          "detail": "It covers every Datto RMM API operation, which includes starting jobs (components) on devices. One wrong call runs code on client machines. Use an API user with a read-only security level unless you need changes.",
-          "source": "https://github.com/Servosity/msp-skills/blob/main/skills/datto-rmm/README.md"
+          "risk": "One tool can run jobs on devices and reset API keys",
+          "detail": "datto-rmm_execute calls any Datto RMM endpoint it knows by id, including starting jobs on devices and resetting API keys. This version has no read-only switch, and because the endpoint is a parameter no rule can allow its reads and block its writes. Read-only here means blocking that tool, which stops all live API calls. Use an API user with a read-only security level.",
+          "source": "https://github.com/Servosity/msp-skills/blob/datto-rmm-v0.1.10/skills/datto-rmm/cli/internal/mcp/code_orch.go"
         },
         {
           "severity": "medium",
@@ -685,6 +1068,155 @@
           "risk": "HTTP mode in this version is unsafe",
           "detail": "Its maintainer warns that this version's HTTP mode has no password, listens on every network interface and can be reached by a web page you open. Tabby9 runs it only in its default local (stdio) mode.",
           "source": "https://github.com/Servosity/msp-skills/blob/main/skills/datto-rmm/mcp-install.md"
+        }
+      ]
+    },
+    {
+      "id": "logiphys-datto-rmm",
+      "name": "Datto RMM (Logiphys)",
+      "vendor": "Datto RMM",
+      "category": "rmm",
+      "description": "Devices, sites, alerts, jobs, audits and variables in Datto RMM. Can run components on devices. One prebuilt Windows binary, runs on your PC.",
+      "tier": "assessed",
+      "maintainer": {
+        "name": "Logiphys",
+        "url": "https://github.com/Logiphys"
+      },
+      "install": {
+        "method": "binary"
+      },
+      "server": {
+        "transport": "stdio",
+        "runtime": "binary",
+        "command": "datto-rmm-mcp.exe",
+        "files": [
+          {
+            "name": "datto-rmm-mcp.exe",
+            "url": "https://github.com/Logiphys/lgp-mcp-servers/releases/download/v1.3.1/datto-rmm-mcp-windows-amd64.exe",
+            "sha256": "77584eff49ae9000af5f1b0478d0ab820c9e4a29a362f8fb66faca28fe08d7dc",
+            "platform": "win32-x64"
+          }
+        ]
+      },
+      "pin": {
+        "version": "1.3.1",
+        "commit": "7850bf4e2e7747224150c3b45950ff49f5ad4063",
+        "sha256": "77584eff49ae9000af5f1b0478d0ab820c9e4a29a362f8fb66faca28fe08d7dc",
+        "pinnedOn": "2026-11-02"
+      },
+      "assessment": {
+        "by": "dvidos",
+        "date": "2026-11-02",
+        "score": 98,
+        "report": "assess/reports/datto-rmm/logiphys-datto-rmm.md",
+        "group": "datto-rmm",
+        "rank": 1,
+        "of": 9
+      },
+      "credentials": [
+        {
+          "env": "DATTO_API_KEY",
+          "label": "API key",
+          "type": "api-key",
+          "secret": true,
+          "help": "Turn on API access under Setup > Global Settings > Access Control, then open the API user under Setup > Users and generate API keys"
+        },
+        {
+          "env": "DATTO_API_SECRET",
+          "label": "API secret key",
+          "type": "api-key",
+          "secret": true,
+          "help": "Shown once, next to the API key, when the keys are generated",
+          "leastPrivilege": "Keys act as the user who generated them. Use a dedicated API user whose security level covers only the sites you need and, for read-only use, no permission to run jobs or change devices, sites or variables."
+        },
+        {
+          "env": "DATTO_PLATFORM",
+          "label": "Platform",
+          "type": "other",
+          "secret": false,
+          "help": "The platform in your Datto RMM web address: pinotage, merlot, concord, vidal, zinfandel or syrah. Defaults to merlot."
+        }
+      ],
+      "scope": {
+        "reads": [
+          "Account details, users and components",
+          "Sites, site settings, network interfaces and filters",
+          "Devices, device audits, installed software and ESXi and printer audits",
+          "Open and resolved alerts for the account, a site or a device",
+          "Jobs, job results and job output (stdout and stderr)",
+          "Account and site variables",
+          "Activity logs and system status"
+        ],
+        "writes": [
+          "Run a component on a device as a quick job",
+          "Move a device to another site, set its user-defined fields and warranty date",
+          "Resolve alerts",
+          "Create and update sites, set or remove a site's proxy settings",
+          "Create, update and delete account and site variables"
+        ],
+        "touchesSecrets": false,
+        "multiTenant": true,
+        "readOnlyMode": {
+          "supported": false,
+          "denyTools": [
+            "create_quick_job",
+            "move_device",
+            "set_device_udf",
+            "set_device_warranty",
+            "resolve_alert",
+            "create_site",
+            "update_site",
+            "update_site_proxy",
+            "delete_site_proxy",
+            "create_account_variable",
+            "update_account_variable",
+            "delete_account_variable",
+            "create_site_variable",
+            "update_site_variable",
+            "delete_site_variable"
+          ]
+        }
+      },
+      "network": {
+        "endpoints": [
+          "<platform>-api.centrastage.net (pinotage, merlot, concord, vidal, zinfandel or syrah)"
+        ],
+        "telemetry": false
+      },
+      "links": {
+        "source": "https://github.com/Logiphys/lgp-mcp-servers/tree/v1.3.1/cmd/datto-rmm-mcp",
+        "docs": "https://github.com/Logiphys/lgp-mcp-servers/tree/v1.3.1#datto-rmm-mcp",
+        "issues": "https://github.com/Logiphys/lgp-mcp-servers/issues"
+      },
+      "warnings": [
+        {
+          "severity": "critical",
+          "risk": "Can run components (scripts) on client devices",
+          "detail": "create_quick_job runs any component in your account on a device, with no confirmation step and no switch in the server to turn it off. Other tools move devices between sites and change site proxies and variables. Install read-only, and give the API user a security level that can't run jobs.",
+          "source": "https://github.com/Logiphys/lgp-mcp-servers/blob/v1.3.1/pkg/dattormm/tools_devices.go#L185"
+        },
+        {
+          "severity": "medium",
+          "risk": "Reads text that client devices and their users control",
+          "detail": "Device names, installed software, alert text and job output come from client machines. Text crafted to instruct Claude can reach it this way. Keep it read-only, or don't give the same session a shell or browser."
+        },
+        {
+          "severity": "low",
+          "risk": "No read-only switch in the server",
+          "detail": "Every write tool is always offered. Tabby9's read-only install denies them by name; an API user that can't change anything is stronger.",
+          "source": "https://github.com/Logiphys/lgp-mcp-servers/blob/v1.3.1/cmd/datto-rmm-mcp/main.go"
+        },
+        {
+          "severity": "low",
+          "risk": "One maintainer",
+          "detail": "The repository has a single contributor. It has a security policy and versioned releases built by GitHub Actions from the tag.",
+          "source": "https://github.com/Logiphys/lgp-mcp-servers/blob/v1.3.1/SECURITY.md"
+        },
+        {
+          "severity": "info",
+          "risk": "Only the Datto RMM server from a multi-product repo",
+          "detail": "The repository also builds servers for Autotask, IT Glue, Datto Backup, EDR, Network and others. This entry installs only datto-rmm-mcp, which talks to the Datto RMM API and nothing else.",
+          "source": "https://github.com/Logiphys/lgp-mcp-servers/blob/v1.3.1/pkg/dattormm/client.go#L23-L31"
         }
       ]
     },
@@ -768,6 +1300,145 @@
           "risk": "Credentials and data pass through a third party",
           "detail": "By default the plugin connects to an MCP server hosted by WYRE at itglue-mcp.wyre.workers.dev, not by Kaseya. Your API key and the documentation Claude reads pass through it. How credentials reach that server isn't documented yet, so Tabby9 doesn't offer an install.",
           "source": "https://github.com/WYRE-AI/msp-claude-plugins/blob/main/msp-claude-plugins/kaseya/it-glue/README.md"
+        }
+      ]
+    },
+    {
+      "id": "mspstack-itglue",
+      "name": "IT Glue (mspstack)",
+      "vendor": "IT Glue",
+      "category": "documentation",
+      "description": "Organizations, documents, document sections, attachments and flexible assets in IT Glue. Password records are blocked. Runs on your PC.",
+      "tier": "assessed",
+      "maintainer": {
+        "name": "mspstack",
+        "url": "https://github.com/mspstack"
+      },
+      "install": {
+        "method": "npx",
+        "package": "mcp-itglue"
+      },
+      "server": {
+        "transport": "stdio",
+        "runtime": "npx",
+        "package": "mcp-itglue",
+        "version": "0.6.0"
+      },
+      "pin": {
+        "version": "0.6.0",
+        "commit": "05304bfdcfe998b8e9795b34336c2bf563772420",
+        "pinnedOn": "2026-11-02"
+      },
+      "assessment": {
+        "by": "dvidos",
+        "date": "2026-11-02",
+        "score": 83,
+        "report": "assess/reports/itglue/mspstack-itglue.md",
+        "group": "itglue",
+        "rank": 5,
+        "of": 13
+      },
+      "credentials": [
+        {
+          "env": "ITGLUE_API_KEY",
+          "label": "API key",
+          "type": "api-key",
+          "secret": true,
+          "help": "IT Glue: Account > Settings > API Keys > Custom API Keys > Generate API Key",
+          "leastPrivilege": "IT Glue API keys can't be limited to read-only, so read-only here relies on Tabby9 denying the write tools. Leave Password Access off when you create the key; this server never reads passwords."
+        },
+        {
+          "env": "ITGLUE_REGION",
+          "label": "Region",
+          "type": "other",
+          "secret": false,
+          "help": "us, eu or au, matching the IT Glue site you sign in to. Defaults to us."
+        }
+      ],
+      "scope": {
+        "reads": [
+          "Organizations",
+          "Documents, document folders and document sections",
+          "Images in documents and attachments on records",
+          "Flexible asset types and flexible assets"
+        ],
+        "writes": [
+          "Create, update, publish and delete documents",
+          "Create, update and delete document sections",
+          "Upload and delete document images and attachments",
+          "Create, update and delete flexible assets"
+        ],
+        "touchesSecrets": false,
+        "multiTenant": true,
+        "readOnlyMode": {
+          "supported": false,
+          "denyTools": [
+            "itglue_create_document",
+            "itglue_update_document",
+            "itglue_publish_document",
+            "itglue_delete_documents",
+            "itglue_create_document_section",
+            "itglue_update_document_section",
+            "itglue_delete_document_section",
+            "itglue_create_document_image",
+            "itglue_delete_document_image",
+            "itglue_create_attachment",
+            "itglue_delete_attachment",
+            "itglue_create_flexible_asset",
+            "itglue_update_flexible_asset",
+            "itglue_delete_flexible_asset",
+            "itglue_request_upload",
+            "itglue_build_vector_index"
+          ]
+        }
+      },
+      "network": {
+        "endpoints": [
+          "api.itglue.com, api.eu.itglue.com or api.au.itglue.com",
+          "Any URL passed to the image or attachment upload tools"
+        ],
+        "telemetry": false
+      },
+      "links": {
+        "source": "https://github.com/mspstack/mcp-itglue/tree/v0.6.0",
+        "docs": "https://github.com/mspstack/mcp-itglue/blob/v0.6.0/README.md",
+        "issues": "https://github.com/mspstack/mcp-itglue/issues"
+      },
+      "warnings": [
+        {
+          "severity": "medium",
+          "risk": "Reads text written by outsiders",
+          "detail": "Documents and flexible assets often hold text pasted from vendor emails, client notes and imports. Text crafted to instruct Claude can reach it this way. Keep it read-only, or don't give the same session a shell or browser."
+        },
+        {
+          "severity": "medium",
+          "risk": "Upload tools can read local files and fetch any URL",
+          "detail": "The image and attachment upload tools accept file_path, which reads any file your account can open, or url, which fetches any web address, and upload the result to IT Glue. Both are write tools, denied in a read-only install.",
+          "source": "https://github.com/mspstack/mcp-itglue/blob/v0.6.0/src/tools/binary-input.ts#L105-L126"
+        },
+        {
+          "severity": "medium",
+          "risk": "Dependencies are resolved when you install",
+          "detail": "The npm package doesn't ship a lockfile, so installing it fetches whatever dependency versions match its ranges that day. The repository's own lockfile pins versions with published advisories, including the MCP SDK 1.29.0.",
+          "source": "https://github.com/PurpleFusion/msp-mcp-registry/blob/main/assess/reports/itglue/mspstack-itglue.md"
+        },
+        {
+          "severity": "low",
+          "risk": "Optional HTTP mode has no sign-in unless set up",
+          "detail": "Started with --transport http, it listens on all network interfaces and, without MCP_TOKENS_* set, gives every caller full rights on the IT Glue key. Tabby9 runs it over stdio, which has no listener.",
+          "source": "https://github.com/mspstack/mcp-itglue/blob/v0.6.0/src/index.ts#L92"
+        },
+        {
+          "severity": "info",
+          "risk": "No password access",
+          "detail": "There are no password tools, and the optional itglue_get tool refuses any path containing passwords and the show_password parameter, so stored passwords and secrets can't reach Claude through this server.",
+          "source": "https://github.com/mspstack/mcp-itglue/blob/v0.6.0/src/tools/advanced.ts#L41-L50"
+        },
+        {
+          "severity": "info",
+          "risk": "Optional semantic search stays off",
+          "detail": "With OPENAI_API_KEY or Azure OpenAI settings, it sends document text to that service for embedding and keeps titles, text and embeddings in vector-index.json on disk. It is off without those settings; Tabby9 doesn't set them.",
+          "source": "https://github.com/mspstack/mcp-itglue/blob/v0.6.0/src/vector/store.ts#L71"
         }
       ]
     },

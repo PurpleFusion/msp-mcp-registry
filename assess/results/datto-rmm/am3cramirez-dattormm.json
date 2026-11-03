@@ -1,0 +1,198 @@
+{
+  "id": "am3cramirez-dattormm",
+  "name": "dattormm-mcp",
+  "maintainer": "am3cramirez",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/am3cramirez/dattormm-mcp",
+  "ref": "claude/datto-rmm-mcp-enhance-5xt2xm",
+  "commit": "55b71722ce3c05bbd8e45786a0dd329964ab4b4f",
+  "latestRelease": null,
+  "tools": [
+    "datto_create_account_variable",
+    "datto_create_site",
+    "datto_create_site_variable",
+    "datto_delete_account_variable",
+    "datto_delete_site_proxy",
+    "datto_delete_site_variable",
+    "datto_get_account",
+    "datto_get_alert",
+    "datto_get_audit_by_mac",
+    "datto_get_device",
+    "datto_get_device_audit",
+    "datto_get_device_by_id",
+    "datto_get_device_by_mac",
+    "datto_get_device_software",
+    "datto_get_esxi_audit",
+    "datto_get_job",
+    "datto_get_job_components",
+    "datto_get_job_results",
+    "datto_get_job_stderr",
+    "datto_get_job_stdout",
+    "datto_get_printer_audit",
+    "datto_get_site",
+    "datto_get_site_settings",
+    "datto_get_system_info",
+    "datto_list_account_variables",
+    "datto_list_activity_logs",
+    "datto_list_alerts",
+    "datto_list_components",
+    "datto_list_devices",
+    "datto_list_dnet_site_mappings",
+    "datto_list_filters",
+    "datto_list_site_devices",
+    "datto_list_site_filters",
+    "datto_list_site_network_interfaces",
+    "datto_list_site_variables",
+    "datto_list_sites",
+    "datto_list_users",
+    "datto_move_device",
+    "datto_resolve_alert",
+    "datto_run_quickjob",
+    "datto_set_device_udf",
+    "datto_set_device_warranty",
+    "datto_set_site_proxy",
+    "datto_update_account_variable",
+    "datto_update_site",
+    "datto_update_site_variable"
+  ],
+  "writeTools": [
+    "datto_create_account_variable",
+    "datto_create_site",
+    "datto_create_site_variable",
+    "datto_delete_account_variable",
+    "datto_delete_site_proxy",
+    "datto_delete_site_variable",
+    "datto_move_device",
+    "datto_resolve_alert",
+    "datto_run_quickjob",
+    "datto_set_device_udf",
+    "datto_set_device_warranty",
+    "datto_set_site_proxy",
+    "datto_update_account_variable",
+    "datto_update_site",
+    "datto_update_site_variable"
+  ],
+  "files": 21,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "MIT"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
+    },
+    {
+      "id": "P3",
+      "result": "fail",
+      "evidence": "0 git tags, 0 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "fail",
+      "evidence": "last change 2026-07-10"
+    },
+    {
+      "id": "P5",
+      "result": "fail",
+      "evidence": "1 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "pass",
+      "evidence": "package-lock.json"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "fail",
+      "evidence": "@hono/node-server@1.19.14: GHSA-frvp-7c67-39w9, @hono/node-server@1.19.14: GHSA-rmxm-3fg6-px4f, @modelcontextprotocol/sdk@1.29.0: GHSA-22jm-h49p-29qw, @modelcontextprotocol/sdk@1.29.0: GHSA-46jr-4wx8-v453, @modelcontextprotocol/sdk@1.29.0: GHSA-6prh-2h8m-c8cw, @modelcontextprotocol/sdk@1.29.0: GHSA-6qxp-vccf-f47h, @modelcontextprotocol/sdk@1.29.0: GHSA-f897-62hf-6gxq, @modelcontextprotocol/sdk@1.29.0: GHSA-rvq5-wwqv-78pq, body-parser@2.3.0: GHSA-27r3-jxmh-p828, fast-uri@3.1.3: GHSA-333x-w4r6-6crp, fast-uri@3.1.3: GHSA-5jgf-p345-68v8, fast-uri@3.1.3: GHSA-7p8r-x3mc-p8w7 (+31 more)"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "2 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "6 reads"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "src/index.ts:3"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "46 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "15 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "flag",
+      "evidence": "src/index.ts:62 httpServer.listen(port, () => {"
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

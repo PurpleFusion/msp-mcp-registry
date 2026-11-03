@@ -1,0 +1,163 @@
+{
+  "id": "teamnetwork-ninjaone",
+  "name": "@teamnetwork-nz/ninjaone-mcp-server (npm)",
+  "maintainer": "teamnetwork-nz",
+  "assessedOn": "2026-11-02",
+  "source": "https://www.npmjs.com/package/@teamnetwork-nz/ninjaone-mcp-server",
+  "version": "0.5.1",
+  "tarball": "https://registry.npmjs.org/@teamnetwork-nz/ninjaone-mcp-server/-/ninjaone-mcp-server-0.5.1.tgz",
+  "integrity": "sha512-ZLveVnlK6gW+c/nhf88cr8B1iuGJflFeZ0uUd+QVd5WY48G5cgQR3mR62v3M+1h8FjxP/bcuFEJ0TZBukZpE9w==",
+  "tools": [
+    "ninja_explain_patch_status",
+    "ninja_get_device",
+    "ninja_get_device_activities",
+    "ninja_get_device_custom_fields",
+    "ninja_get_device_disks",
+    "ninja_get_device_last_user",
+    "ninja_get_device_network",
+    "ninja_get_device_os_patches",
+    "ninja_get_device_processors",
+    "ninja_get_device_software",
+    "ninja_get_device_volumes",
+    "ninja_get_organization",
+    "ninja_list_activities",
+    "ninja_list_alerts",
+    "ninja_list_devices",
+    "ninja_list_locations",
+    "ninja_list_organizations",
+    "ninja_list_policies",
+    "ninja_query_antivirus_status",
+    "ninja_query_computer_systems",
+    "ninja_query_device_health",
+    "ninja_query_operating_systems",
+    "ninja_query_os_patches",
+    "ninja_query_policy_overrides",
+    "ninja_query_volumes",
+    "ninja_search_devices",
+    "ninja_test_connection"
+  ],
+  "writeTools": [],
+  "files": 74,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "MIT"
+    },
+    {
+      "id": "P2",
+      "result": "unknown",
+      "evidence": "published package has no provenance attestation; cannot show it matches the source"
+    },
+    {
+      "id": "P3",
+      "result": "pass",
+      "evidence": "0 git tags, 7 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-10-20"
+    },
+    {
+      "id": "P5",
+      "result": "fail",
+      "evidence": "1 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "fail",
+      "evidence": "no lockfile"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "unknown",
+      "evidence": "nothing locked to check"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "4 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "12 reads"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "dist/index.js:3"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "27 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "0 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "pass",
+      "evidence": "dist/http-server.js:48 return http.createServer(async (req, res) => { | dist/index.js:101 createHttpServer(createConfiguredServer, { host, port, serverName: packageName, bearerToken: process.env.NINJAONE_HTTP_BEARER_TOKEN, allowedHosts: process.env.N"
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

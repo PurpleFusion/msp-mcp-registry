@@ -1,0 +1,145 @@
+{
+  "id": "jasondsmith72-ninjarmm-gateway",
+  "name": "NinjaRMM-API-Gateway-MCP",
+  "maintainer": "jasondsmith72",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/jasondsmith72/NinjaRMM-API-Gateway-MCP",
+  "ref": "main",
+  "commit": "d6a30e7466612d5e9f17b04ac2f9504e0964bb9c",
+  "latestRelease": null,
+  "tools": [
+    "call",
+    "describe_endpoint",
+    "find_endpoint",
+    "memory_delete",
+    "memory_list",
+    "memory_save",
+    "raw_call"
+  ],
+  "writeTools": [
+    "memory_delete"
+  ],
+  "files": 13,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "MIT"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
+    },
+    {
+      "id": "P3",
+      "result": "fail",
+      "evidence": "0 git tags, 0 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-09-19"
+    },
+    {
+      "id": "P5",
+      "result": "fail",
+      "evidence": "1 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "fail",
+      "evidence": "no lockfile"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "unknown",
+      "evidence": "nothing locked to check"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "4 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "6 reads"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "src/ninja_mcp/server.py:282"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "7 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "1 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "fail",
+      "evidence": "call, raw_call"
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "n/a",
+      "evidence": ""
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

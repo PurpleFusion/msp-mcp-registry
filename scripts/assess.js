@@ -17,31 +17,46 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
 const TAR = fs.existsSync('C:\\Windows\\System32\\tar.exe') ? 'C:\\Windows\\System32\\tar.exe' : 'tar';
-const CODE_EXT = /\.(ts|tsx|js|mjs|cjs|py|go|rs)$/;
-const SKIP_DIR = /(^|[\\/])(node_modules|\.git|tests?|__tests__|spec|examples?|docs?|\.github|vendor|fixtures?|scripts|testdata)([\\/]|$)/i;
+const CODE_EXT = /\.(ts|tsx|js|mjs|cjs|py|go|rs|cs)$/;
+const SKIP_DIR = /(^|[\\/])(node_modules|\.git|tests?|__tests__|spec|examples?|docs?|\.github|vendor|fixtures?|scripts|testdata|backups?|patches|obj)([\\/]|$)/i;
 // Test files and build tooling, not code the server runs.
-const NOT_RUNTIME = /(\.(test|spec)\.[a-z]+$|(^|\/)test_[^/]*\.py$|_test\.(py|go)$|(^|\/)conftest\.py$|\.d\.ts$|\.min\.js$|(^|\/)(build|bundle|setup)[^/]*\.(m?js|py)$)/;
+const NOT_RUNTIME = /(\.(test|spec)\.[a-z]+$|(^|\/)test[_-][^/]*\.(py|m?js|ts)$|[_-]test\.(py|go|m?js|ts)$|(^|\/)conftest\.py$|\.d\.ts$|\.min\.js$|(^|\/)(build|bundle|setup)[^/]*\.(m?js|py)$|Tests?\.cs$)/;
 const DAY = 86400e3;
 
 const run = (cmd, args, opts = {}) => {
   const r = spawnSync(cmd, args, { encoding: opts.encoding ?? 'utf8', maxBuffer: 64 << 20, ...opts });
   return { ok: r.status === 0, out: r.stdout, err: r.stderr };
 };
-const gh = (api, jq) => { const r = run('gh', ['api', api, ...(jq ? ['--jq', jq] : [])]); return r.ok ? r.out.trim() : null; };
+const sleepMs = ms => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+// GitHub sometimes answers a burst of calls with an error that looks like
+// "not found"; a real 404 stays a 404 after a few tries.
+const gh = (api, jq) => {
+  for (let i = 0; i < 4; i++) {
+    const r = run('gh', ['api', api, ...(jq ? ['--jq', jq] : [])]);
+    if (r.ok) return r.out.trim();
+    if (/HTTP 404/.test(r.err) && i >= 1) return null;
+    sleepMs(2000 * (i + 1));
+  }
+  return null;
+};
 const ghJson = api => { const r = gh(api); try { return r ? JSON.parse(r) : null; } catch { return null; } };
 // npm.cmd needs a shell on Windows, so the name is checked before it goes near one.
+// A missing package comes back as JSON too ({ "error": … }): that is "not on npm".
 const npmView = pkg => {
   if (!/^(@[\w.-]+\/)?[\w.-]+$/.test(pkg)) return null;
   const r = run(process.platform === 'win32' ? 'npm.cmd' : 'npm', ['view', pkg, '--json'], { shell: process.platform === 'win32' });
-  try { return JSON.parse(r.out); } catch { return null; }
+  try { const j = JSON.parse(r.out); return j && !j.error && j.name ? j : null; } catch { return null; }
 };
 
 function download(url, dir) {
   const tgz = path.join(dir, 'src.tgz');
-  if (!run('curl', ['-sSfL', '-o', tgz, url]).ok) throw new Error(`download failed: ${url}`);
+  if (!run('curl', ['-sSfL', '--retry', '3', '-o', tgz, url]).ok) throw new Error(`download failed: ${url}`);
   const out = path.join(dir, 'x');
   fs.mkdirSync(out);
-  if (!run(TAR, ['-xzf', tgz, '-C', out]).ok) throw new Error('extract failed');
+  // Windows tar can't create symlinks and exits non-zero, but extracts every
+  // other file; only an empty result is a failure.
+  const x = run(TAR, ['-xzf', tgz, '-C', out]);
+  if (!x.ok && !fs.readdirSync(out).length) throw new Error('extract failed');
   // Archives have one top folder.
   const top = fs.readdirSync(out);
   return top.length === 1 ? path.join(out, top[0]) : out;
@@ -70,8 +85,13 @@ function grep(files, root, re, { code = true } = {}) {
   return hits;
 }
 
-const WRITE_VERBS = new Set(['create', 'update', 'delete', 'remove', 'add', 'patch', 'put', 'post', 'set', 'close', 'assign', 'merge', 'run', 'execute', 'send', 'reset', 'reopen', 'move', 'archive', 'approve', 'reject', 'resolve', 'log', 'submit', 'cancel', 'edit', 'modify', 'upload', 'attach', 'bulk', 'link', 'unlink', 'complete', 'convert', 'copy', 'import', 'write']);
+const WRITE_VERBS = new Set(['create', 'update', 'upsert', 'delete', 'remove', 'add', 'put', 'post', 'set', 'close', 'assign', 'merge', 'execute', 'send', 'reset', 'reopen', 'move', 'approve', 'reject', 'resolve', 'submit', 'cancel', 'edit', 'modify', 'upload', 'attach', 'bulk', 'link', 'unlink', 'complete', 'convert', 'copy', 'import', 'write', 'hold', 'release', 'reboot', 'restart', 'apply', 'configure', 'control', 'install', 'uninstall', 'enable', 'disable']);
+// Verbs that also appear inside read tool names ("explain_patch_status",
+// "run_query_report"): they count only as the first word, or the first after
+// a product prefix.
+const LEADING_ONLY = new Set(['patch', 'run', 'log', 'archive']);
 const tokens = name => name.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase().split(/[_\-.\s]+/).filter(Boolean);
+const isWrite = name => { const t = tokens(name); return t.some(w => WRITE_VERBS.has(w)) || LEADING_ONLY.has(t[0]) || LEADING_ONLY.has(t[1]); };
 
 function extractTools(files, root) {
   const res = [
@@ -105,9 +125,18 @@ function lockedDeps(root, files) {
     // Dev-only packages never ship, so they don't count.
     for (const [k, v] of Object.entries(lock.packages || {})) if (k && v.version && !v.dev) deps.push({ ecosystem: 'npm', name: k.replace(/^.*node_modules\//, ''), version: v.version });
   }
-  for (const f of ['uv.lock', 'poetry.lock']) {
+  for (const [f, ecosystem] of [['uv.lock', 'PyPI'], ['poetry.lock', 'PyPI'], ['Cargo.lock', 'crates.io']]) {
     const t = locate(root, files, f);
-    if (t) for (const m of t.matchAll(/\[\[package\]\]\s*\nname\s*=\s*"([^"]+)"\s*\nversion\s*=\s*"([^"]+)"/g)) deps.push({ ecosystem: 'PyPI', name: m[1], version: m[2] });
+    if (t) for (const m of t.matchAll(/\[\[package\]\]\s*\nname\s*=\s*"([^"]+)"\s*\nversion\s*=\s*"([^"]+)"/g)) deps.push({ ecosystem, name: m[1], version: m[2] });
+  }
+  // pnpm: "  name@1.2.3:" or "  /name@1.2.3:" lines under packages:.
+  const pnpm = locate(root, files, 'pnpm-lock.yaml');
+  if (pnpm) {
+    const seen = new Set();
+    for (const m of pnpm.matchAll(/^ {2}'?\/?((?:@[^@\s'/]+\/)?[^@\s'/]+)@(\d[^:'(\s]*)'?:/gm)) {
+      const k = m[1] + '@' + m[2];
+      if (!seen.has(k)) { seen.add(k); deps.push({ ecosystem: 'npm', name: m[1], version: m[2] }); }
+    }
   }
   const req = locate(root, files, 'requirements.txt');
   if (req) for (const m of req.matchAll(/^([A-Za-z0-9_.-]+)==([^\s;#]+)/gm)) deps.push({ ecosystem: 'PyPI', name: m[1], version: m[2] });
@@ -156,15 +185,21 @@ async function assess(c, vendorHosts) {
   const checks = [];
   const add = (id, result, evidence = '') => checks.push({ id, result, evidence });
   try {
-    let root; let repo = null; let pkg = null;
+    let root; let repoRoot = null; let repo = null; let pkg = null;
     if (c.source.github) {
       repo = ghJson(`repos/${c.source.github}`);
       if (!repo) throw new Error(`repo not found: ${c.source.github}`);
-      const latest = ghJson(`repos/${c.source.github}/releases/latest`);
+      // In a monorepo the latest release is usually another connector's, so
+      // only a tag named after this folder ("<folder>-v1.2.3") counts.
+      const prefix = c.source.path ? path.posix.basename(c.source.path) + '-v' : null;
+      const latest = prefix
+        ? (ghJson(`repos/${c.source.github}/releases?per_page=100`) || []).find(r => r.tag_name.startsWith(prefix) && !r.draft) || null
+        : ghJson(`repos/${c.source.github}/releases/latest`);
       const ref = c.source.ref || latest?.tag_name || repo.default_branch;
       const sha = gh(`repos/${c.source.github}/commits/${encodeURIComponent(ref)}`, '.sha');
+      if (!sha) throw new Error(`could not resolve ${ref} in ${c.source.github}`);
       Object.assign(meta, { source: `https://github.com/${c.source.github}${c.source.path ? '/tree/' + sha + '/' + c.source.path : ''}`, ref, commit: sha });
-      root = download(`https://codeload.github.com/${c.source.github}/tar.gz/${sha}`, tmp);
+      repoRoot = root = download(`https://codeload.github.com/${c.source.github}/tar.gz/${sha}`, tmp);
       if (c.source.path) root = path.join(root, c.source.path);
       meta.latestRelease = latest ? { tag: latest.tag_name, date: latest.published_at?.slice(0, 10) } : null;
     } else {
@@ -198,7 +233,10 @@ async function assess(c, vendorHosts) {
     add('P7', repo?.archived ? 'fail' : 'pass', repo?.archived ? 'archived' : '');
 
     // Supply chain
-    const lock = files.find(f => /(^|\/)(package-lock\.json|pnpm-lock\.yaml|yarn\.lock|uv\.lock|poetry\.lock|go\.sum|Cargo\.lock)$/.test(f)) || (files.includes('requirements.txt') && !/^[A-Za-z0-9_.-]+\s*($|[<>~!]=?|>=)/m.test(read('requirements.txt')) ? 'requirements.txt (all pinned)' : null);
+    const LOCKS = /(^|\/)(package-lock\.json|pnpm-lock\.yaml|yarn\.lock|uv\.lock|poetry\.lock|go\.sum|Cargo\.lock|packages\.lock\.json)$/;
+    // A monorepo often keeps one lockfile at its root, above the server's folder.
+    const rootLocks = repoRoot && repoRoot !== root ? fs.readdirSync(repoRoot).filter(f => LOCKS.test(f)) : [];
+    const lock = files.find(f => LOCKS.test(f)) || (rootLocks[0] && `${rootLocks[0]} (repository root)`) || (files.includes('requirements.txt') && !/^[A-Za-z0-9_.-]+\s*($|[<>~!]=?|>=)/m.test(read('requirements.txt')) ? 'requirements.txt (all pinned)' : null);
     add('S1', lock ? 'pass' : 'fail', lock || 'no lockfile');
     const pj = files.includes('package.json') ? JSON.parse(read('package.json')) : null;
     const hooks = pj ? ['preinstall', 'install', 'postinstall', 'prepare'].filter(h => pj.scripts?.[h]).map(h => `${h}: ${pj.scripts[h]}`) : [];
@@ -206,7 +244,7 @@ async function assess(c, vendorHosts) {
     // An npm package's prepare only runs when installed from git, not from the registry.
     const installHooks = c.source.npm ? hooks.filter(h => !h.startsWith('prepare')) : hooks;
     add('S2', installHooks.length ? 'fail' : 'pass', installHooks.join('; '));
-    const locked = lockedDeps(root, files);
+    const locked = lockedDeps(root, files).concat(!files.some(f => LOCKS.test(f)) && rootLocks.length ? lockedDeps(repoRoot, rootLocks) : []);
     const vulns = locked.length ? await osv(locked) : null;
     add('S3', !locked.length ? 'unknown' : vulns === null ? 'unknown' : vulns.length ? 'fail' : 'pass', !locked.length ? 'nothing locked to check' : vulns === null ? 'OSV unavailable' : vulns.length ? vulns.slice(0, 12).join(', ') + (vulns.length > 12 ? ` (+${vulns.length - 12} more)` : '') : `${locked.length} locked packages, none with known vulnerabilities`);
     const direct = directDeps(root, files);
@@ -222,42 +260,50 @@ async function assess(c, vendorHosts) {
       if (!vendor.test(host) && !ignorable.test(host)) others.set(host, others.get(host) || `${h.file}:${h.line}`);
     }
     add('N1', others.size ? 'fail' : 'pass', others.size ? [...others].map(([h, at]) => `${h} (${at})`).join(', ') : 'vendor hosts only');
-    const telemetry = grep(files, root, /posthog|sentry|segment\.(io|com)|mixpanel|amplitude|datadog|google-analytics|gtag\(|telemetry|opentelemetry/i);
+    // Word boundaries: "isEntryPoint" isn't Sentry and "closingTag(" isn't gtag.
+    const telemetry = grep(files, root, /\b(posthog|sentry|mixpanel|amplitude|datadog|telemetry|opentelemetry)\b|segment\.(io|com)|google-analytics|\bgtag\(/i);
     const telemetryDeps = pj ? Object.keys({ ...pj.dependencies }).filter(d => /posthog|sentry|segment|mixpanel|amplitude|datadog|opentelemetry/i.test(d)) : [];
     add('N2', telemetry.length || telemetryDeps.length ? 'flag' : 'pass', [...telemetryDeps.map(d => `dependency ${d}`), ...telemetry.slice(0, 5).map(h => `${h.file}:${h.line}`)].join(', '));
     const tls = grep(files, root, /rejectUnauthorized\s*:\s*false|NODE_TLS_REJECT_UNAUTHORIZED|verify\s*=\s*False|InsecureSkipVerify\s*:\s*true|_create_unverified_context|CERT_NONE/);
     add('N3', tls.length ? 'flag' : 'pass', tls.slice(0, 5).map(h => `${h.file}:${h.line} ${h.text}`).join(' | '));
 
     // Credentials
-    const env = grep(files, root, /process\.env|os\.environ|os\.getenv|os\.Getenv|std::env::var/);
+    const env = grep(files, root, /process\.env|os\.environ|os\.getenv|os\.Getenv|\benv::var|Environment\.GetEnvironmentVariable|AddEnvironmentVariables/);
     add('C1', env.length ? 'pass' : 'unknown', env.length ? `${env.length} reads` : 'no environment reads found');
     const logged = grep(files, root, /(console\.(log|error|warn|info|debug)|logger\.\w+|logging\.\w+\(|\bprint\(|log\.(Print|Info|Debug|Error)|fmt\.Print|eprintln!|println!)/)
       .filter(h => /(private_?key|privatekey|secret|password|passwd|token|authorization|api_?key|PRIVATE_KEY)/i.test(h.text) && !/redact|mask|\*{3}|\[hidden\]|has_?|is_?set|missing|required|not set|invalid|expired|refresh/i.test(h.text));
     add('C2', logged.length ? 'flag' : 'pass', logged.slice(0, 5).map(h => `${h.file}:${h.line} ${h.text}`).join(' | '));
     const disk = grep(files, root, /writeFile|createWriteStream|fs\.write|appendFile|open\([^)]*['"][wa]b?\+?['"]|sqlite|\.db['"]|os\.WriteFile|os\.Create\(|shelve|pickle\.dump/);
     add('C3', disk.length ? 'flag' : 'pass', disk.slice(0, 5).map(h => `${h.file}:${h.line} ${h.text}`).join(' | '));
-    const stdio = grep(files, root, /StdioServerTransport|stdio_server|transport\s*=\s*['"]stdio|\.run\(\s*\)|ServeStdio|run_stdio|mcp\.run\(/);
+    // mcp.run() defaults to stdio; mcp.run(transport="http") does not.
+    // Also a transport setting whose value or default is "stdio" (getenv("MCP_TRANSPORT", "stdio")).
+    const stdio = grep(files, root, /StdioServerTransport|stdio_server|transportType\s*:\s*['"]stdio|\bmcp\.run\(\s*\)|ServeStdio|serveStdio|run_stdio|WithStdioServerTransport|transport::stdio|\bstdio\(\)|\btransport\w*\b[^\n]{0,60}['"]stdio['"]/i);
     add('C4', stdio.length ? 'pass' : 'fail', stdio.length ? `${stdio[0].file}:${stdio[0].line}` : 'no local stdio transport found');
 
     // Tools
     const tools = extractTools(files, root);
     add('T1', tools.length ? 'pass' : 'fail', `${tools.length} tools found`);
-    const writes = tools.filter(t => tokens(t).some(w => WRITE_VERBS.has(w)));
-    const readOnlySwitch = grep(files, root, /READ_?ONLY|read_?only|readOnly/);
-    const prefixed = writes.filter(t => WRITE_VERBS.has(tokens(t)[0]) || WRITE_VERBS.has(tokens(t)[1]));
+    const writes = tools.filter(isWrite);
+    // A switch is an environment variable or a command-line flag. MCP's
+    // readOnlyHint, TypeScript's readonly and "read_only" fields are not.
+    const readOnlySwitch = grep(files, root, /\b[A-Z][A-Z0-9_]*(READ_?ONLY|ENABLE_WRITES?|ALLOW_WRITES?|WRITES?_ENABLED)\b|--(read-?only|allow-writes?|allow-write|read-write)\b/);
+    const verbAt = (t, i) => WRITE_VERBS.has(tokens(t)[i]) || LEADING_ONLY.has(tokens(t)[i]);
+    const prefixed = writes.filter(t => verbAt(t, 0) || verbAt(t, 1));
     add('T2', readOnlySwitch.length ? 'pass' : !tools.length ? 'unknown' : prefixed.length === writes.length ? 'pass' : 'fail',
       readOnlySwitch.length ? `read-only switch: ${readOnlySwitch[0].file}:${readOnlySwitch[0].line}` : `${writes.length} write tools; ${writes.length - prefixed.length} don't start with a verb: ${writes.filter(t => !prefixed.includes(t)).slice(0, 8).join(', ')}`);
-    const raw = tools.filter(t => /(^|_)(raw|generic|custom|any)?_?(api|http)_?(request|call)$|^(api|request|call_api|make_request|api_call)$|(^|_)execute_?(api|query|request)$/i.test(t));
+    // Tools that send any method to any path. A GET-only one (api_get) is fine.
+    const raw = tools.filter(t => /(^|_)(raw|generic|custom|any)?_?(api|http)_?(request|call)$|^(api|request|call|raw_call|call_api|make_request|api_call)$|(^|_)raw_(call|request)$|(^|_)api_(post|put|patch|delete)$|(^|_)execute(_?(api|query|request))?$/i.test(t));
     add('T3', raw.length ? 'fail' : tools.length ? 'pass' : 'unknown', raw.join(', '));
     const steering = grep(files, root, /\b(ignore (all |any )?(previous|prior|above) (instructions|messages)|you must|always (call|use|invoke)|never (tell|mention|reveal)|do not (tell|mention|reveal)|system prompt)\b/i);
     add('T4', steering.length ? 'flag' : 'pass', steering.slice(0, 5).map(h => `${h.file}:${h.line} ${h.text}`).join(' | '));
 
     // Data
-    const listen = grep(files, root, /\.listen\(|createServer\(|uvicorn\.run|ListenAndServe|host\s*=\s*['"]0\.0\.0\.0|['"]0\.0\.0\.0['"]/);
-    const wide = listen.filter(h => /0\.0\.0\.0/.test(h.text));
-    add('D1', !listen.length ? 'n/a' : wide.length ? 'flag' : 'pass', listen.slice(0, 4).map(h => `${h.file}:${h.line} ${h.text}`).join(' | '));
-    // (?<![.\w]) so a regex's .exec() isn't mistaken for running a command.
-    const exec = grep(files, root, /child_process|execSync|(?<![.\w])(exec|spawn|eval)\(|new Function\(|subprocess|os\.system|exec\.Command/);
+    const listen = grep(files, root, /\.listen\(|createServer\(|uvicorn\.run|ListenAndServe|\.Start\(\s*"|host\s*=\s*['"]0\.0\.0\.0|['"]0\.0\.0\.0['"]|UseUrls\(|Kestrel/);
+    // All interfaces: 0.0.0.0, Node's listen(port) with no host, Go's ":port".
+    const wide = listen.filter(h => /0\.0\.0\.0|\.listen\(\s*[\w.]+\s*(\)|,\s*(\(|function|async|\w+\s*=>))|(ListenAndServe|\.Start)\(\s*":|http:\/\/\*:|http:\/\/\+:/.test(h.text));
+    add('D1', !listen.length ? 'n/a' : wide.length ? 'flag' : 'pass', (wide.length ? wide : listen).slice(0, 4).map(h => `${h.file}:${h.line} ${h.text}`).join(' | '));
+    // (?<![.\w:]) so a regex's .exec() or Rust's tokio::spawn() isn't mistaken for running a command.
+    const exec = grep(files, root, /child_process|execSync|(?<![.\w:])(exec|spawn|eval)\(|new Function\(|subprocess|os\.system|exec\.Command|Process\.Start\(/);
     add('D2', exec.length ? 'flag' : 'pass', exec.slice(0, 5).map(h => `${h.file}:${h.line} ${h.text}`).join(' | '));
 
     meta.tools = tools;
@@ -280,6 +326,7 @@ function score(r, confirmed = {}) {
   let got = 0; let of = 0;
   for (const c of r.checks) {
     const result = confirmed[c.id] || c.result;
+    if (!['pass', 'fail', 'fail-default', 'flag', 'unknown', 'n/a'].includes(result)) throw new Error(`${r.id}: unknown result "${result}" for ${c.id}`);
     if (result === 'n/a') continue;
     of += WEIGHTS[c.id];
     if (result === 'pass') got += WEIGHTS[c.id];
@@ -291,7 +338,9 @@ function score(r, confirmed = {}) {
   if (confirmed.N2 === 'fail') caps.push(['telemetry', 40]);
   if (confirmed.N3 === 'fail') caps.push(['TLS checks off', 40]);
   if (confirmed.C2 === 'fail') caps.push(['credentials logged', 40]);
-  if (confirmed.D1 === 'fail') caps.push(['open to the network without authentication by default', 50]);
+  // D1 "fail": an HTTP mode you must turn on is open. "fail-default": the
+  // server, or a documented install of it, starts that way. Only that is capped.
+  if (confirmed.D1 === 'fail-default') caps.push(['open to the network without authentication by default', 50]);
   if (res('P1') === 'fail') caps.push(['no commercial-use licence', 60]);
   if (confirmed.T4 === 'fail') caps.push(['tool description steers the model', 60]);
   for (const [, cap] of caps) s = Math.min(s, cap);
@@ -302,7 +351,7 @@ const md = s => String(s ?? '').replace(/\|/g, '\\|').replace(/\n/g, ' ');
 
 function report(r, group, notes) {
   const { score: s, caps } = score(r, notes.confirmed);
-  const icon = { pass: '✅', fail: '❌', flag: '⚠️', unknown: '❔', 'n/a': '—' };
+  const icon = { pass: '✅', fail: '❌', 'fail-default': '❌ (open by default)', flag: '⚠️', unknown: '❔', 'n/a': '—' };
   const lines = [
     `# Assessment: ${r.name} (\`${r.id}\`)`, '',
     `| | |`, `|---|---|`,

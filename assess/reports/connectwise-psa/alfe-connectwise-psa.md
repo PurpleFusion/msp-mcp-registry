@@ -31,10 +31,10 @@
 | C3 | Nothing written to disk | ✅ |  |
 | C4 | Runs locally (stdio) | ✅ | dist/server2.cjs:478 |
 | T1 | Tool list readable | ✅ | 5 tools found |
-| T2 | Read-only possible | ✅ | read-only switch: dist/server2.cjs:325 |
+| T2 | Read-only possible | ❌ | 3 write tools; 3 don't start with a verb: connectwise_psa_add_ticket_note, connectwise_psa_create_ticket, connectwise_psa_update_ticket |
 | T3 | No arbitrary-request tool | ✅ |  |
 | T4 | Descriptions don't steer the model | ✅ |  |
-| D1 | HTTP mode safe | ✅ (script: flag) | dist/server2.cjs:41 ["0.0.0.0", 8], \| dist/server2.cjs:457 function createServer(connect, options = {}) { \| dist/server2.cjs:479 const server = createServer(connect); \| dist/server2.js:41 ["0.0.0.0", 8], |
+| D1 | HTTP mode safe | ✅ (script: flag) | dist/server2.cjs:41 ["0.0.0.0", 8], \| dist/server2.js:41 ["0.0.0.0", 8], |
 | D2 | No shell or eval | ✅ |  |
 
 ## Notes from the person checking

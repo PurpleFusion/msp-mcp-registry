@@ -127,7 +127,7 @@
     {
       "id": "T2",
       "result": "pass",
-      "evidence": "read-only switch: dist/tools/companies.js:46"
+      "evidence": "4 write tools; 0 don't start with a verb: "
     },
     {
       "id": "T3",

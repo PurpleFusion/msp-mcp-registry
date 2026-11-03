@@ -1,0 +1,135 @@
+{
+  "id": "dtc-halopsa",
+  "name": "halopsa-mcp (Rust)",
+  "maintainer": "DTC-Inc",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/DTC-Inc/halopsa-mcp",
+  "ref": "main",
+  "commit": "24eea35bb98b6715b32cf4fee91218e9cb26deb0",
+  "latestRelease": null,
+  "tools": [],
+  "writeTools": [],
+  "files": 28,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "fail",
+      "evidence": "no licence"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
+    },
+    {
+      "id": "P3",
+      "result": "fail",
+      "evidence": "0 git tags, 0 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-10-30"
+    },
+    {
+      "id": "P5",
+      "result": "pass",
+      "evidence": "2 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "pass",
+      "evidence": "Cargo.lock"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "fail",
+      "evidence": "anyhow@1.0.102: RUSTSEC-2026-0190, core2@0.4.0: RUSTSEC-2026-0105, crossbeam-epoch@0.9.18: RUSTSEC-2026-0204, event-listener@5.4.1: RUSTSEC-2026-0221, h2@0.4.13: RUSTSEC-2026-0258, number_prefix@0.4.0: RUSTSEC-2025-0119, paste@1.0.15: RUSTSEC-2024-0436, tokio@1.50.0: RUSTSEC-2026-0386, webpki-root-certs@1.0.6: RUSTSEC-2026-0383, webpki-roots@1.0.6: RUSTSEC-2026-0381"
+    },
+    {
+      "id": "S4",
+      "result": "unknown",
+      "evidence": ""
+    },
+    {
+      "id": "N1",
+      "result": "fail",
+      "evidence": "api.openai.com (crates/hmcp-embedder/src/main.rs:44)"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "26 reads"
+    },
+    {
+      "id": "C2",
+      "result": "flag",
+      "evidence": "crates/hmcp-server/src/oauth.rs:240 eprintln!(\"HaloPSA token exchange failed: {e}\"); | crates/hmcp-server/src/oauth.rs:251 eprintln!(\"HaloPSA token exchange error: {body}\"); | crates/hmcp-server/src/sse.rs:156 eprintln!(\"Token cleanup error: {e}\");"
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "fail",
+      "evidence": "no local stdio transport found"
+    },
+    {
+      "id": "T1",
+      "result": "fail",
+      "evidence": "0 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "unknown",
+      "evidence": "0 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "unknown",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "flag",
+      "evidence": "crates/hmcp-embedder/src/main.rs:114 let host = env::var(\"HMCP_EMBED_HOST\").unwrap_or_else(|_| \"0.0.0.0\".into()); | crates/hmcp-server/src/main.rs:32 let host = env::var(\"HMCP_HOST\").unwrap_or_else(|_| \"0.0.0.0\".into());"
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

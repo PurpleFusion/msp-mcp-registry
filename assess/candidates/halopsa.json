@@ -1,0 +1,215 @@
+{
+  "group": "halopsa",
+  "title": "HaloPSA MCP servers",
+  "vendorHosts": [
+    "(^|\\.)halopsa\\.com$",
+    "(^|\\.)haloservicedesk\\.com$",
+    "(^|\\.)haloitsm\\.com$",
+    "(^|\\.)halocrm\\.(com|io)$",
+    "(^|\\.)haloservicesolutions\\.com$",
+    "(^|\\.)usehalo\\.com$"
+  ],
+  "candidates": [
+    {
+      "id": "wyre-halopsa",
+      "name": "halopsa-mcp",
+      "maintainer": "WYRE Technology",
+      "source": {
+        "github": "WYRE-AI/halopsa-mcp"
+      },
+      "notes": {
+        "confirmed": {
+          "P2": "pass",
+          "T2": "fail",
+          "D1": "fail-default"
+        },
+        "text": "- **P2:** the script marked this unknown because `npm view` of the manifest name (`@wyre-ai/halopsa-mcp`) returned a 404 error object, which it read as a package. The package isn't on the public npm registry (WYRE publishes it to GitHub Packages), so installing from source at the commit above is the provable path.\n- **D1 (confirmed):** stdio is the default when run from source or npm (`src/index.ts:183`). The Docker image and compose file switch to HTTP: `Dockerfile:28-31` sets `MCP_TRANSPORT=http`, `MCP_HTTP_HOST=0.0.0.0`, `AUTH_MODE=env`, and `docker-compose.yml:11` publishes port 8080 on all host interfaces. In that mode `/mcp` checks nothing unless `CONDUIT_S2S_SECRET` is set (`src/index.ts:72-77`), and every request runs with the HaloPSA client ID and secret from the environment, so anyone who can reach the port acts with them. The README's Docker example and DigitalOcean one-click deploy use that image. Run it over stdio, which is how Tabby9 would.\n- **T2 (confirmed):** the \"read-only switch\" the script found is the word `readonly` inside an embedded HTML ticket card (`src/generated/ticket-card-html.ts:3`). There is no read-only setting, and write tools put the verb third (`halopsa_tickets_create`, `halopsa_tickets_update`, `halopsa_tickets_add_action`, `halopsa_clients_create`), so a deny rule has to name each one.\n- Tools load in stages: only `halopsa_navigate` and `halopsa_status` are listed until a domain is picked, so a client sees a different list over a session. The HaloPSA HTTP client lives in a separate package (`@wyre-ai/node-halopsa`), which this assessment didn't read.\n- **S3:** the lockfile pins versions with published advisories, including `@hono/node-server` 1.19.9, `body-parser` 2.2.2, `express-rate-limit` and `fast-uri`."
+      }
+    },
+    {
+      "id": "servosity-halopsa",
+      "name": "msp-skills halopsa",
+      "maintainer": "Servosity",
+      "source": {
+        "github": "Servosity/msp-skills",
+        "path": "skills/halopsa"
+      },
+      "notes": {
+        "confirmed": {
+          "P2": "unknown",
+          "P3": "fail",
+          "N1": "pass",
+          "N2": "pass",
+          "T2": "fail",
+          "T3": "fail",
+          "T4": "pass",
+          "D2": "pass",
+          "C3": "fail"
+        },
+        "text": "- **P2, P3:** the commit assessed is the repo's latest release (`hudu-v0.1.17`); none of the repo's tags is for the HaloPSA connector (manifest version 0.2.22). Installs come as a prebuilt binary (`manifest.json` `server.type: binary`), and without a release or build attestation for this connector, the binary can't be shown to come from this source.\n- **N1, N2, T4:** the hits are a placeholder host in the setup checker (`cli/internal/cli/doctor_verdict.go:79`), a `datadog-id` field on HaloPSA's integration endpoint, and a code comment.\n- **T3 (confirmed):** `halopsa_execute` (`cli/internal/mcp/code_orch.go:43`, always registered from `tools.go:41`) runs any endpoint in its catalogue by ID. The catalogue holds 806 GET, 404 POST and 246 DELETE endpoints, so denying writes means denying the tool outright.\n- **T2 (confirmed):** there is no read-only setting. `mcp:read-only` (`cli/internal/mcp/cobratree/classify.go:21`) only adds a `readOnlyHint` annotation to read commands. Tool names are the CLI command path joined with underscores (`names.go`), so some put the verb third (e.g. `halo_integration_create_halointegration`). The script's \"switch\" hit is in a generated command file.\n- **D2:** each generated tool runs the project's own companion CLI binary directly (`exec.CommandContext`, no shell, `cobratree/shellout.go:287`). That is how it's built, not shell access or code evaluation.\n- **C3 (confirmed):** keeps a response cache under your user profile (`cli/internal/cache/cache.go:48`, owner-only files) and a local SQLite store of synced HaloPSA data. The maintainer documents this.\n- **T1:** most tools are generated at runtime from the CLI's command tree, so the 5 found in the source understate the real number by a long way.\n- **S3:** `golang.org/x/mod` and `golang.org/x/sys` versions with Go advisories."
+      }
+    },
+    {
+      "id": "redanthrax-halopsa",
+      "name": "halopsa-mcp",
+      "maintainer": "redanthrax (Sumerian Software)",
+      "source": {
+        "github": "redanthrax/halopsa-mcp"
+      },
+      "notes": {
+        "confirmed": {
+          "S1": "pass",
+          "S4": "pass",
+          "C1": "pass",
+          "C3": "fail",
+          "C4": "pass",
+          "T1": "pass",
+          "T2": "pass",
+          "T3": "pass",
+          "D1": "pass",
+          "D2": "pass",
+          "N1": "pass",
+          "C2": "pass",
+          "T4": "pass"
+        },
+        "text": "- Written in C#, which the script doesn't read, so every code check below was done by hand.\n- **S1, S3, S4:** dependencies are locked in `packages.lock.json` (NuGet), which OSV wasn't asked about, so S3 stays unknown. 11 direct packages (`HaloPsaMcp.csproj`).\n- **C1, C4:** settings come from environment variables (`AppConfig.LoadFromEnvironment`); stdio is the default, and HTTP needs `--http` (`Program.cs:28`, `.WithStdioServerTransport()`).\n- **D1:** in stdio mode the built-in OAuth sign-in page listens on localhost only, unless `HTTP_BIND_ALL` is set (`Program.cs:197-200`). HTTP mode listens on all interfaces (`Program.cs:100`), but every `/mcp` request needs a bearer token issued after a HaloPSA sign-in (`McpAuthenticationMiddleware.cs:39-67`).\n- **C3 (confirmed):** stdio mode writes a daily log to `logs/mcp.log` (`Program.cs:163`), and keeps OAuth tokens and client registrations in `./data/tokens.json` and `clients.json`, encrypted with ASP.NET DataProtection (`FileTokenStore.cs:13`).\n- **C2:** token-related log lines go through `SecretRedactor.Hint` (e.g. `FileTokenStore.cs:79`).\n- **D2:** `Process.Start` only opens the sign-in URL in your browser (`Modules/Mcp/BrowserLauncher.cs`).\n- **T1, T2, T3:** 21 tools (`Modules/Mcp/HaloPsaMcpServer.cs`), named with the verb second (`halopsa_create_ticket`, `halopsa_update_timesheet`, `halopsa_delete_timesheet_event`). `MCP_ENABLED_TOOLS` limits the server to a list of tools (`McpToolAllowlist.cs:39`). `halopsa_query` runs SQL against HaloPSA's reporting API, which only reads.\n- **T4:** descriptions say \"ALWAYS call this first\" for the auth-status and schema tools (`HaloPsaMcpConstants.cs:191,201`). That's usage advice, not an attempt to steer the model elsewhere.\n- HaloPSA calls run under the signed-in agent's own permissions (OAuth authorisation code with PKCE).\n- **N1, C2, T4 (C# now read by the script, checked 2026-11-02):** `claude.ai` appears only as an allowed browser origin in `McpCorsConfiguration.cs:10`, not a host it calls; `CallbackEndpoint.cs:117` logs the exception from a failed token exchange, not the token; the \"ALWAYS\" text in `HaloPsaSchema.cs:14` is guidance on finding tables for its SQL tool, usage advice like mspstack's."
+      }
+    },
+    {
+      "id": "dtc-halopsa",
+      "name": "halopsa-mcp (Rust)",
+      "maintainer": "DTC-Inc",
+      "source": {
+        "github": "DTC-Inc/halopsa-mcp"
+      },
+      "notes": {
+        "confirmed": {
+          "N1": "pass",
+          "C1": "pass",
+          "C2": "pass",
+          "C3": "fail",
+          "T1": "pass",
+          "T2": "pass",
+          "T3": "pass",
+          "D1": "pass",
+          "D2": "pass"
+        },
+        "text": "- **C4:** a hosted service only: SSE and Streamable HTTP, with Postgres (pgvector) required (`crates/hmcp-server/src/main.rs`). There is no stdio mode.\n- **C1:** settings come from `env::var` (`main.rs:24-46`); the script's pattern only matches `std::env::var`.\n- **D1:** listens on `0.0.0.0:8080` by default, but every MCP request needs a bearer token from its OAuth relay to HaloPSA (`sse.rs:163-234`), and calls run with that user's HaloPSA permissions.\n- **D2:** the hits are `tokio::spawn` (async tasks), not processes.\n- **N1:** the optional semantic-search embedder sends ticket text to `api.openai.com` only if `HMCP_EMBED_PROVIDER=openai` (`crates/hmcp-embedder/src/main.rs:41-46`). The default is a local model (fastembed), which downloads its model files on first run.\n- **C3 (confirmed):** stores HaloPSA tokens in Postgres, encrypted with AES-256-GCM (`HMCP_ENCRYPTION_KEY`), and, with semantic search on, ticket text and embeddings in a `chunks` table (`crates/hmcp-db-postgres/src/lib.rs:134,441`).\n- **C2:** the flagged lines log HaloPSA's error response to a token exchange, not the secret.\n- **T1, T2, T3:** 18 tools defined as JSON in `crates/hmcp-server/src/tools.rs`, which the script's patterns don't read. The write tools start with a verb (`create_ticket`, `update_ticket`, `create_action`, `execute_workflow_action`, `reembed`). `execute_workflow_action` runs a workflow transition on a ticket, not an arbitrary request.\n- **S3:** `Cargo.lock` is present but the script doesn't check Rust crates with OSV.\n- No licence (caps the score), no tags."
+      }
+    },
+    {
+      "id": "mspbots-halopsa",
+      "name": "halopsa-mcp",
+      "maintainer": "MSPbots",
+      "source": {
+        "github": "MSPbotsAIFramework/halopsa-mcp"
+      },
+      "notes": {
+        "confirmed": {
+          "C1": "fail",
+          "C4": "fail",
+          "T2": "fail",
+          "D1": "pass"
+        },
+        "text": "- **C1, C4 (confirmed):** built to run behind MSPbots' hosted gateway (connect.mspbots.ai), which stores each tenant's HaloPSA credentials and sends them as request headers on every call (`src/halopsa_mcp/config.py:9-12`). It reads no credentials from the environment. Its stdio mode exists for debugging only: with no headers, every tool reports `not_configured` (`__main__.py:15-18`; HTTP is the default, `config.py:25`).\n- **D1:** HTTP on `0.0.0.0:8080` by default (`config.py:26`) without its own authentication, but every call must carry the caller's own HaloPSA client ID and secret, so there's no shared credential to borrow. The base-URL header must be https (`credentials.py:100`).\n- **T2 (confirmed):** the script's \"read-only switch\" is a `readOnlyHint` annotation (`tools/_common.py:23`). There is no read-only setting, and write tools put the verb third (`halopsa_tickets_create`, `halopsa_users_update`). The gateway offers a per-tool allowlist, but that's MSPbots' hosted service, not this code.\n- No tags or releases."
+      }
+    },
+    {
+      "id": "impendingtech-halopsa",
+      "name": "HaloPSA-MCP-Server",
+      "maintainer": "Tim-ImpendingTech",
+      "source": {
+        "github": "Tim-ImpendingTech/HaloPSA-MCP-Server"
+      },
+      "notes": {
+        "confirmed": {
+          "P2": "pass"
+        },
+        "text": "- **P2:** the script marked this unknown because `npm view` of the manifest name (`halopsa-mcp-server`) returned a 404 error object, which it read as a package. It isn't on npm; you install it by cloning and building, which pins the commit.\n- No flags. Stdio only, credentials from the environment, token kept in memory. The OAuth scope defaults to `all` (`src/config.ts:19`); set `HALOPSA_SCOPE` to narrow it.\n- Write tools start with a verb after the `halo_` prefix (`halo_create_ticket`, `halo_update_client`), so a deny rule can match them. There are no delete tools.\n- Last changed February 2026, no tags, single maintainer.\n- **S3:** the lockfile pins versions with published advisories, including `@modelcontextprotocol/sdk` 1.27.1 and `@hono/node-server` 1.19.9."
+      }
+    },
+    {
+      "id": "ethergrade-chatpsa",
+      "name": "ChatPSA open",
+      "maintainer": "ethergrade (INTELGUARD-IO)",
+      "source": {
+        "github": "ethergrade/ChatPSA"
+      },
+      "notes": {
+        "confirmed": {
+          "N1": "pass",
+          "C3": "pass"
+        },
+        "text": "- **N1, C3:** the repo holds two programs. The MCP server (`chatpsa`, `src/chatpsa/server.py`) imports neither the OpenAI client (`ai.py`) nor the SQLite stores (`approvals.py`, `history.py`); those belong to the separate web \"agent desk\" (`chatpsa-web`, `src/chatpsa/web.py`), which listens on 127.0.0.1 by default (`web.py:1230`) and sends ticket images and questions to `api.openai.com`. Run only the MCP server and it talks to HaloPSA only and writes nothing to disk.\n- **T2:** read-only by default: all 31 tools are registered, but write tools refuse to run unless `CHATPSA_ENABLE_WRITES` is true (`change_control.py:503`; default off, `src/chatpsa/config.py:33,117`), and each write also needs an exact confirmation phrase (corrected 2026-11-03: an earlier version said write tools weren't registered), and each write supports dry-run, confirmation and read-back. The script's \"switch\" hit is an unrelated `read_only` field in `web.py:188`.\n- Its writes are to HaloPSA configuration (statuses, ticket types, categories), not tickets.\n- Single contributor, no tags. Some user-facing text is in Italian."
+      }
+    },
+    {
+      "id": "alexthorne-haloitsm",
+      "name": "haloitsm-mcp",
+      "maintainer": "alex-thorne",
+      "source": {
+        "github": "alex-thorne/haloitsm-mcp"
+      },
+      "notes": {
+        "text": "- **Not scored:** the repo contains two symbolic links (`CLAUDE.md`, `.github/copilot-instructions.md`), which Windows `tar` can't extract, so the script stopped before any check ran. Read by hand at commit `eae5e885e9eb7009203b9c4e888fd6d120a3ea8d`:\n- Written for HaloITSM, which uses the same API as HaloPSA. Stdio only (`src/halo_mcp/server.py:89`); settings come from `HALO_*` environment variables (`config.py:31`).\n- Read-only by default: write tools (`create_ticket`, `update_ticket`, `bulk_assign`, …) are loaded only when `HALO_ENABLE_WRITES` is set (`server.py:74-78`), and each write asks for confirmation.\n- The only host in the code is the configured `HALO_API_URL`; logs go to stderr with no tokens, secrets or bodies (`observability.py:1-7`). No telemetry, no disk writes, no shell.\n- Dependencies locked in `uv.lock`; 4 direct dependencies. No tags or releases.\n- **No licence** file or licence field, so no right to use is granted (that would cap the score at 60)."
+      }
+    },
+    {
+      "id": "ssmanji89-halopsa-workflows",
+      "name": "halopsa-workflows-mcp",
+      "maintainer": "ssmanji89",
+      "source": {
+        "github": "ssmanji89/halopsa-workflows-mcp"
+      },
+      "notes": {
+        "confirmed": {
+          "C2": "pass",
+          "C3": "pass",
+          "C4": "pass",
+          "D2": "pass"
+        },
+        "text": "- **C4:** stdio is the default; the script's pattern misses FastMCP's `transportType: 'stdio'` (`src/config/index.js:52`).\n- **C2, C3, D2:** the hits are in folders the script doesn't skip but the installed server never loads: `backup/`, `patches/`, and test scripts at the repo root (`test-*.js`, `halopsa-mcp-test.js`). The server (`halopsa-mcp.js` → `src/index.js`) writes a log file only if `LOG_TO_FILE=true` (`src/utils/logging.js:14`). An older alternative entry point, `src/halopsa-mcp.js`, prints the client secret's first and last 3 characters at startup (`src/halopsa-direct.js:65`), but the package's `bin` doesn't run it.\n- Only workflow tools (8), including `createWorkflows` and `deleteWorkflow`.\n- Last changed April 2025, single maintainer. Published to npm as `halopsa-workflows-mcp` 1.1.0 without a provenance attestation. The repo also commits old package tarballs (`halopsa-workflows-mcp-0.x.tgz`).\n- **S3:** the lockfile pins `@modelcontextprotocol/sdk` 1.8.0 and other versions with published advisories."
+      }
+    },
+    {
+      "id": "witsecops-halopsa",
+      "name": "@wit-secops/halopsa-mcp",
+      "maintainer": "WIT-SecOps (Winona IT)",
+      "source": {
+        "npm": "@wit-secops/halopsa-mcp"
+      },
+      "notes": {
+        "confirmed": {
+          "N2": "pass"
+        },
+        "text": "- **N2:** a false positive: `isEntryPoint` contains the letters \"sEntry\", which match the script's `sentry` pattern (`dist/index.js:227,238`).\n- Read-only by default: write tools register only with `--read-write` or `HALOPSA_ALLOW_WRITE`, and `--read-only` always wins (`dist/index.js:164-171`). The OAuth scopes requested follow the mode, so a read-only server asks HaloPSA for read scopes only. Emailing customers (`halopsa_send_reply`) is a separate opt-in (`HALOPSA_ALLOW_EMAIL`).\n- Published to npm only; the linked GitHub repo (`WIT-SecOps/halopsa-mcp`) isn't public, so the package can't be compared with source (P2). npm packages rarely ship a lockfile, so S1/S3 can't pass."
+      }
+    },
+    {
+      "id": "wilnertech-halopsa",
+      "name": "@wilnertech/halopsa-mcp-server",
+      "maintainer": "WilnerTech",
+      "source": {
+        "npm": "@wilnertech/halopsa-mcp-server"
+      },
+      "notes": {
+        "confirmed": {
+          "C2": "pass",
+          "T2": "pass"
+        },
+        "text": "- **C2:** the flagged line logs the token's expiry time, not the token (`dist/api/client.js:138`).\n- **T2:** `validate_halopsa_create_ticket` only reads the ticket type to check fields (`dist/tools/tickets.js:1035`), so every write tool starts with a verb. `hold_halopsa_ticket_sla` and `release_halopsa_ticket_sla` also change data and start with their verb.\n- 72 tools, including deletes (`delete_halopsa_ticket`, `delete_halopsa_asset`, `delete_halopsa_workflow`) and `bulk_update_halopsa_tickets`. Lookups are cached in memory only.\n- Published to npm only; the linked GitHub repo (`SuperGaco/halopsa-mcp-server`) isn't public, so the package can't be compared with source (P2). No lockfile in the package. Last published May 2026."
+      }
+    },
+    {
+      "id": "adamhancock-halopsa",
+      "name": "@adamhancock/halopsa-mcp",
+      "maintainer": "adamhancock",
+      "source": {
+        "npm": "@adamhancock/halopsa-mcp"
+      },
+      "notes": {
+        "text": "- **T3:** `halopsa_api_call` sends GET, POST, PUT, PATCH or DELETE to any HaloPSA path with any body (`dist/index.js:232`), so no deny rule can make the server read-only. The other tools read schema, or run SQL through HaloPSA's reporting endpoint (`halopsa_query`).\n- The token is requested with scope `all` (`dist/halopsa-client.js:17`).\n- Published to npm only, with no linked repository; last published August 2025. `superfast-halopsa-mcp` (Superfast IT, July 2026) is a republished copy that credits this package; it lets `halopsa_api_call` accept an array body and isn't assessed separately."
+      }
+    }
+  ]
+}

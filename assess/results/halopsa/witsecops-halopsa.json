@@ -1,0 +1,159 @@
+{
+  "id": "witsecops-halopsa",
+  "name": "@wit-secops/halopsa-mcp",
+  "maintainer": "WIT-SecOps (Winona IT)",
+  "assessedOn": "2026-11-02",
+  "source": "https://www.npmjs.com/package/@wit-secops/halopsa-mcp",
+  "version": "0.8.0",
+  "tarball": "https://registry.npmjs.org/@wit-secops/halopsa-mcp/-/halopsa-mcp-0.8.0.tgz",
+  "integrity": "sha512-npXKN+8iGvsiaafAHYBgZ6BDx21bMEWVCw6gfnK/8teO7/yBOOVmmwCD8umSCDv/SGG+2oYbkgdD2VNpK7Hguw==",
+  "tools": [
+    "halopsa_add_note",
+    "halopsa_assign_ticket",
+    "halopsa_get_asset",
+    "halopsa_get_client",
+    "halopsa_get_project",
+    "halopsa_get_ticket",
+    "halopsa_get_user",
+    "halopsa_list_actions",
+    "halopsa_list_appointments",
+    "halopsa_list_asset_types",
+    "halopsa_list_projects",
+    "halopsa_list_ticket_actions",
+    "halopsa_list_tickets",
+    "halopsa_send_reply",
+    "halopsa_set_ticket_client",
+    "halopsa_update_ticket_status",
+    "halopsa_whoami"
+  ],
+  "writeTools": [
+    "halopsa_add_note",
+    "halopsa_assign_ticket",
+    "halopsa_send_reply",
+    "halopsa_set_ticket_client",
+    "halopsa_update_ticket_status"
+  ],
+  "files": 59,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "MIT"
+    },
+    {
+      "id": "P2",
+      "result": "unknown",
+      "evidence": "published package has no provenance attestation; cannot show it matches the source"
+    },
+    {
+      "id": "P3",
+      "result": "pass",
+      "evidence": "0 git tags, 6 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-10-05"
+    },
+    {
+      "id": "P5",
+      "result": "fail",
+      "evidence": "1 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "fail",
+      "evidence": "no lockfile"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "unknown",
+      "evidence": "nothing locked to check"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "3 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "1 reads"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "dist/index.js:5"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "17 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "read-only switch: dist/index.js:75"
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "pass",
+      "evidence": "dist/index.js:193 function createServer(config) { | dist/index.js:216 const server = createServer(config);"
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

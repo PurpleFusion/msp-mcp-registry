@@ -1,0 +1,173 @@
+{
+  "id": "mspbots-halopsa",
+  "name": "halopsa-mcp",
+  "maintainer": "MSPbots",
+  "assessedOn": "2026-11-02",
+  "source": "https://github.com/MSPbotsAIFramework/halopsa-mcp",
+  "ref": "main",
+  "commit": "e56b427ac8e5a76dbc039b6106f4e4c6ba238757",
+  "latestRelease": null,
+  "tools": [
+    "halopsa_agents_get",
+    "halopsa_agents_list",
+    "halopsa_assets_get",
+    "halopsa_assets_list",
+    "halopsa_assets_list_types",
+    "halopsa_assets_search",
+    "halopsa_clients_create",
+    "halopsa_clients_get",
+    "halopsa_clients_list",
+    "halopsa_clients_search",
+    "halopsa_invoices_get",
+    "halopsa_invoices_list",
+    "halopsa_lookups_get",
+    "halopsa_navigate",
+    "halopsa_sites_list",
+    "halopsa_sla_get",
+    "halopsa_status",
+    "halopsa_teams_list",
+    "halopsa_tickets_add_action",
+    "halopsa_tickets_add_attachment",
+    "halopsa_tickets_create",
+    "halopsa_tickets_get",
+    "halopsa_tickets_list",
+    "halopsa_tickets_list_actions",
+    "halopsa_tickets_update",
+    "halopsa_users_create",
+    "halopsa_users_get",
+    "halopsa_users_search",
+    "halopsa_users_update"
+  ],
+  "writeTools": [
+    "halopsa_clients_create",
+    "halopsa_tickets_add_action",
+    "halopsa_tickets_add_attachment",
+    "halopsa_tickets_create",
+    "halopsa_tickets_update",
+    "halopsa_users_create",
+    "halopsa_users_update"
+  ],
+  "files": 31,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "Apache-2.0"
+    },
+    {
+      "id": "P2",
+      "result": "pass",
+      "evidence": "installed from a pinned commit"
+    },
+    {
+      "id": "P3",
+      "result": "fail",
+      "evidence": "0 git tags, 0 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "pass",
+      "evidence": "last change 2026-11-01"
+    },
+    {
+      "id": "P5",
+      "result": "pass",
+      "evidence": "2 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "pass",
+      "evidence": "uv.lock"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "pass",
+      "evidence": "40 locked packages, none with known vulnerabilities"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "5 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "unknown",
+      "evidence": "no environment reads found"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "src/halopsa_mcp/__main__.py:18"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "29 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "fail",
+      "evidence": "7 write tools; 7 don't start with a verb: halopsa_clients_create, halopsa_tickets_add_action, halopsa_tickets_add_attachment, halopsa_tickets_create, halopsa_tickets_update, halopsa_users_create, halopsa_users_update"
+    },
+    {
+      "id": "T3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "flag",
+      "evidence": "src/halopsa_mcp/config.py:26 mcp_http_host: str = \"0.0.0.0\""
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

@@ -3,13 +3,10 @@
   "name": "msp-skills connectwise-manage",
   "maintainer": "Servosity",
   "assessedOn": "2026-11-02",
-  "source": "https://github.com/Servosity/msp-skills/tree/1b3e910f359eb648a7ae44a5532589043c56a5a0/skills/connectwise-manage",
-  "ref": "hudu-v0.1.17",
-  "commit": "1b3e910f359eb648a7ae44a5532589043c56a5a0",
-  "latestRelease": {
-    "tag": "hudu-v0.1.17",
-    "date": "2026-10-27"
-  },
+  "source": "https://github.com/Servosity/msp-skills/tree/99cfdab03abe7b6b310429cad4f76d55a16619bf/skills/connectwise-manage",
+  "ref": "main",
+  "commit": "99cfdab03abe7b6b310429cad4f76d55a16619bf",
+  "latestRelease": null,
   "tools": [
     "connectwise-manage_execute",
     "connectwise-manage_search",
@@ -119,13 +116,13 @@
     },
     {
       "id": "T2",
-      "result": "pass",
-      "evidence": "read-only switch: cli/internal/client/client.go:423"
+      "result": "fail",
+      "evidence": "1 write tools; 1 don't start with a verb: connectwise-manage_execute"
     },
     {
       "id": "T3",
-      "result": "pass",
-      "evidence": ""
+      "result": "fail",
+      "evidence": "connectwise-manage_execute"
     },
     {
       "id": "T4",

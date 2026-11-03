@@ -1,0 +1,146 @@
+{
+  "id": "adamhancock-halopsa",
+  "name": "@adamhancock/halopsa-mcp",
+  "maintainer": "adamhancock",
+  "assessedOn": "2026-11-02",
+  "source": "https://www.npmjs.com/package/@adamhancock/halopsa-mcp",
+  "version": "0.1.1",
+  "tarball": "https://registry.npmjs.org/@adamhancock/halopsa-mcp/-/halopsa-mcp-0.1.1.tgz",
+  "integrity": "sha512-9GpUl0XB1i+uE8SI5Huhnn3lThQmwPAUWa1+wnxs8AzOlVXt1AykCfbpA6zC8IYvbvis2AgYl5uYFU0EK+zHOQ==",
+  "tools": [
+    "halopsa_api_call",
+    "halopsa_build_query",
+    "halopsa_get_api_endpoint_details",
+    "halopsa_get_api_schemas",
+    "halopsa_list_api_endpoints",
+    "halopsa_list_columns",
+    "halopsa_list_tables",
+    "halopsa_query",
+    "halopsa_search_api_endpoints",
+    "halopsa_table_info"
+  ],
+  "writeTools": [],
+  "files": 10,
+  "checks": [
+    {
+      "id": "P1",
+      "result": "pass",
+      "evidence": "ISC"
+    },
+    {
+      "id": "P2",
+      "result": "unknown",
+      "evidence": "published package has no provenance attestation; cannot show it matches the source"
+    },
+    {
+      "id": "P3",
+      "result": "pass",
+      "evidence": "0 git tags, 2 published versions"
+    },
+    {
+      "id": "P4",
+      "result": "fail",
+      "evidence": "last change 2025-08-30"
+    },
+    {
+      "id": "P5",
+      "result": "fail",
+      "evidence": "1 contributor(s)"
+    },
+    {
+      "id": "P6",
+      "result": "fail",
+      "evidence": "none"
+    },
+    {
+      "id": "P7",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S1",
+      "result": "fail",
+      "evidence": "no lockfile"
+    },
+    {
+      "id": "S2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "S3",
+      "result": "unknown",
+      "evidence": "nothing locked to check"
+    },
+    {
+      "id": "S4",
+      "result": "pass",
+      "evidence": "1 direct"
+    },
+    {
+      "id": "N1",
+      "result": "pass",
+      "evidence": "vendor hosts only"
+    },
+    {
+      "id": "N2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "N3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "result": "pass",
+      "evidence": "8 reads"
+    },
+    {
+      "id": "C2",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "result": "pass",
+      "evidence": "dist/index.js:3"
+    },
+    {
+      "id": "T1",
+      "result": "pass",
+      "evidence": "10 tools found"
+    },
+    {
+      "id": "T2",
+      "result": "pass",
+      "evidence": "0 write tools; 0 don't start with a verb: "
+    },
+    {
+      "id": "T3",
+      "result": "fail",
+      "evidence": "halopsa_api_call"
+    },
+    {
+      "id": "T4",
+      "result": "pass",
+      "evidence": ""
+    },
+    {
+      "id": "D1",
+      "result": "n/a",
+      "evidence": ""
+    },
+    {
+      "id": "D2",
+      "result": "pass",
+      "evidence": ""
+    }
+  ]
+}

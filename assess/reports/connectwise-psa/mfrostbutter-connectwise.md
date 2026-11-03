@@ -29,12 +29,12 @@
 | C1 | Credentials from environment | ✅ | 7 reads |
 | C2 | Credentials never logged | ✅ |  |
 | C3 | Nothing written to disk | ✅ |  |
-| C4 | Runs locally (stdio) | ✅ | server.py:2198 |
+| C4 | Runs locally (stdio) | ✅ | server.py:2197 |
 | T1 | Tool list readable | ✅ | 45 tools found |
 | T2 | Read-only possible | ✅ | 12 write tools; 0 don't start with a verb:  |
 | T3 | No arbitrary-request tool | ✅ |  |
 | T4 | Descriptions don't steer the model | ✅ |  |
-| D1 | HTTP mode safe | ❌ (script: flag) | server.py:2201 mcp.run(transport="http", host="0.0.0.0", port=port) |
+| D1 | HTTP mode safe | ❌ (open by default) (script: flag) | server.py:2201 mcp.run(transport="http", host="0.0.0.0", port=port) |
 | D2 | No shell or eval | ✅ |  |
 
 ## Notes from the person checking
